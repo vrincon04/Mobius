@@ -1,0 +1,115 @@
+.m-b-0 {
+	margin-bottom: 0 !important;
+}
+
+.m-b-5 {
+	margin-bottom: 5px !important;
+}
+
+/* Field for avatar picture */
+.avatar {
+	border: 1px solid #ddd;
+	float:left;
+	position: relative;
+	width: 100%;
+	padding-bottom : 100%; /* = width for a 1:1 aspect ratio */
+	background: no-repeat center center;
+	background-size:contain; /* you change this to "contain" if you don't want the images to be cropped */
+}
+
+.avatar a.avatar-edit {
+	opacity: 0.65;
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+}
+
+.avatar a.avatar-edit:hover {
+	opacity: 1;
+}
+
+.avatar input.avatar-input {
+	display: none;
+}
+
+.dataTables_wrapper {
+	overflow-x: auto;
+}
+
+.dataTables_wrapper .dt-buttons {
+	position: relative;
+}
+
+.dataTables_wrapper .dt-buttons {
+    left: inherit; 
+}
+
+.dataTables_wrapper .dt-buttons a.dt-button {
+    background-color: white;
+    color: #f44336;
+    padding: 3px 3px;
+    box-shadow: none;
+    font-size: 20px;
+}
+
+.dataTables_wrapper .dt-buttons a.dt-button i.material-icons {
+	font-size: inherit;
+}
+
+.content-area p i {
+    position: relative;
+    top: 7px;
+    margin-right: 5px;
+}
+
+.profile-card .profile-body .image-area img {
+    width: 128px;
+    height: 128px;
+}
+
+.profile-card .body ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.profile-card .body ul li {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+}
+
+.profile-card .body ul li .title {
+    font-weight: bold;
+    color: #666;
+}
+
+.profile-card .body ul li .title i {
+    margin-right: 2px;
+    position: relative;
+	top: 7px;
+}
+
+.profile-card .body ul li .content {
+    margin-top: 10px;
+    color: #999;
+    font-size: 13px;
+}
+
+.sidebar .user-info .info-container {
+    top: 5px !important;
+}
+
+h2 .material-icons, a span .material-icons {
+    vertical-align: middle;
+}
+
+.special-icons {
+    font-size: 21px;
+    position: relative;
+    top: 7px;
+}
+
+.nav-tabs li a small {
+    color: #999;
+}
