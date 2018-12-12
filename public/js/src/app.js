@@ -26,7 +26,7 @@ $.LeonSoft.options = {
         order: [ 
             [1, 'desc'] 
         ],
-        dom: "<'row'<'col-sm-4 m-b-0'B><'col-sm-4 m-b-0 align-center'l><'col-sm-4 m-b-0'f>>rt<'row DTTTFooter'<'col-sm-6 m-b-0'i><'col-sm-6 m-b-0'p>>",
+        dom: "<'row'<'col-sm-4 m-b-0'l><'col-sm-4 m-b-0 align-center-xs'B><'col-sm-4 m-b-0'f>><'row'<'col-sm-6 m-b-0'i><'col-sm-6 m-b-0'p>><'text-center'r>t<'row DTTTFooter'<'col-sm-6 m-b-0'i><'col-sm-6 m-b-0'p>>",
         buttons: [
             {
                 extend: "copy",
@@ -68,17 +68,7 @@ $.LeonSoft.options = {
                     columns: '.print,.all'
                 }
             }
-        ],
-        fnDrawCallback : function(oSettings) {
-            var columns_in_row = $(this).children('thead').children('tr').children('th').length;
-            var show_num = oSettings._iDisplayLength;
-            var tr_count = $(this).children('tbody').children('tr').length;
-            if (show_num > tr_count && oSettings.fnRecordsDisplay() > 0) {
-                var row = '<tr>'+'<td>&nbsp;</td>'.repeat(columns_in_row)+'</tr>';
-                $(this).children('tbody').append(row.repeat(show_num - tr_count));
-            }
-            this.api().columns.adjust();
-        }
+        ]
     },
 };
 
@@ -410,4 +400,25 @@ $(function () {
         var checked = $(this).closest('tbody').find('input.chk-col-orange').not(':checked').length > 0;
         $('#check-all').prop('checked', !checked);
     });
+
+    $(document).on('focusout', '#document_number', function (e) {
+        e.preventDefault();
+
+        var $this = $(this),
+            filter = {'persons|document_number' : $this.val()}
+            obj = {};
+
+        $.get(`${$.LeonSoft.options.URL}/person/info_json`, filter)
+            .done(function(response){
+                obj = JSON.parse(response);
+
+                if (obj.error === false) {
+                    for (x in obj.data[0]) {
+                        $(`#${x}`).val(obj.data[0][x]);
+                    }
+
+                    $('select').selectpicker('refresh');
+                }
+            });
+    })
 });

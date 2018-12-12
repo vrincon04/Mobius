@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 /**
- * MY_Controller class
+ * MY_Controller class 
  *
  * @author Victor Rincon
  */
@@ -142,11 +142,13 @@ class MY_Controller extends CI_Controller {
 		{
             if ( $id = $this->{$this->_model}->insert($this->input->post()) )
 			{
-			    $this->_on_insert_success($id);
-                $this->_response_success();
-                if ( !$this->input->is_ajax_request() )
+                if ( $this->_on_insert_success($id) )
                 {
-                    redirect($this->_controller);
+                    $this->_response_success();
+                    if ( !$this->input->is_ajax_request() )
+                    {
+                        redirect($this->_controller);
+                    }
                 }
 			}
             else
@@ -361,12 +363,16 @@ class MY_Controller extends CI_Controller {
     /**
      * @param int|string $id
      */
-    protected function _on_insert_success($id) {}
+    protected function _on_insert_success($id) {
+        return TRUE;
+    }
 
     /**
      * @param int|string $id
      */
-    protected function _on_edit_success($id) {}
+    protected function _on_edit_success($id) {
+        return TRUE;
+    }
 
     /**
      *

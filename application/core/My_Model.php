@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * MY_Controller class
+ * MY_Controller class 
  *
  * @author Victor Rincon
  */
@@ -208,6 +208,9 @@ class MY_Model extends CI_Model {
 
         if ( isset($this->_fields['tenant_id']) )
             $data['tenant_id'] = $this->session->userdata('tenant_id');
+
+        if ( isset($this->_fields['user_id']) )
+            $data['user_id'] = $this->session->userdata('user_id');
 
 		if ( !$skip_validation && !$this->_validate($data) ) { return FALSE; }
 
@@ -547,6 +550,10 @@ class base_register {
 
         $_CI->load->model($relation['model']);
         $options = array_merge_recursive_distinct($options, array('where' => array($relation['field'] => $this->{$relation['foreign_key']})));
+        
+        if ($relation['foreign_key'] == 'id') 
+            unset($options['limit']);
+        
         return $_CI->{$relation['model']}->find($options);
     }
 

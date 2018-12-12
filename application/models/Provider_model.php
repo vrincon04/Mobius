@@ -1,15 +1,15 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 /**
- * User_model class
+ * Provider_model class
  *
  * @author Victor Rincon
  */
-class User_model extends MY_Model {
+class Provider_model extends MY_Model {
     /**
      * Name of the table for this model.
      * @var string
      */
-    protected $_table = 'users';
+    protected $_table = 'providers';
     
     /**
      * Validation rules for this model.
@@ -35,28 +35,16 @@ class User_model extends MY_Model {
             'rules' => 'trim|required|is_natural_no_zero|exist[persons.id]'
         ],
         [
-            // Username
-            'field' => 'username',
-            'label' => 'lang:username',
-            'rules' => 'trim|required|min_length[4]|max_length[30]|is_unique[users.username]|strtolower'
-        ],
-        [
-            // Password
-            'field' => 'password',
-            'label' => 'lang:password',
-            'rules' => 'trim|required|min_length[4]|max_length[72]|prep_password_hash'
-        ],
-        [
             // Email
             'field' => 'email',
             'label' => 'lang:email',
             'rules' => 'trim|required|valid_email|max_length[250]|strtolower'
         ],
         [
-            // Status
-            'field' => 'status',
-            'label' => 'lang:status',
-            'rules' => 'trim|in_list[active,inactive]'
+            // Is Active
+            'field' => 'is_active',
+            'label' => 'lang:is_active',
+            'rules' => 'trim'
         ],
         [
             // Created At
@@ -88,61 +76,6 @@ class User_model extends MY_Model {
             'field' => 'id'
         ]
     ];
-    
-    /**
-     * Method that validates the data supplied with the user table and returns
-     * a boolean value in case it does not find the record or an object with 
-     * the data of the user that is authenticating.
-     * 
-     * @access public
-     * @param array $data datos suministrados que se va a comparar con la table de usuario.
-     * @return object|bool
-     */
-    public function auth($data)
-    {
-        $user = $this->find([
-			'where'		=> ['username' => $data['username']],
-			'limit'		=> 1
-        ]);
-
-        if ( is_null($user) )
-            return FALSE;
-        
-        $res = password_verify($data['password'], $user->password);
-
-        if ( !$res )
-        {
-            $user->password = substr_replace($user->password, '$2a', 0, 3);
-            $res = password_verify($data['password'], $user->password);
-        }
-
-        return ($res === TRUE) ? $user : FALSE;
-    }
-
-    /**
-     * @param $id
-     * @return array
-     */
-    public function get_grants($id)
-    {
-        $result = $this->db->select('modules.controller, grants.method')
-        ->from('users')
-        ->join('users_roles', 'users_roles.user_id = users.id')
-        ->join('roles', 'users_roles.rol_id = roles.id')
-        ->join('grants', 'grants.rol_id = roles.id')
-        ->join('modules', 'grants.module_id = modules.id')
-        ->where(array('users.id' => $id))
-        ->group_by(array('grants.module_id', 'grants.method'))
-        ->get()->result();
-
-        $grants = array();
-        foreach ($result as $grant)
-        {
-            $grants[$grant->controller][$grant->method] = TRUE;
-        }
-
-        return $grants;
-    }
 
     /**
      * @return string
@@ -150,14 +83,12 @@ class User_model extends MY_Model {
 	public function datatable_json()
 	{
 		$this->load->library('datatables');
-        $grant_edit = grant_access('user', 'edit') ? 'true' : 'false';
-        $grant_delete = grant_access('user', 'delete') ? 'true' : 'false';
+        $grant_edit = grant_access('provider', 'edit') ? 'true' : 'false';
+        $grant_delete = grant_access('provider', 'delete') ? 'true' : 'false';
 		$this->datatables->select("
 			{$this->_table}.id,
-			{$this->_table}.username,
 			{$this->_table}.email,
-            {$this->_table}.status,
-            {$this->_table}.avatar_path,
+            {$this->_table}.is_active,
             persons.first_name,
             persons.middle_name,
             persons.last_name,
@@ -165,7 +96,7 @@ class User_model extends MY_Model {
         ")
             ->from($this->_table)
             ->join('persons', "{$this->_table}.person_id = persons.id")
-            ->where('users.tenant_id', $this->session->userdata('tenant_id'));
+            ->where("{$this->_table}.tenant_id", $this->session->userdata('tenant_id'));
         
         return $this->datatables->generate();
     }
@@ -184,9 +115,9 @@ class User_model extends MY_Model {
         $personId = $this->person_model->insert_update($data, 'document_number');
 
         if ( ! $personId )
-            return false;
+            return FALSE;
 
-        // Asignamos el identificador unico de la persona a nuestro usuario.
+        // Asignamos el identificador unico de la persona a nuestro proveedor.
         $data['person_id'] = $personId;
 
         return parent::insert($data, $skip_validation);
@@ -207,9 +138,9 @@ class User_model extends MY_Model {
         $personId = $this->person_model->insert_update($data, 'document_number');
 
         if ( ! $personId )
-            return false;
+            return FALSE;
 
-        // Asignamos el identificador unico de la persona a nuestro usuario.
+        // Asignamos el identificador unico de la persona a nuestro proveedor.
         $data['person_id'] = $personId;
         
         return parent::update($pk, $data, $skip_validation);

@@ -64,6 +64,16 @@ class MY_Form_validation extends CI_Form_validation {
     }
 
     /**
+     * Prep currency format
+     * @param string $number
+     * @return string
+     */
+    public function prep_currency_format($number)
+    {
+        return preg_replace("/[^0-9.]/", "", $number);
+    }
+
+    /**
 	 * Re-populate the validation_data array with our finalized and processed data
 	 *
 	 * @return	void

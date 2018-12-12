@@ -38,7 +38,7 @@ class Product_model extends MY_Model {
             // Code
             'field' => 'code',
             'label' => 'lang:code',
-            'rules' => 'trim|required|min_length[3]|max_length[20]'
+            'rules' => 'trim|required|min_length[3]|max_length[20]|is_unique[products.code]'
         ],
         [
             // Name
@@ -56,7 +56,19 @@ class Product_model extends MY_Model {
             // Sale
             'field' => 'sale',
             'label' => 'lang:price',
-            'rules' => 'trim|required|decimal'
+            'rules' => 'trim|prep_currency_format|required|decimal'
+        ],
+        [
+            // Wholesale Price
+            'field' => 'wholesale_price',
+            'label' => 'lang:wholesale_price',
+            'rules' => 'trim|prep_currency_format|decimal'
+        ],
+        [
+            // Quantity Wholesale
+            'field' => 'quantity_wholesale',
+            'label' => 'lang:quantity_for_wholesale',
+            'rules' => 'trim|prep_currency_format|decimal'
         ],
         [
             // Is Active
@@ -104,7 +116,13 @@ class Product_model extends MY_Model {
             'foreign_key' => 'category_id',
             'model' => 'category_model',
             'field' => 'id'
+        ],
+        'stocks' => [
+            'foreign_key' => 'id',
+            'model' => 'stock_model',
+            'field' => 'product_id' 
         ]
+
     ];
 
     /**
@@ -121,13 +139,19 @@ class Product_model extends MY_Model {
 			{$this->_table}.name,
             {$this->_table}.description,
             {$this->_table}.sale,
+            {$this->_table}.wholesale_price,
+            {$this->_table}.quantity_wholesale,
             categories.name AS category,
             {$this->_table}.is_active,
             {$this->_table}.is_stock,
-            {$this->_table}.image_path
+            {$this->_table}.image_path,
+            MAX(stocks.cost) AS cost,
+            SUM(stocks.count) AS stock
         ")->from($this->_table)
         ->join('categories', "{$this->_table}.category_id = categories.id", 'INNER')
-        ->where("{$this->_table}.tenant_id", $this->session->userdata('tenant_id'));
+        ->join('stocks',  "{$this->_table}.id = stocks.product_id", "LEFT")
+        ->where("{$this->_table}.tenant_id", $this->session->userdata('tenant_id'))
+        ->group_by("{$this->_table}.id");
 
 		return $this->datatables->generate();
 	}

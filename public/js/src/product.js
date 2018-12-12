@@ -20,16 +20,16 @@ $(function () {
                     searchable: false
                 },
                 { data: 'id' },
+                { 
+                    data: 'code',
+                    orderable: false,
+                },
                 {
                     data: 'name',
                     render: function(value, type, obj, meta) {
-                        return `<a href="${$.LeonSoft.options.URL}/product/view/${obj.id}" target="_blank">${obj.name}</a>`;
+                        var active = (obj.is_active) ? "col-green" : "col-red";
+                        return `<a href="${$.LeonSoft.options.URL}/product/view/${obj.id}" target="_blank"><i class='material-icons ${active} font-18' aria-hidden='true' style='vertical-align: middle;'>album</i> ${value}</a>`;
                     }
-                },
-                { 
-                    data: 'description',
-                    orderable: false,
-                    searchable: false
                 },
                 { 
                     data: 'category' ,
@@ -40,17 +40,42 @@ $(function () {
                 {
                     data: 'sale',
                     render: function(value, type, obj, meta) {
-                        return `${$.LeonSoft.methods.numberFormat(value, 2, ',')}`
+                        return `${$.LeonSoft.methods.numberFormat(value, 2, '.', ',')}`
                     },
                     orderable: false,
                     searchable: false
                 },
                 {
-                    data: 'is_active',
-                    render: function (value, type, obj, meta) {
-                        var active = (obj.is_active) ? "col-green" : "col-red";
-                        return "<i class='material-icons " + active + " font-18' aria-hidden='true'>album</i>";
-                    }
+                    data: 'wholesale_price',
+                    render: function(value, type, obj, meta) {
+                        return `${$.LeonSoft.methods.numberFormat(value, 2, '.', ',')}`
+                    },
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'quantity_wholesale',
+                    render: function(value, type, obj, meta) {
+                        return `${$.LeonSoft.methods.numberFormat(value, 2, '.', ',')}`
+                    },
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'cost',
+                    render: function(value, type, obj, meta) {
+                        return `${$.LeonSoft.methods.numberFormat(value, 2, '.', ',')}`
+                    },
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'stock',
+                    render: function(value, type, obj, meta) {
+                        return `${$.LeonSoft.methods.numberFormat(value, 2, '.', ',')}`
+                    },
+                    orderable: false,
+                    searchable: false
                 },
                 {
                     data: function(data) {
@@ -77,5 +102,44 @@ $(function () {
     if ( $productForm.size() > 0 ) {
         //Textarea auto growth
         autosize($('textarea.auto-growth'));
+
+        $('.currency').maskMoney($.formatCurrency.regions[$.Language.region].currency);
+        $('.number').maskMoney($.formatCurrency.regions[$.Language.region].number);
+
+        if ($('#warehousesForm').size() > 0) {
+            $('#warehousesForm').sheepIt({
+                separator: '',
+                allowRemoveLast: false,
+                allowRemoveCurrent: true,
+                allowRemoveAll: false,
+                allowAdd: true,
+                allowAddN: false,
+                minFormsCount: 1,
+                iniFormsCount: 1,
+                data: $('#warehousesPre').data('warehouses'),
+                afterAdd: function(source, clone) {
+                    $('.currency').maskMoney($.formatCurrency.regions[$.Language.region].currency);
+                    $('.number').maskMoney($.formatCurrency.regions[$.Language.region].number);
+                },
+                beforeRemoveCurrent: function(source, form) {
+                    swal(
+                        {
+                            title: "Eliminar Contacto",
+                            text: "¿Está seguro que desea eliminar este contacto?",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Si, eliminar!",
+                            closeOnConfirm: true
+                        },
+                        function(){
+                            source.removeCurrentForm(form);
+                        }
+                    );
+        
+                    return false;
+                }
+            });
+        }
     }
 });

@@ -11,34 +11,43 @@
     </div>
 
     <div class="body">
-        <table id="products-table" class="table table-bordered table-striped table-hover dataTable js-exportable" style="width: 100%;">
-            <thead>
-            <tr>
-                <th>
-                    <input type="checkbox" id="check-all" class="filled-in chk-col-orange" name="check[]" value="'+data.id+'">
-                    <label class="m-b-0" for="check-all"></label>
-                </th>
-                <th class="all">ID</th>
-                <th class="all"><?php echo lang('name'); ?></th>
-                <th class="all"><?php echo lang('description'); ?></th>
-                <th class="all"><?php echo lang('category'); ?></th>
-                <th class="all"><?php echo lang('price'); ?></th>
-                <th class="all"><?php echo lang('active'); ?></th>
-                <th><?php echo lang('options') ?></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table id="products-table" class="table table-bordered table-striped table-hover dataTable js-exportable">
+                <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="check-all" class="filled-in chk-col-orange" name="check[]" value="'+data.id+'">
+                        <label class="m-b-0" for="check-all"></label>
+                    </th>
+                    <th class="all">ID</th>
+                    <th class="all"><?php echo lang('code'); ?></th>
+                    <th class="all"><?php echo lang('name'); ?></th>
+                    <th class="all"><?php echo lang('category'); ?></th>
+                    <th class="all"><?php echo lang('price'); ?></th>
+                    <th class="all"><?php echo lang('wholesale_price'); ?></th>
+                    <th class="all"><?php echo lang('quantity_for_wholesale'); ?></th>
+                    <th class="all"><?php echo lang('cost'); ?></th>
+                    <th class="all"><?php echo lang('in_stock'); ?></th>
+                    <th><?php echo lang('options') ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 </div>

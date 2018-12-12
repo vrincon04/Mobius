@@ -33,7 +33,7 @@
 }
 
 .dataTables_wrapper {
-	overflow-x: auto;
+	overflow-x: hidden;
 }
 
 .dataTables_wrapper .dt-buttons {

@@ -30,6 +30,19 @@
         <?php echo sidebar_item('welcome', lang('dashboard'), 'dashboard'); ?>
         <!-- Category Model -->
         <?php echo sidebar_item('category', lang('category'), 'group_work'); ?>
+        <!-- Contacts Group -->
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+                <i class="material-icons">contacts</i>
+                <span><?php echo lang('contacts') ?></span>
+            </a>
+            <ul class="ml-menu">
+                <!-- Providers Model -->
+                <?php echo sidebar_item('provider', lang('provider'), 'local_shipping'); ?>
+                <!-- Customers Model -->
+                <?php echo sidebar_item('customer', lang('customer'), 'sentiment_very_satisfied'); ?>
+            </ul>
+        </li>
         <!-- Warehouse Model -->
         <?php echo sidebar_item('warehouse', lang('warehouse'), 'local_convenience_store'); ?>
         <!-- Product Model -->

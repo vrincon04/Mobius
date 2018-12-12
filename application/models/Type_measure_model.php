@@ -1,15 +1,15 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 /**
- * Warehouse_model class
+ * Type_measure_model class
  *
  * @author Victor Rincon
  */
-class Warehouse_model extends MY_Model {
+class Type_measure_model extends MY_Model {
     /**
      * Name of the table to which a social model is going.
      * @var string
      */
-    protected $_table = 'warehouses';
+    protected $_table = 'types_measures';
 
     /**
      * Validation rules for this model.
@@ -23,27 +23,21 @@ class Warehouse_model extends MY_Model {
             'rules' => 'is_natural_no_zero'
         ],
         [
-            // Tenant
-            'field' => 'tenant_id',
-            'label' => 'lang:tenant',
-            'rules' => 'trim|required|is_natural_no_zero|exist[tenants.id]'
-        ],
-        [
             // Name
             'field' => 'name',
             'label' => 'lang:name',
             'rules' => 'trim|required|max_length[100]|ucwords'
         ],
         [
+            // Lang
+            'field' => 'lang',
+            'label' => 'lang:lang',
+            'rules' => 'trim|required|max_length[100]'
+        ],
+        [
             // Description
             'field' => 'description',
             'label' => 'lang:description',
-            'rules' => 'trim'
-        ],
-        [
-            // Is Active
-            'field' => 'is_active',
-            'label' => 'lang:is_active',
             'rules' => 'trim'
         ],
         [
@@ -65,34 +59,10 @@ class Warehouse_model extends MY_Model {
      * @var array
      */
     protected $_relationships = [
-        'tenant' => [
-            'foreign_key' => 'tenant_id',
-            'model' => 'tenant_model',
-            'field' => 'id'
-        ],
-        'stocks' => [
+        'measurements' => [
             'foreign_key' => 'id',
-            'model' => 'stock_model',
-            'field' => 'warehouse_id'
+            'model' => 'measurement_model',
+            'field' => 'type_id'
         ]
     ];
-
-    /**
-	 * [datatable_json description]
-	 * @return string|object Listado de registro encontrado segun los filtros aplicados
-	 */
-	public function datatable_json()
-	{
-		$this->load->library('datatables');
-
-		$this->datatables->select('
-			id,
-			name,
-			description,
-			is_active
-        ')->from($this->_table)
-        ->where('tenant_id', $this->session->userdata('tenant_id'));
-
-		return $this->datatables->generate();
-	}
 }

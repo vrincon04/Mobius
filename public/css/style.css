@@ -7687,8 +7687,7 @@ fieldset[disabled] .form-control {
         padding-left: 0; }
         .sidebar .menu .list .ml-menu span {
           font-weight: normal;
-          font-size: 14px;
-          margin: 3px 0 1px 6px; }
+          font-size: 14px; }
         .sidebar .menu .list .ml-menu li a {
           padding-left: 55px;
           padding-top: 7px;
