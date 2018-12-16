@@ -35,6 +35,12 @@ class Tenant_model extends MY_Model {
             'rules' => 'trim|required|is_natural_no_zero|exist[timezones.id]'
         ],
         [
+            // Currency
+            'field' => 'currency_id',
+            'label' => 'lang:currency',
+            'rules' => 'trim|required|is_natural_no_zero|exist[currencies.id]'
+        ],
+        [
             // Date Format
             'field' => 'date_format_id',
             'label' => 'lang:date_format',
@@ -62,13 +68,13 @@ class Tenant_model extends MY_Model {
             // Address
             'field' => 'address',
             'label' => 'lang:address',
-            'rules' => 'trim|required||max_length[250]|ucwords'
+            'rules' => 'trim|required|max_length[250]|ucwords'
         ],
         [
             // Phone
             'field' => 'phone',
             'label' => 'lang:phone',
-            'rules' => 'trim|required||max_length[60]'
+            'rules' => 'trim|required|max_length[60]'
         ],
         [
             // Email
@@ -114,6 +120,11 @@ class Tenant_model extends MY_Model {
         'date_format' => [
             'foreing_key' => 'date_format_id',
             'model' => 'date_format_model',
+            'field' => 'id'
+        ],
+        'currency' => [
+            'foreing_key' => 'currency_id',
+            'model' => 'currency_model',
             'field' => 'id'
         ],
         'users' => [

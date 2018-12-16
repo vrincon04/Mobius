@@ -51,6 +51,7 @@ $lang = [
     'user_information' => 'Información del usuario',
     'personal_information' => 'Información personal',
     'role_information' => 'Información de rol',
+    'system_information' => 'Información del Sistema',
     'enter_email' => 'Ingresa tu dirección de correo electrónico',
     'enter_password' => 'Ingresa tu contraseña',
     'enter_first_name' => 'Ingresa tu primer nombre',
@@ -146,5 +147,8 @@ $lang = [
     'providers' => 'Proveedores',
     'provider' => 'Proveedor',
     'customers' => 'Clientes',
-    'customer' => 'Cliente'
+    'customer' => 'Cliente',
+    'currency' => 'Moneda',
+    'currencies' => 'Monedas',
+    'date_format' => 'Formato de Fecha',
 ];

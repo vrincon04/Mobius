@@ -22,6 +22,9 @@ class Tenant extends MY_Controller {
         $this->load->model('country_model');
         $this->load->model('state_model');
         $this->load->model('city_model');
+        $this->load->model('currency_model');
+        $this->load->model('date_format_model');
+        $this->load->model('timezone_model');
         
         $row = $this->_exist($this->session->userdata('tenant_id'));
 
@@ -43,6 +46,9 @@ class Tenant extends MY_Controller {
         $this->data = [
             $this->_controller => $row,
             'countries' => $this->country_model->dropdown('id', 'name'),
+            'timezones' => $this->timezone_model->all(),
+            'currencies' => $this->currency_model->all(),
+            'date_formats' => $this->date_format_model->dropdown('id', 'format'),
             'states' => $this->state_model->dropdown('id', 'name', [
                 'where' => ['states.country_id' => $row->city->state->country_id]
             ]),
@@ -52,6 +58,29 @@ class Tenant extends MY_Controller {
         ];
 
         $this->_template('tenant/view', $this->_get_assets('view', $this->data));
+    }
+
+    public function updateInfo()
+    {
+        $row = $this->_exist($this->session->userdata('tenant_id'));
+
+        if ( $this->input->method() === 'post' ) {
+
+            if ( $this->{$this->_model}->update($this->session->userdata('tenant_id'), $this->input->post()) )
+			{
+                $this->_on_edit_success($this->session->userdata('tenant_id'));
+                $this->_response_success();
+			}
+            else
+            {
+                $this->_response_error(validation_errors());
+            }
+
+            if ( !$this->input->is_ajax_request() )
+            {
+                redirect("{$this->_controller}/index");
+            }
+        }
     }
 
     protected function _after_exist($row)

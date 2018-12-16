@@ -75,8 +75,8 @@
 
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade in active" id="company_information">
-                            <form id="form-setting" class="form-validate" method="post" enctype="multipart/form-data">
-                                <div class="">
+                            <form id="form-setting" class="form-validate" method="post" enctype="multipart/form-data" action="<?php echo base_url('tenant/updateInfo'); ?>">
+                                <div>
                                     <div class="header">
                                         <h2>
                                             <?php echo ucwords(lang('basic_information')); ?>
@@ -102,6 +102,41 @@
                                                     <input type="text" id="opening_at" name="opening_at" class="datepicker form-control" value="<?php echo set_value('opening_at', date('d/m/Y', strtotime($tenant->opening_at))); ?>" placeholder="<?php echo lang('enter_opening_at'); ?>"  />
                                                 </div>
                                             </div>
+                                    </div>
+
+                                    <div class="header">
+                                        <h2>
+                                            <?php echo ucwords(lang('system_information')); ?>
+                                            <small>Los campos marcodo con <span class="text-danger">*</span> son requerido.</small>
+                                        </h2>
+                                    </div>
+                                    <div class="body">
+                                        <label for="timezone_id"><?php echo lang('timezone'); ?> <span class="text-danger">*</span></label>
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <select name="timezone_id" id="timezone_id" class="form-control show-tick" data-live-search="true" data-show-subtext="true" required>
+                                                <?php foreach($timezones as $timezone):?>
+                                                    <option value="<?php echo $timezone->id?>" data-subtext="<?php echo $timezone->format; ?>" <?php echo ($timezone->id === $tenant->timezone_id) ? 'selected' : ''; ?>><?php echo $timezone->name; ?></option>
+                                                <?php endforeach;?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <label for="currency_id"><?php echo lang('currency'); ?> <span class="text-danger">*</span></label>
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <select name="currency_id" id="currency_id" class="form-control show-tick" data-live-search="true" data-show-subtext="true" required>
+                                                <?php foreach($currencies as $currency):?>
+                                                    <option value="<?php echo $currency->id?>" data-subtext="<?php echo $currency->name; ?>" <?php echo ($currency->id === $tenant->currency_id) ? 'selected' : ''; ?>><?php echo $currency->code; ?></option>
+                                                <?php endforeach;?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <label for="date_format_id"><?php echo lang('date_format'); ?> <span class="text-danger">*</span></label>
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <?php echo form_dropdown('date_format_id', $date_formats, set_value('date_format_id', $tenant->date_format_id), 'id="date_format_id" class="form-control show-tick" required') ?>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="header">

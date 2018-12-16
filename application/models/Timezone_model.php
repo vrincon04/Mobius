@@ -83,15 +83,10 @@ class Timezone_model extends MY_Model {
      * @var array
      */
     protected $_relationships = [
-        'country' => [
-            'foreign_key' => 'country_id',
-            'model' => 'country_model',
-            'field' => 'id'
-        ],
-        'cities' => [
+        'tenants' => [
             'foreign_key' => 'id',
-            'model' => 'city_model',
-            'field' => 'state_id'
+            'model' => 'tenant_model',
+            'field' => 'timezone_id'
         ]
     ];
 }
