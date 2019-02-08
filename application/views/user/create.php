@@ -42,6 +42,20 @@
                     </h2>
                 </div>
                 <div class="body">
+                <label for="document_type_id"><?php echo lang('document_type'); ?> <span class="text-danger">*</span></label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <?php echo form_dropdown('document_type_id', $documents_types, set_value('document_type_id'), 'id="document_type_id" class="form-control show-tick" required') ?>
+                        </div>
+                    </div>
+
+                    <label for="document_number"><?php echo lang('document_number'); ?> <span class="text-danger">*</span></label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="document_number" name="document_number" class="form-control identification-card" value="<?php echo set_value('document_number'); ?>" placeholder="<?php echo lang('enter_document_number'); ?>" required minlength="2" maxlength="100" />
+                        </div>
+                    </div>
+                    
                     <label for="first_name"><?php echo lang('first_name'); ?> <span class="text-danger">*</span> </label>
                     <div class="form-group">
                         <div class="form-line">
@@ -74,20 +88,6 @@
                     <div class="form-group">
                         <div class="form-line">
                             <?php echo form_dropdown('gender_id', $genders, set_value('gender_id'), 'id="gender_id" class="form-control show-tick" required') ?>
-                        </div>
-                    </div>
-
-                    <label for="document_type_id"><?php echo lang('document_type'); ?> <span class="text-danger">*</span></label>
-                    <div class="form-group">
-                        <div class="form-line">
-                            <?php echo form_dropdown('document_type_id', $documents_types, set_value('document_type_id'), 'id="document_type_id" class="form-control show-tick" required') ?>
-                        </div>
-                    </div>
-
-                    <label for="document_number"><?php echo lang('document_number'); ?> <span class="text-danger">*</span></label>
-                    <div class="form-group">
-                        <div class="form-line">
-                            <input type="text" id="document_number" name="document_number" class="form-control identification-card" value="<?php echo set_value('document_number'); ?>" placeholder="<?php echo lang('enter_document_number'); ?>" required minlength="2" maxlength="100" />
                         </div>
                     </div>
 

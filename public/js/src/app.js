@@ -289,13 +289,13 @@ $.LeonSoft.helpers = {
     shortName: function (first_name, last_name) {
         return $.LeonSoft.methods.ucwords(`${first_name} ${last_name}`);
     },
-    niceDate: function (value) {
+    niceDate: function (value, format="DD/MMM/YYYY") {
         if (!value) 
             return '';
         
         var date = moment(value);
 
-        return $.LeonSoft.methods.ucwords(date.locale($.Language.lang).format('DD/MMM/YYYY').replace('.', ''));
+        return $.LeonSoft.methods.ucwords(date.locale($.Language.lang).format(format).replace('.', ''));
     },
     niceDateTime:function (value) {
         if (!value) 
@@ -527,25 +527,4 @@ $(function () {
         var checked = $(this).closest('tbody').find('input.chk-col-orange').not(':checked').length > 0;
         $('#check-all').prop('checked', !checked);
     });
-
-    $(document).on('focusout', '#document_number', function (e) {
-        e.preventDefault();
-
-        var $this = $(this),
-            filter = {'persons|document_number' : $this.val()}
-            obj = {};
-
-        $.get(`${$.LeonSoft.options.URL}/person/info_json`, filter)
-            .done(function(response){
-                obj = JSON.parse(response);
-
-                if (obj.error === false) {
-                    for (x in obj.data[0]) {
-                        $(`#${x}`).val(obj.data[0][x]);
-                    }
-
-                    $('select').selectpicker('refresh');
-                }
-            });
-    })
 });

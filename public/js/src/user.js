@@ -89,11 +89,21 @@ $(function () {
     if ( $userForm.size() > 0 ) {
         var $country = $('select[name="country_id"]'),
             $state = $('select[name="state_id"]'),
-            $city = $('select[name="city_id"]');
+            $city = $('select[name="city_id"]'),
+            $document_number = $('input[name="document_number"]'),
+            $document_type = $('select[name="document_type_id"]'),
+            $first_name = $('input[name="first_name"]'),
+            $last_name = $('input[name="last_name"]'),
+            $middle_name = $('input[name="middle_name"]'),
+            $last_name2 = $('input[name="last_name2"]'),
+            $gender = $('select[name="gender_id"]'),
+            $dob = $('input[name="dob"]'),
+            $phone = $('input[name="phone"]'),
+            $mobile = $('input[name="mobile"]');
             
         $('.datepicker').bootstrapMaterialDatePicker({
             lang: $.Language.lang,
-            format: 'DD/MM/YYYY',
+            format: 'DD MMMM YYYY',
             clearButton: true,
             weekStart: 1,
             time: false,
@@ -108,6 +118,8 @@ $(function () {
         $('.identification-card').inputmask('999-9999999-9', { placeholder: '___-_______-_' });
         //Passport
         $('.passport').inputmask('999999999', { placeholder: '_________' });
+        // NIF - RNC
+        $('.NIF').inputmask('9-999999-9', { placeholder: '_-______-_'});
 
         $country.on('change', function (e) {
             e.preventDefault();
@@ -146,6 +158,37 @@ $(function () {
                         $.LeonSoft.methods.sweetNotification($.Language.message.title.warning, obj.message, 'warning', 1000);
                     else
                         $.LeonSoft.methods.optionTemplate($city, obj.data);
+                });
+        });
+
+        $document_number.on('focusout', function () {
+            var $this = $(this),
+                filter = {
+                    number: $this.val(),
+                    type: $document_type.val()
+                };
+
+            $.get(`${$.LeonSoft.options.URL}/person/get_by_document_number_json`, filter)
+                .done(function (response) {
+                    var obj = JSON.parse(response),
+                        person = {};
+
+                    if ( !obj.error )
+                    {
+                        if ( obj.data.length = 1)
+                        {
+                            person = obj.data[0];
+
+                            $first_name.val(person.first_name);
+                            $middle_name.val(person.middle_name);
+                            $last_name.val(person.last_name);
+                            $last_name2.val(person.last_name2);
+                            $gender.val(person.gender_id).selectpicker('refresh');
+                            $dob.val($.LeonSoft.helpers.niceDate(person.dob, 'DD MMMM YYYY'));
+                            $phone.val(person.phone);
+                            $mobile.val(person.mobile);
+                        }
+                    }
                 });
         });
     }
