@@ -49,7 +49,7 @@
                                                     <?php foreach ($actions as $action): ?>
                                                         <th>
                                                             <input type="checkbox" data-action="<?= $action ?>" id="check-all-<?= $role->id ?>-action-<?= $action ?>" class="filled-in chk-col-cyan check-all">
-                                                            <label class="m-b-0" for="check-all-<?= $role->id ?>-action-<?= $action ?>"></label>
+                                                            <label class="m-b-0" for="check-all-<?= $role->id ?>-action-<?= $action ?>"><?php echo lang($action); ?></label>
                                                         </th>
                                                     <?php endforeach; ?>
                                                 </tr>

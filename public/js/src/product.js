@@ -8,17 +8,16 @@ $(function () {
             ajax: {
                 url: `${$.LeonSoft.options.URL}/product/datatable_json`
             },
-            columns: [
+            columnDefs: [
                 {
-                    data: function(data) {
-                        return `
-                            <input type="checkbox" id="check-${data.id}" class="filled-in chk-col-orange" name="check" value="${data.id}" />
-                            <label class="m-b-0" for="check-${data.id}"</label>
-                        `;
-                    },
-                    orderable: false,
-                    searchable: false
-                },
+                    orderable: true,
+                    targets: 0
+                }
+            ],
+            order: [ 
+                [0, 'desc'] 
+            ],
+            columns: [
                 { data: 'id' },
                 { 
                     data: 'code',
@@ -40,40 +39,45 @@ $(function () {
                 {
                     data: 'sale',
                     render: function(value, type, obj, meta) {
-                        return `${$.LeonSoft.methods.numberFormat(value, 2, '.', ',')}`
+                        return $.LeonSoft.helpers.formmatterCurrency(value)
                     },
+                    class: 'text-right',
                     orderable: false,
                     searchable: false
                 },
                 {
                     data: 'wholesale_price',
                     render: function(value, type, obj, meta) {
-                        return `${$.LeonSoft.methods.numberFormat(value, 2, '.', ',')}`
+                        return $.LeonSoft.helpers.formmatterCurrency(value)
                     },
+                    class: 'text-right',
                     orderable: false,
                     searchable: false
                 },
                 {
                     data: 'quantity_wholesale',
                     render: function(value, type, obj, meta) {
-                        return `${$.LeonSoft.methods.numberFormat(value, 2, '.', ',')}`
+                        return $.LeonSoft.helpers.formmatterNumber(value)
                     },
+                    class: 'text-right',
                     orderable: false,
                     searchable: false
                 },
                 {
                     data: 'cost',
                     render: function(value, type, obj, meta) {
-                        return `${$.LeonSoft.methods.numberFormat(value, 2, '.', ',')}`
+                        return $.LeonSoft.helpers.formmatterCurrency(value)
                     },
+                    class: 'text-right',
                     orderable: false,
                     searchable: false
                 },
                 {
                     data: 'stock',
                     render: function(value, type, obj, meta) {
-                        return `${$.LeonSoft.methods.numberFormat(value, 2, '.', ',')}`
+                        return $.LeonSoft.helpers.formmatterNumber(value)
                     },
+                    class: 'text-right',
                     orderable: false,
                     searchable: false
                 },

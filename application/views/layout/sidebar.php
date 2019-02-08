@@ -1,7 +1,7 @@
 <!-- User Info -->
 <div class="user-info">
     <div class="image">
-        <img src="<?php echo base_url("public/images/users/{$this->session->userdata('user_id')}.jpg");?>" width="68" height="68" alt="User" />
+        <img src="<?php echo base_url($this->session->userdata('avatar'));?>" width="68" height="68" alt="User" />
     </div>
     <div class="info-container">
         <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $this->session->userdata('short_name'); ?></div>
@@ -28,8 +28,21 @@
         <li class="header"><?php echo lang('main_navigation'); ?></li>
         <!-- Dashboard -->
         <?php echo sidebar_item('welcome', lang('dashboard'), 'dashboard'); ?>
-        <!-- Category Model -->
-        <?php echo sidebar_item('category', lang('category'), 'group_work'); ?>
+        <!-- Expenses Group -->
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+                <i class="material-icons">call_made</i>
+                <span><?php echo lang('expenses') ?></span>
+            </a>
+            <ul class="ml-menu">
+                <!-- Order Model -->
+                <?php echo sidebar_item('purchase_order', lang('purchase_order'), 'description') ?>
+                <!-- Purchases Model -->
+                <?php echo sidebar_item('purchase', lang('purchase'), 'shopping_cart'); ?>
+                <!-- Payments Model -->
+                <?php echo sidebar_item('purchase_payment', lang('payment'), 'payment'); ?>
+            </ul>
+        </li>
         <!-- Contacts Group -->
         <li>
             <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
@@ -43,10 +56,21 @@
                 <?php echo sidebar_item('customer', lang('customer'), 'sentiment_very_satisfied'); ?>
             </ul>
         </li>
-        <!-- Warehouse Model -->
-        <?php echo sidebar_item('warehouse', lang('warehouse'), 'local_convenience_store'); ?>
-        <!-- Product Model -->
-        <?php echo sidebar_item('product', lang('product'), 'shopping_basket'); ?>
+        <!-- Articles Group -->
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+                <i class="material-icons">shopping_basket</i>
+                <span><?php echo lang('articles') ?></span>
+            </a>
+            <ul class="ml-menu">
+                <!-- Product Model -->
+                <?php echo sidebar_item('product', lang('product'), 'shopping_basket'); ?>
+                <!-- Category Model -->
+                <?php echo sidebar_item('category', lang('category'), 'group_work'); ?>
+                <!-- Warehouse Model -->
+                <?php echo sidebar_item('warehouse', lang('warehouse'), 'local_convenience_store'); ?>
+            </ul>
+        </li>
         <!-- #END# MAIN NAVIGATION -->
 
         <!-- REPORT NAVIGATION -->

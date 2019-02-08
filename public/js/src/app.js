@@ -195,6 +195,73 @@ $.LeonSoft.methods = {
             }
 
             return s.join(dec)
+    },
+    /**
+     * Uppercase the first character of each word in a string
+     * @param {string} text - The input string.
+     */
+    ucwords: function (text) {
+        //  discuss at: http://locutus.io/php/ucwords/
+        // original by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
+        // improved by: Waldo Malqui Silva (http://waldo.malqui.info)
+        // improved by: Robin
+        // improved by: Kevin van Zonneveld (http://kvz.io)
+        // bugfixed by: Onno Marsman (https://twitter.com/onnomarsman)
+        // bugfixed by: Cetvertacov Alexandr (https://github.com/cetver)
+        //    input by: James (http://www.james-bell.co.uk/)
+        //   example 1: ucwords('kevin van  zonneveld')
+        //   returns 1: 'Kevin Van  Zonneveld'
+        //   example 2: ucwords('HELLO WORLD')
+        //   returns 2: 'HELLO WORLD'
+        //   example 3: ucwords('у мэри был маленький ягненок и она его очень любила')
+        //   returns 3: 'У Мэри Был Маленький Ягненок И Она Его Очень Любила'
+        //   example 4: ucwords('τάχιστη αλώπηξ βαφής ψημένη γη, δρασκελίζει υπέρ νωθρού κυνός')
+        //   returns 4: 'Τάχιστη Αλώπηξ Βαφής Ψημένη Γη, Δρασκελίζει Υπέρ Νωθρού Κυνός'
+
+        return (text + '')
+            .replace(/^(.)|\s+(.)/g, function ($first) {
+                return $first.toUpperCase()
+            }) 
+    },
+    /**
+     * Obtain the total of the amount of a product plus the mount 
+     * of it and display it in the specified field.
+     * @param {number} quantity - The amount of product to be calculated.
+     * @param {number} amount - The amount of the product.
+     * @param {string} display - the element will be display.
+     */
+    getTotalProduct: function (quantity, amount, display) {
+        if (Number.isNaN(Number.parseFloat(quantity)))
+        {
+            throw new Error(`The value of the variable quantity: [${quantity}] is not numeric`);
+        }
+
+        if (Number.isNaN(Number.parseFloat(amount)))
+        {
+            throw new Error(`The value of the variable amount: [${amount}] is not numeric`);
+        }
+
+        var result = quantity * amount;
+
+        display.text($.LeonSoft.helpers.formmatterCurrency(result));
+    },
+    getSubTotal: function (target, display) {
+        var total = 0;
+        
+        $(target).each(function (key, value) {
+            total = Number.parseFloat(total) + Number.parseFloat($(value).text().replace(/[^\d.-]/g,''));
+        });
+
+        display.text($.LeonSoft.helpers.formmatterCurrency(total));
+    },
+    getSubTotalFromValue: function (target, display) {
+        var total = 0;
+        
+        $(target).each(function (key, value) {
+            total = Number.parseFloat(total) + Number.parseFloat($(value).val().replace(/[^\d.-]/g,''));
+        });
+
+        display.text($.LeonSoft.helpers.formmatterCurrency(total));
     }
 };
 
@@ -213,17 +280,14 @@ $.LeonSoft.helpers = {
         
         return rgb;
     },
-    formmatterCurrency: function (number, currency) {
-        var formatter = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: currency === undefined ? 'USD' : currency,
-            minimumFractionDigits: 2
-        });
-    
-        return formatter.format(number);
+    formmatterCurrency: function (number) {
+        return accounting.formatMoney(number, $.accounting.regions[$.Language.region].currency);
+    },
+    formmatterNumber: function (number) {
+        return accounting.formatMoney(number, $.accounting.regions[$.Language.region].number);
     },
     shortName: function (first_name, last_name) {
-        return `${first_name} ${last_name}`;
+        return $.LeonSoft.methods.ucwords(`${first_name} ${last_name}`);
     },
     niceDate: function (value) {
         if (!value) 
@@ -231,7 +295,7 @@ $.LeonSoft.helpers = {
         
         var date = moment(value);
 
-        return date.locale($.Language.lang).format('DD/MMM/YYYY').replace('.', '');
+        return $.LeonSoft.methods.ucwords(date.locale($.Language.lang).format('DD/MMM/YYYY').replace('.', ''));
     },
     niceDateTime:function (value) {
         if (!value) 
@@ -239,7 +303,7 @@ $.LeonSoft.helpers = {
 
         var date = moment(value);
 
-        return date.locale($.Language.lang).format('DD/MMM/YYYY hh:mm A').replace('.', '');
+        return $.LeonSoft.methods.ucwords(date.locale($.Language.lang).format('DD/MMM/YYYY hh:mm A').replace('.', ''));
     },
     niceDuration: function (value) {
         var fromm = moment.utc();
@@ -253,6 +317,69 @@ $.LeonSoft.helpers = {
             return moment.utc(tom.diff(fromm)).format('H [H] m [M]')
     
         return moment.utc(tom.diff(fromm)).format('m [M] s [S]')
+    }
+
+};
+
+$.LeonSoft.templates = {
+    purchaseOrderItems: function (data) {
+        var obj = data.obj;
+        if (!data.id) {
+            return data.text;
+        }
+
+        var stock = obj.stocks.reduce(function (total, item) {
+            return parseFloat(total) + parseFloat(item.count)
+          }, 0)
+
+        var html = `<div class="panel panel-default panel-post m-b-0">
+        <div class="panel-heading">
+            <div class="media">
+                <div class="media-left">
+                    <a href="javascript:void(0);">
+                        <img src="${$.LeonSoft.options.URL + obj.image_path}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">
+                        <a href="javascript:void(0);">${obj.name}</a>
+                    </h4>
+                    ${$.Language.message.in_stock}: <span class="col-cyan font-bold">${$.LeonSoft.methods.numberFormat(stock, 2)}</span> - 
+                    ${$.Language.message.sale}: <span class="col-teal font-bold">${$.LeonSoft.helpers.formmatterCurrency(obj.sale)}</span> -
+                    ${$.Language.message.cost}: <span class="col-red font-bold">${$.LeonSoft.helpers.formmatterCurrency(obj.stocks[0].cost)}</span>
+
+                </div>
+            </div>
+        </div>
+    </div>`;
+        
+        return $(html);
+    },
+    progress: function (data, height) {
+        var percentage = ( Number.parseFloat(data.starters) /  Number.parseFloat(data.quantity) ) * 100; 
+        return `<div class="progress m-b-0" style="height: ${height};">
+        <div class="progress-bar bg-grey" role="progressbar" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100" style="width: ${percentage}%;"></div>
+    </div>
+    <span class="col-grey font-10">${$.LeonSoft.methods.numberFormat(data.starters, 0)} de ${$.LeonSoft.methods.numberFormat(data.quantity, 0)}</span>`;
+    },
+    provederPurchases: function (data) {
+        var html = `
+            <tr>
+                <td>
+                    <input type="checkbox" id="check-${data.id}" class="filled-in chk-col-orange check-pay" name="pruchases[${data.id}][id]" value="${data.id}" />
+                    <label class="m-b-0" for="check-${data.id}"</label>
+                </td>
+                <td>C${data.id.padStart(6, "0")}</td>
+                <td>${$.LeonSoft.helpers.niceDate(data.date)}</td>
+                <td>${$.LeonSoft.helpers.niceDate(data.expired_at)}</td>
+                <td class="text-right">${$.LeonSoft.helpers.formmatterCurrency(data.total)}</td>
+                <td class="text-right">
+                    <input type="text" name="pruchases[${data.id}][amount]" id="amount-${data.id}" class="form-control currency text-right amount-pay" value="0" placeholder="0" data-payable="${data.total}" disabled require />
+                </td>
+            </tr>
+        `;
+
+        return $(html)
     }
 
 };

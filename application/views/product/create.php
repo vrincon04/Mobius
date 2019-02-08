@@ -102,7 +102,7 @@
                                 <div class="form-group form-group-sm form-float">
                                     <div class="form-line focused">
                                         <select name="warehouses[#index#][measurement_id]" id="warehousesForm_#index#_measurement_id" class="form-control show-tick">
-                                            <?php foreach ($types_measures as $type): $type_measure = $type->with('measurements') ?>
+                                            <?php foreach ($types_measures as $type): $type_measure = $type->with(['measurements']) ?>
                                                 <optgroup label="<?php echo lang($type->lang); ?>">
                                                     <?php foreach ($type_measure->measurements as $measurement): ?>
                                                         <option value="<?php echo $measurement->id; ?>"><?php echo lang($measurement->lang); ?></option>

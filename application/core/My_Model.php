@@ -133,17 +133,17 @@ class MY_Model extends CI_Model {
      * @return array|null|object
      * @throws Exception
      */
-	public function last($field = 'created_at')
+	public function last($options = [], $field = 'created_at')
 	{
         if ( ! isset($this->_fields[$field]) )
         {
             throw new Exception("Field '{$field}' doesn't exist for this model.", 1);
         }
 
-        $options = array(
+        $options = array_merge_recursive_distinct($options, [
             'limit'     => 1,
             'order_by'  => "{$field} DESC"
-        );
+        ]);
 
 		return $this->find($options);
 	}
@@ -160,6 +160,12 @@ class MY_Model extends CI_Model {
 
         $this->db->from($this->_table);
 
+        if ( isset($options['joins']) ) {
+            foreach ($options['joins'] as $value) {
+                $this->db->join($value[0], $value[1], $value[2]);
+            }
+        }
+
         if ( isset($this->_fields['tenant_id']) && $this->session->userdata('logged_in') )
             $this->db->where('tenant_id', $this->session->userdata('tenant_id'));
 
@@ -170,6 +176,14 @@ class MY_Model extends CI_Model {
 
         if ( isset($options['where']) )
             $this->db->where($options['where']);
+        if ( isset($options['where_in']) )
+            $this->db->where_in($options['where_in']['key'], $options['where_in']['values']);
+
+        if ( isset($options['like']) )
+            $this->db->like($options['like']);
+        
+        if ( isset($options['or_like']) )
+            $this->db->or_like($options['or_like']);
 
         if ( isset($options['order_by']) )
             $this->db->order_by($options['order_by']);
@@ -524,14 +538,10 @@ class base_register {
      */
     public function with($requests)
     {
-        if ( is_string( $requests ) ) {
-            $requests = explode('|', $requests);
-        }
-        
-        foreach ($requests as $key => $value) {
-            $value = explode('.', $value);
-            $this->_with[] = (count($value) == 1) ? $value[0] : array($value[0] => $value[1]);
-        }
+        if ( ! is_array($requests) )
+            throw new Exception('"$requests" property not set array.', 1);
+
+        $this->_with = $requests;
         
         return $this->get_property($this->_with);
     }
@@ -557,15 +567,18 @@ class base_register {
         return $_CI->{$relation['model']}->find($options);
     }
 
-    protected function get_property($with)
+    protected function get_property($with, $parent = '')
     {
         foreach ($with as $key => $value) {
-            if ( is_string($value) ) {
-                $this->{$value} = $this->get_related($value, ['limit' => 1]);
-            } else {
-                $key = key($value);
+            if ( is_array($value) ) {
                 $this->{$key} = $this->get_related($key, ['limit' => 1]);
-                $this->{$key}->{$value[$key]} = $this->{$key}->get_related($value[$key], ['limit' => 1]);
+                $this->get_property($value, $key);
+            } else {
+                if ( $parent == '' )
+                    $this->{$value} = $this->get_related($value, ['limit' => 1]);
+                else {
+                    $this->{$parent}->{$value} = $this->{$parent}->get_related($value, ['limit' => 1]);
+                }
             }
         }
         

@@ -46,6 +46,17 @@ $.Language = {
         cancel: 'Cancel',
         ok: 'Ok',
         clear: 'Clear',
-        choose_option: 'Choose your option'
+        choose_option: 'Choose your option',
+        choose_product: 'Choose your product',
+        expected_at_greater_than_date: 'It must not be before the Purchase Order date',
+        in_stock: 'En existencia',
+        sale: 'Sale',
+        cost: 'Cost',
+        pending: 'Pending',
+        draft: 'Draft',
+        close: 'Close',
+        partial: 'Partial',
+        unpaid: 'Unpaid',
+        paid: 'Paid'
     }
 }

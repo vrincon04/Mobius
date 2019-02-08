@@ -1407,17 +1407,17 @@ $.extend( $.validator, {
 
 		// http://jqueryvalidation.org/min-method/
 		min: function( value, element, param ) {
-			return this.optional( element ) || value >= param;
+			return this.optional( element ) || value.replace(/[^\d.-]/g,'') >= param;
 		},
 
 		// http://jqueryvalidation.org/max-method/
 		max: function( value, element, param ) {
-			return this.optional( element ) || value <= param;
+			return this.optional( element ) || value.replace(/[^\d.-]/g,'') <= param;
 		},
 
 		// http://jqueryvalidation.org/range-method/
 		range: function( value, element, param ) {
-			return this.optional( element ) || ( value >= param[ 0 ] && value <= param[ 1 ] );
+			return this.optional( element ) || ( value.replace(/[^\d.-]/g,'') >= param[ 0 ] && value.replace(/[^\d.-]/g,'') <= param[ 1 ] );
 		},
 
 		// http://jqueryvalidation.org/step-method/

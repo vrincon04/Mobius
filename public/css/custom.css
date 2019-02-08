@@ -113,3 +113,19 @@ h2 .material-icons, a span .material-icons {
 .nav-tabs li a small {
     color: #999;
 }
+
+.unpaid {
+    color: #f44336;
+}
+
+.paid, .applied {
+    color: #2b982b;
+}
+
+.partial {
+    color: #ff9600;
+}
+
+.draft {
+    color: #cccccc;
+}

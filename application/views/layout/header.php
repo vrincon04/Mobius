@@ -2,7 +2,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title><?php echo ucwords($this->router->method) . ' - ' . ucwords($this->router->class); ?> | <?php echo $this->config->item('app_name'); ?></title>
+    <title><?php echo ucwords($this->router->method) . ' - ' . ucwords(lang($this->router->class)); ?> | <?php echo $this->config->item('app_name'); ?></title>
     <!-- Favicon-->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 

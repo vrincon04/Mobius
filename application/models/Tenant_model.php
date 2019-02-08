@@ -118,17 +118,17 @@ class Tenant_model extends MY_Model {
             'field' => 'id'
         ],
         'date_format' => [
-            'foreing_key' => 'date_format_id',
+            'foreign_key' => 'date_format_id',
             'model' => 'date_format_model',
             'field' => 'id'
         ],
         'currency' => [
-            'foreing_key' => 'currency_id',
+            'foreign_key' => 'currency_id',
             'model' => 'currency_model',
             'field' => 'id'
         ],
         'users' => [
-            'foreing_key' => 'id',
+            'foreign_key' => 'id',
             'model' => 'user_model',
             'field' => 'tenant_id'
         ]

@@ -24,7 +24,26 @@ class Provider extends MY_Controller {
     public function datatable_json()
 	{
 		echo $this->{$this->_model}->datatable_json();
-    }
+	}
+	
+	public function get_by_name_json()
+	{
+		if ( $this->input->method() === 'post' )
+			$this->_retunr_json_error(lang('invalid_method'));
+			
+		$results = $this->{$this->_model}->find([
+			'like' => ['persons.first_name' => $this->input->get('term')],
+			'or_like' => [
+				'persons.last_name' => $this->input->get('term'),
+				'persons.middle_name' => $this->input->get('term'),
+				'persons.last_name2' => $this->input->get('term')
+			],
+			'select' => 'providers.id, CONCAT(persons.first_name, " ", persons.last_name) AS name',
+			'joins' => [['persons', 'providers.person_id = persons.id', 'INNER']]
+		]);
+		
+		$this->_return_json_success(lang('success_message'), $results);
+	}
     
     public function create()
     {
@@ -40,7 +59,6 @@ class Provider extends MY_Controller {
 				'public/plugins/bootstrap-select/css/bootstrap-select.css'
 			],
 			'scripts' => [
-				'public/plugins/momentjs/moment-with-locales.min.js',
 				'public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
 				'public/plugins/jquery-inputmask/jquery.inputmask.bundle.js',
 				'public/plugins/jquery-validation/jquery.validate.js',
@@ -72,7 +90,6 @@ class Provider extends MY_Controller {
 				'public/plugins/bootstrap-select/css/bootstrap-select.css'
 			],
 			'scripts' => [
-				'public/plugins/momentjs/moment-with-locales.min.js',
 				'public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
 				'public/plugins/jquery-inputmask/jquery.inputmask.bundle.js',
 				'public/plugins/jquery-validation/jquery.validate.js',
@@ -92,8 +109,7 @@ class Provider extends MY_Controller {
     
     protected function _after_exist($row)
 	{
-		$row->with('person');
-		$row->person->with(['city', 'document_type']);
+		$row->with(['person' => ['city', 'document_type']]);
 		return $row;
 	}
 }

@@ -2,6 +2,62 @@
 
 class MY_Form_validation extends CI_Form_validation {
 
+    protected $months = [
+        'es' => [
+            'Enero',
+            'Febrero',
+            'Marzo',
+            'Abril',
+            'Mayo',
+            'Junio',
+            'Julio',
+            'Agosto',
+            'Septiembre',
+            'Octubre',
+            'Noviembre',
+            'Diciembre',
+            'enero',
+            'febrero',
+            'marzo',
+            'abril',
+            'mayo',
+            'junio',
+            'julio',
+            'agosto',
+            'septiembre',
+            'octubre',
+            'noviembre',
+            'diciembre'
+        ]
+    ];
+
+    protected $monthsReplace = [
+        'January',
+        'February',
+        'March',
+        'April ',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+        'January',
+        'February',
+        'March',
+        'April ',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ];
+
     /**
      * @param $str
      * @param $field
@@ -58,9 +114,11 @@ class MY_Form_validation extends CI_Form_validation {
      * @param string $date
      * @return string
     */
-    public function prep_date_formart($date)
+    public function prep_date_formart($string)
     {
-        return date('Y-m-d H:i:s', strtotime($date));
+        echo $string;
+        $date = DateTime::createFromFormat("d F Y", str_replace($this->months[$this->CI->session->userdata('lang')], $this->monthsReplace, $string));
+        return $date->format('Y-m-d H:i:s');
     }
 
     /**
@@ -70,7 +128,8 @@ class MY_Form_validation extends CI_Form_validation {
      */
     public function prep_currency_format($number)
     {
-        return preg_replace("/[^0-9.]/", "", $number);
+        $number = preg_replace("/[^0-9.]/", "", $number);
+        return number_format($number, 2, '.', '');
     }
 
     /**

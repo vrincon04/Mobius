@@ -1066,4 +1066,23 @@ $.validator.addMethod( "ziprange", function( value, element ) {
 	return this.optional( element ) || /^90[2-5]\d\{2\}-\d{4}$/.test( value );
 }, "Your ZIP-code must be in the range 902xx-xxxx to 905xx-xxxx" );
 
+$.validator.addMethod( "greaterThan", function( value, element, params ) {
+    if (!/Invalid|NaN/.test(new Date(value))) {
+        return new Date(value) > new Date($(params).val());
+    }
+
+    return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val())); 
+		
+}, "Please enter a greater value." );
+
+$.validator.addMethod( "datepickerGreaterThan", function( value, element, params ) {
+	params = JSON.parse(params);
+	
+	var start = $(params.dateStart).datepicker('getDate'),
+		end = start$(params.dateEnd).datepicker('getDate');
+	
+    return end > start; 
+		
+}, "Please enter a greater value." );
+
 }));

@@ -15,10 +15,6 @@
             <table id="products-table" class="table table-bordered table-striped table-hover dataTable js-exportable">
                 <thead>
                 <tr>
-                    <th>
-                        <input type="checkbox" id="check-all" class="filled-in chk-col-orange" name="check[]" value="'+data.id+'">
-                        <label class="m-b-0" for="check-all"></label>
-                    </th>
                     <th class="all">ID</th>
                     <th class="all"><?php echo lang('code'); ?></th>
                     <th class="all"><?php echo lang('name'); ?></th>
@@ -33,7 +29,6 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>

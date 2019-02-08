@@ -40,7 +40,6 @@ class Customer extends MY_Controller {
 				'public/plugins/bootstrap-select/css/bootstrap-select.css'
 			],
 			'scripts' => [
-				'public/plugins/momentjs/moment-with-locales.min.js',
 				'public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
 				'public/plugins/jquery-inputmask/jquery.inputmask.bundle.js',
 				'public/plugins/jquery-validation/jquery.validate.js',
@@ -72,7 +71,6 @@ class Customer extends MY_Controller {
 				'public/plugins/bootstrap-select/css/bootstrap-select.css'
 			],
 			'scripts' => [
-				'public/plugins/momentjs/moment-with-locales.min.js',
 				'public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
 				'public/plugins/jquery-inputmask/jquery.inputmask.bundle.js',
 				'public/plugins/jquery-validation/jquery.validate.js',
@@ -92,8 +90,7 @@ class Customer extends MY_Controller {
     
     protected function _after_exist($row)
 	{
-		$row->with('person');
-		$row->person->with(['city', 'document_type']);
+		$row->with(['person' => ['city', 'document_type']]);
 		return $row;
 	}
 }

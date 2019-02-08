@@ -58,7 +58,7 @@ class User extends MY_Controller {
 
 			if ($user)
 			{
-				$user->with('person|tenant.timezone');
+				$user->with(['person', 'tenant' => ['timezone', 'currency']]);
 				$access = $this->access_model->first();
 
 				$data = array(
@@ -68,6 +68,7 @@ class User extends MY_Controller {
                     'first_name'        => $user->person->first_name,
                     'last_name'         => $user->person->last_name,
 					'email'             => $user->email,
+					'avatar' 			=> $user->avatar_path,
 					'short_name'        => "{$user->person->first_name} {$user->person->last_name}",
 					'full_name' 		=> "{$user->person->first_name} {$user->person->middle_name} {$user->person->last_name} {$user->person->last_name2}",
 					'tenant_id' 		=> $user->tenant->id,
@@ -77,6 +78,7 @@ class User extends MY_Controller {
 					'language' 			=> $user->tenant->timezone->language,
 					'lc_time_names'		=> $user->tenant->timezone->lc_time_names,
 					'hour' 				=> $user->tenant->timezone->hour,
+					'currency_id' 		=> $user->tenant->currency->id,
                     'grants'            => $this->user_model->get_grants($user->id),
                     'access'            => ($access == NULL) ? 'normal' : $access->status,
                     'access_message'    => ($access == NULL) ? '' : $access->message
@@ -114,7 +116,6 @@ class User extends MY_Controller {
 				'public/plugins/bootstrap-select/css/bootstrap-select.css'
 			],
 			'scripts' => [
-				'public/plugins/momentjs/moment-with-locales.min.js',
 				'public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
 				'public/plugins/jquery-inputmask/jquery.inputmask.bundle.js',
 				'public/plugins/jquery-validation/jquery.validate.js',
@@ -154,7 +155,6 @@ class User extends MY_Controller {
 				'public/plugins/bootstrap-select/css/bootstrap-select.css'
 			],
 			'scripts' => [
-				'public/plugins/momentjs/moment-with-locales.min.js',
 				'public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
 				'public/plugins/jquery-inputmask/jquery.inputmask.bundle.js',
 				'public/plugins/jquery-validation/jquery.validate.js',
@@ -180,8 +180,7 @@ class User extends MY_Controller {
 
 	protected function _after_exist($row)
 	{
-		$row->with('person');
-		$row->person->with(['city', 'document_type']);
+		$row->with(['person' => ['city', 'document_type']]);
 		return $row;
 	}
 }

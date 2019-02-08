@@ -59,7 +59,6 @@ class Person extends MY_Controller {
 				'public/plugins/bootstrap-select/css/bootstrap-select.css'
 			],
 			'scripts' => [
-				'public/plugins/momentjs/moment-with-locales.min.js',
 				'public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
 				'public/plugins/jquery-inputmask/jquery.inputmask.bundle.js',
 				'public/plugins/jquery-validation/jquery.validate.js',
@@ -91,7 +90,6 @@ class Person extends MY_Controller {
 				'public/plugins/bootstrap-select/css/bootstrap-select.css'
 			],
 			'scripts' => [
-				'public/plugins/momentjs/moment-with-locales.min.js',
 				'public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
 				'public/plugins/jquery-inputmask/jquery.inputmask.bundle.js',
 				'public/plugins/jquery-validation/jquery.validate.js',

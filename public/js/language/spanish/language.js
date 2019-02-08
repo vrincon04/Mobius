@@ -45,9 +45,26 @@ $.Language = {
         delete: "Borrar",
         right: "¡Bien!",
         edit: "Editar",
+        view: "Ver",
         cancel: 'Cancelar',
         ok: 'De Acuerdo',
         clear: 'Despejar',
-        choose_option: 'Elija una opción'
+        choose_option: 'Elija una opción',
+        choose_product: 'Elija una producto',
+        expected_at_greater_than_date: 'No debe ser anterior a la fecha de Orden de Compra',
+        in_stock: 'En existencia',
+        sale: 'Venta',
+        cost: 'Costo',
+        pending: 'Pendiente',
+        draft: 'Borrador',
+        close: 'Cerrado',
+        partial: 'Parcial',
+        unpaid: 'No pagado',
+        paid: 'Saldado',
+        totalPayable: 'El Total a Pagar no puede ser mayor al Monto a Pagar.',
+        applied: 'Aplicado',
+        cash: 'Efectivo',
+        credit_card: 'Tarjeta Crédito / Débito',
+        bank_checks: 'Cheque Bancario'
     }
 }

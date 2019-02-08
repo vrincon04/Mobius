@@ -155,7 +155,10 @@ class MY_Controller extends CI_Controller {
             {
                 $this->_response_error(validation_errors());
             }
-		}
+        }
+        
+        // Set the sistema locale configuration.
+        $this->set_locale();
 
         $this->_template("{$this->_controller}/create", $this->_get_assets('create', $this->data));
     }
@@ -189,7 +192,10 @@ class MY_Controller extends CI_Controller {
             }
 		}
 
-		$this->data[$this->_controller] = $row;
+        $this->data[$this->_controller] = $row;
+        // Set the sistema locale configuration.
+        $this->set_locale();
+
 		$this->_template("{$this->_controller}/edit", $this->_get_assets('edit', $this->data));
     }
     
@@ -239,7 +245,10 @@ class MY_Controller extends CI_Controller {
             $this->_return_json_success(lang('success_message'), array($this->_controller => $row));
         }
 
-		$this->data[$this->_controller] = $row;
+        $this->data[$this->_controller] = $row;
+        // Set the sistema locale configuration.
+        $this->set_locale();
+
         $this->_template("{$this->_controller}/view", $this->_get_assets('view', $this->data));
     }
 
@@ -254,6 +263,14 @@ class MY_Controller extends CI_Controller {
         if ( $this->session->has_userdata('timezone') )
         {
             date_default_timezone_set($this->session->userdata('timezone'));
+        }
+    }
+
+    protected function set_locale()
+    {
+        if ( $this->session->has_userdata('lc_time_names') )
+        {
+            setlocale(LC_TIME, $this->session->userdata('lc_time_names'));
         }
     }
 

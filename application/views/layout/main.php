@@ -88,10 +88,17 @@
     <script src="<?php echo base_url('public/plugins/node-waves/waves.js'); ?>"></script>
 
     <!-- Bootstrap Notify Js -->
-    <script src="<?= base_url('public/plugins/bootstrap-notify/bootstrap-notify.js') ?>"></script>
+    <script src="<?= base_url('public/plugins/bootstrap-notify/bootstrap-notify.js'); ?>"></script>
 
     <!-- SweetAlert Js -->
-    <script src="<?= base_url('public/plugins/sweetalert/sweetalert.min.js') ?>"></script>
+    <script src="<?= base_url('public/plugins/sweetalert/sweetalert.min.js'); ?>"></script>
+
+    <!-- Momen With Locales Js -->
+    <script src="<?= base_url('public/plugins/momentjs/moment-with-locales.min.js'); ?>"></script>
+    
+    <!-- Accounting Js -->
+    <script src="<?= base_url('public/plugins/accounting/accounting.min.js'); ?>"></script>
+    <script src="<?= base_url('public/plugins/accounting/accounting.region.js'); ?>"></script>
 
     <?php if ( isset($scripts) ): ?>
 		<?php foreach ($scripts as $script): ?>

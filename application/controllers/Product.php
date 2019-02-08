@@ -25,6 +25,26 @@ class Product extends MY_Controller {
 	{
 		echo $this->{$this->_model}->datatable_json();
     }
+
+    public function get_by_name_or_code_json()
+    {
+        if ( $this->input->method() === 'post' )
+            $this->_retunr_json_error(lang('invalid_method'));
+
+        $results = $this->{$this->_model}->find([
+            'like' => ['name' => $this->input->get('term')],
+            'or_like' => ['code' => $this->input->get('term')]
+        ]);
+        
+        if ( count($results) > 0 )
+        {
+            foreach ($results as &$result) {
+                $result->with(['stocks']);
+            }
+        }
+        
+        $this->_return_json_success(lang('success_message'), $results);
+    }
     
     public function create()
     {
