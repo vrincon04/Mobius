@@ -251,8 +251,8 @@ $(function () {
                 beforeRemoveCurrent: function(source, form) {
                     swal(
                         {
-                            title: "Eliminar Contacto",
-                            text: "¿Está seguro que desea eliminar este contacto?",
+                            title: "Eliminar Producto",
+                            text: "¿Está seguro que desea eliminar este producto?",
                             type: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#DD6B55",

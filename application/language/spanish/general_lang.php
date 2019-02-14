@@ -214,5 +214,12 @@ $lang = [
     'applied' => 'Aplicado',
     'invoiced_by' => 'Facturado por',
     'charged_by' => 'Cargado por',
-    'paid_by' => 'Pagado por'
+    'paid_by' => 'Pagado por',
+    'compound_product' => 'Producto Compuesto',
+    'inventorial_product' => 'Producto Inventariable',
+    'composition_information' => 'Información de Composición',
+    'component' => 'Componente',
+    'total_cost' => 'Costo Total',
+    'add_other_componet' => 'Agregar otro componente',
+    'initial_entry_for_product_creation' => 'Entrada inicial por creación de producto'
 ];

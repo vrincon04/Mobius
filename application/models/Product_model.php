@@ -59,6 +59,12 @@ class Product_model extends MY_Model {
             'rules' => 'trim|prep_currency_format|required|decimal'
         ],
         [
+            // Cost
+            'field' => 'cost',
+            'label' => 'lang:cost',
+            'rules' => 'trim|prep_currency_format|decimal'
+        ],
+        [
             // Wholesale Price
             'field' => 'wholesale_price',
             'label' => 'lang:wholesale_price',
@@ -80,6 +86,12 @@ class Product_model extends MY_Model {
             // Is Stock
             'field' => 'is_stock',
             'label' => 'lang:is_stock',
+            'rules' => 'trim'
+        ],
+        [
+            // Is Composed
+            'field' => 'is_composed',
+            'label' => 'lang:is_composed',
             'rules' => 'trim'
         ],
         [
@@ -139,13 +151,13 @@ class Product_model extends MY_Model {
 			{$this->_table}.name,
             {$this->_table}.description,
             {$this->_table}.sale,
+            {$this->_table}.cost,
             {$this->_table}.wholesale_price,
             {$this->_table}.quantity_wholesale,
-            categories.name AS category,
             {$this->_table}.is_active,
             {$this->_table}.is_stock,
             {$this->_table}.image_path,
-            MAX(stocks.cost) AS cost,
+            categories.name AS category,
             SUM(stocks.count) AS stock
         ")->from($this->_table)
         ->join('categories', "{$this->_table}.category_id = categories.id", 'INNER')

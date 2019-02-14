@@ -20,8 +20,8 @@
                     <th class="all"><?php echo lang('name'); ?></th>
                     <th class="all"><?php echo lang('category'); ?></th>
                     <th class="all"><?php echo lang('price'); ?></th>
-                    <th class="all"><?php echo lang('wholesale_price'); ?></th>
-                    <th class="all"><?php echo lang('quantity_for_wholesale'); ?></th>
+                    <!--th class="all"><?php echo lang('wholesale_price'); ?></th>
+                    <th class="all"><?php echo lang('quantity_for_wholesale'); ?></th-->
                     <th class="all"><?php echo lang('cost'); ?></th>
                     <th class="all"><?php echo lang('in_stock'); ?></th>
                     <th><?php echo lang('options') ?></th>
@@ -29,8 +29,8 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td></td>
-                    <td></td>
+                    <!--td></td>
+                    <td></td-->
                     <td></td>
                     <td></td>
                     <td></td>

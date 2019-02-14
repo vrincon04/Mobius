@@ -41,6 +41,12 @@ class Item_history_model extends MY_Model {
             'rules' => 'trim|required|is_natural_no_zero|exist[types_transfers.id]'
         ],
         [
+            // Description
+            'field' => 'description',
+            'label' => 'lang:description',
+            'rules' => 'trim'  
+        ],
+        [
             // Count
             'field' => 'count',
             'label' => 'lang:count',

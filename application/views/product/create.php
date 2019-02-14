@@ -11,8 +11,27 @@
                         <?php echo ucwords(lang('product_information')); ?>
                         <small>Los campos marcodo con <span class="text-danger">*</span> son requerido.</small>
                     </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li id="composed-switch">
+                            <div class="switch">
+                                <label for="is_composed"><?php echo lang('compound_product'); ?><input type="checkbox" name="is_composed" id="is_composed" value="1"><span class="lever switch-col-cyan"></span></label>
+                            </div>
+                        </li>
+                        <li id="stock-switch">
+                            <div class="switch">
+                                <label for="is_stock"><?php echo lang('inventorial_product'); ?><input type="checkbox" name="is_stock" id="is_stock" value="1"><span class="lever switch-col-cyan"></span></label>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
                 <div class="body">
+                    <label for="category_id"><?php echo lang('category'); ?> <span class="text-danger">*</span></label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <?php echo form_dropdown('category_id', $categories, set_value('category_id'), 'id="category_id" class="form-control show-tick" required') ?>
+                        </div>
+                    </div>
+
                     <label for="code"><?php echo lang('code'); ?> <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <span class="input-group-addon">
@@ -43,11 +62,21 @@
                             $
                         </span>
                         <div class="form-line">
-                            <input type="text" id="sale" name="sale" class="form-control currency" value="<?php echo set_value('sale'); ?>" placeholder="<?php echo lang('enter_sale'); ?>" required  />
+                            <input type="text" id="sale" name="sale" class="form-control currency" value="<?php echo set_value('sale'); ?>" placeholder="<?php echo lang('enter_price'); ?>" required  />
                         </div>
                     </div>
 
-                    <label for="wholesale_price"><?php echo lang('wholesale_price'); ?> <span class="text-danger">*</span></label>
+                    <label for="sale"><?php echo lang('cost'); ?> <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-addon" style="font-size: 24px;">
+                            $
+                        </span>
+                        <div class="form-line">
+                            <input type="text" id="cost" name="cost" class="form-control currency" value="<?php echo set_value('cost'); ?>" placeholder="<?php echo lang('enter_cost'); ?>" required  />
+                        </div>
+                    </div>
+
+                    <!--label for="wholesale_price"><?php echo lang('wholesale_price'); ?> <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <span class="input-group-addon" style="font-size: 24px;">
                             $
@@ -62,14 +91,7 @@
                         <div class="form-line">
                             <input type="text" id="quantity_wholesale" name="quantity_wholesale" class="form-control number" value="<?php echo set_value('quantity_wholesale'); ?>" placeholder="<?php echo lang('enter_quantity_wholesale'); ?>" required />
                         </div>
-                    </div>
-
-                    <label for="category_id"><?php echo lang('category'); ?> <span class="text-danger">*</span></label>
-                    <div class="form-group">
-                        <div class="form-line">
-                            <?php echo form_dropdown('category_id', $categories, set_value('category_id'), 'id="category_id" class="form-control show-tick" required') ?>
-                        </div>
-                    </div>
+                    </div -->
 
                     <label for="image_path"><?php echo lang('image'); ?></label>
                     <div class="form-group">
@@ -78,13 +100,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="header">
+                <div class="header" id="stock_header" style="display:none;">
                     <h2>
                         <?php echo ucwords(lang('inventory_detail')); ?>
                         <small>Los campos marcodo con <span class="text-danger">*</span> son requerido.</small>
                     </h2>
                 </div>
-                <div class="body">
+                <div class="body" id="stock_body" style="display:none;">
                     <div id="warehousesForm">
                         <!-- Form template-->
                         <div class="row" id="warehousesForm_template">
@@ -164,6 +186,79 @@
                         </div>
                         <!-- /Controls -->
                     </div>
+                </div>
+
+                <div class="header" id="composed_header" style="display:none;">
+                    <h2>
+                        <?php echo ucwords(lang('composition_information')); ?>
+                        <small>Los campos marcodo con <span class="text-danger">*</span> son requerido.</small>
+                    </h2>
+                </div>
+                <div class="body" id="composed_body" style="display:none;">
+                    <table id="composedsForm" class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 65%;">
+                                    <?php echo lang('component'); ?> <span class="text-danger">*</span>
+                                </th>
+                                <th style="width: 15%;" class="text-right">
+                                    <?php echo lang('quantity') ?> <span class="text-danger">*</span>
+                                </th>
+                                <th style="width: 15%;" class="text-right">
+                                    <?php echo lang('cost') ?> <span class="text-danger">*</span>
+                                </th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Form template-->
+                            <tr id="composedsForm_template">
+                                <td>
+                                    <input id="composedsForm_#index#_id" type="hidden" name="components[#index#][id]" value="new"/>
+                                    <div class="form-group m-b-0">
+                                        <div class="form-line">
+                                            <select name="components[#index#][product_id]" id="composedsForm_#index#_product_id" class="form-control ms select2_product" require></select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-right">
+                                    <div class="form-group m-b-0">
+                                        <div class="form-line">
+                                            <input type="text" name="components[#index#][quantity]" id="composedsForm_#index#_quantity" class="form-control number text-right" value="0" placeholder="0" require />
+                                            <input type="hidden" name="components[#index#][cost]" id="composedsForm_#index#_cost" class="form-control text-right" value="0" placeholder="0" />
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-right">
+                                    <span id="item-total-cost">0</span>
+                                </td>
+                                <td class="text-right">
+                                    <a href="javascript:void(0);" id="composedsForm_remove_current">
+                                        <i class="material-icons col-red">delete</i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <!-- /Form template-->
+                            <!-- No forms template -->
+                            <tr id="composedsForm_noforms_template">
+                                <td colspan="4" ></td>
+                            </tr>
+                            <!-- /No forms template-->
+                            <!-- Controls -->
+                            <tr id="composedsForm_controls">
+                                <td>
+                                    <span id="composedsForm_add"><a href="javascript:void(0);"><i class="material-icons col-blue" style="vertical-align: middle;">add</i> <?php echo lang('add_other_componet') ?></a></span>
+                                </td>
+                                <td class="text-right font-bold font-15"><?php echo lang('total_cost');?></td>
+                                <td class="text-right font-bold font-15"><span id="main-total">0.00</span></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <!-- /Controls -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="body">
                     <button class="btn btn-primary waves-effect m-t-50" type="submit">
                         <i class="material-icons" aria-hidden='true'>save</i> <?php echo strtoupper(lang('save')); ?>
                     </button>
@@ -174,3 +269,4 @@
 </div>
 <!-- #END# Vertical Layout -->
 <span id="warehousesPre" data-warehouses='<?php echo json_encode($warehouses) ?>' ></span>
+<span id="compoundsPre" data-compounds='<?php echo json_encode($compounds) ?>' ></span>
