@@ -191,7 +191,8 @@ $(function () {
                             data: function (param) {
                                 var query = {
                                     term: param.term,
-                                    page: param.page
+                                    page: param.page,
+                                    is_stock: 1,
                                 }
             
                                 return query;
@@ -220,14 +221,18 @@ $(function () {
                               }, 0)
                             // Add custom attributes to the <option> tag for the selected option
                             $(data.element).attr('data-in_stock', stock);
+                            $(data.element).attr('data-cost', obj.cost);
                             return data.text;
                         }
                     }).on('change', function(e){
-                        var $selected = $('option:selected',this),
+                        var $selected = $('option:selected',this).data(),
                             $this = $(this),
-                            $stockSpan = $this.closest('tr').find('#item-in-stock');
+                            $tr = $this.closest('tr'),
+                            $stockSpan = $tr.find('#item-in-stock'),
+                            $costInput = $tr.find('[id$="_cost"]');
                         // Set a stock
-                        $stockSpan.text($.LeonSoft.methods.numberFormat($selected.data('in_stock')));
+                        $stockSpan.text($.LeonSoft.methods.numberFormat($selected.in_stock));
+                        $costInput.val($.LeonSoft.methods.numberFormat($selected.cost)); 
                     }).append(newOption);
                     // Calculate total
                     if ( obj.product_id != "-1" )

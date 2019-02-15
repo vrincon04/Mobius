@@ -185,7 +185,7 @@ class Purchase_order extends MY_Controller {
 				$value = preg_replace("/[^0-9.]/", "", $value);
 				$_POST['starters'][$key] += $value;
 
-				if ($_POST['starters'][$key] < $_POST['quantity'][$key])
+				if ((float)$_POST['starters'][$key] < (float)$_POST['quantity'][$key])
 					$count++;
 				
 				if ( ! $this->purchase_order_detail_model->update($key, ['starters' => $_POST['starters'][$key]]) )
@@ -201,13 +201,13 @@ class Purchase_order extends MY_Controller {
 					],
 					'limit' => 1
 				]);
+
 				// Increase the stock.
 				$this->item_history_model->increase($stock->id, $value, lang('adjustment_from_purchase_order_no') . ' <a href="' . base_url("purchase_order/view/{$id}") . '">#' . str_pad($id, 6, '0', STR_PAD_LEFT) . '</a>');
 			}
 
 			if ( $this->{$this->_model}->analyze($this->input->post('purchase_order_id'), $count) )
 			{
-                $this->_on_edit_success($id);
                 $this->_response_success();
 
                 if ( !$this->input->is_ajax_request() )

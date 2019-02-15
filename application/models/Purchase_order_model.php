@@ -207,7 +207,7 @@ class Purchase_order_model extends MY_Model {
     public function partial($id)
     {
         return $this->update($id, [
-            'status' => 'close'
+            'status' => 'partial'
         ]);
     }
 
