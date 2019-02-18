@@ -42,14 +42,17 @@ if ( ! function_exists('sidebar_item'))
      * @param string $color
      * @return string
      */
-    function sidebar_item($url, $text, $icon, $color = '')
+    function sidebar_item($url, $text, $icon, $color = '', $isMaterial = true)
     {
         $r = explode('/', trim($url),1);
         $r = $r[0];
 
         $url = base_url($url);
 
-        return "<li data-controller='{$r}'><a href='{$url}' class='waves-effect waves-block'><i class='material-icons {$color}'>{$icon}</i><span>{$text}</span></a></li>";
+        if ($isMaterial)
+            return "<li data-controller='{$r}'><a href='{$url}' class='waves-effect waves-block'><i class='material-icons {$color}'>{$icon}</i><span>{$text}</span></a></li>";
+        else
+            return "<li data-controller='{$r}'><a href='{$url}' class='waves-effect waves-block'><i class='{$icon} {$color}'></i><span>{$text}</span></a></li>";
     }
 }
 

@@ -53,13 +53,31 @@ class MY_Controller extends CI_Controller {
      * Array that contains the styles and javascript for the create page.
      * @var array
      */
-    protected $_assets_create = array();
+    protected $_assets_create = [
+        'styles' => [
+            'public/plugins/waitme/waitMe.css',
+            'public/plugins/bootstrap-select/css/bootstrap-select.css'
+        ],
+        'scripts' => [
+            'public/plugins/autosize/autosize.js',
+            'public/plugins/jquery-validation/jquery.validate.js'
+        ]
+    ];
     
     /**
      * Array that contains the styles and javascript for the edit page.
      * @var array
      */
-    protected $_assets_edit = array();
+    protected $_assets_edit = [
+        'styles' => [
+            'public/plugins/waitme/waitMe.css',
+            'public/plugins/bootstrap-select/css/bootstrap-select.css'
+        ],
+        'scripts' => [
+            'public/plugins/autosize/autosize.js',
+            'public/plugins/jquery-validation/jquery.validate.js'
+        ]
+    ];
     
     /**
      * Array that contains the styles and javascript for the view page.

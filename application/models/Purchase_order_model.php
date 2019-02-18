@@ -273,6 +273,9 @@ class Purchase_order_model extends MY_Model {
         $this->load->model('purchase_model');
         // Load the purchase detail model.
         $this->load->model('purchase_detail_model');
+        // Load the Product model.
+        $this->load->model('product_model');
+        
         // Get the purchase order.
         $row = $this->get($id)->with(['details']);
         $row->status = 'draft';
@@ -299,6 +302,7 @@ class Purchase_order_model extends MY_Model {
                 unset($detail['id']);
 
                 $this->purchase_detail_model->insert($detail);
+                $this->product_model->update($detail->product_id, ['cost' => $detail->cost]);
             }
 
             return $purchaseId;

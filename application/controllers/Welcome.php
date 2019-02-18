@@ -5,6 +5,9 @@ class Welcome extends MY_Controller {
 
 	public function index()
 	{
+		if (isset($_SESSION['grants']['pos']))
+			redirect('pos');
+			
 		$this->data = [
 			'styles' => [
 				'public/plugins/morrisjs/morris.css',

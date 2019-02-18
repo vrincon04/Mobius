@@ -43,6 +43,21 @@
                 <?php echo sidebar_item('purchase_payment', lang('payment'), 'payment'); ?>
             </ul>
         </li>
+        <!-- Incomes Group -->
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+                <i class="material-icons">call_received</i>
+                <span><?php echo lang('incomes') ?></span>
+            </a>
+            <ul class="ml-menu">
+                <!-- Cash Drawer Model -->
+                <?php echo sidebar_item('cash_drawer', lang('cash_drawer'), 'fas fa-cash-register font-24', '', false) ?>
+                <!-- Purchases Model -->
+                <?php echo sidebar_item('order', lang('order'), 'fas fa-receipt font-24', '', false) ?>
+                <!-- Invoices Model -->
+                <?php echo sidebar_item('invoice', lang('invoice'), 'fas fa-file-invoice font-24', '', false) ?>
+            </ul>
+        </li>
         <!-- Contacts Group -->
         <li>
             <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">

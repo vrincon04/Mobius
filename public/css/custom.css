@@ -114,11 +114,11 @@ h2 .material-icons, a span .material-icons {
     color: #999;
 }
 
-.unpaid {
+.unpaid, .output {
     color: #f44336;
 }
 
-.paid, .applied {
+.paid, .applied, .open, .input {
     color: #2b982b;
 }
 

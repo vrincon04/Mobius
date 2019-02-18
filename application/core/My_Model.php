@@ -223,7 +223,7 @@ class MY_Model extends CI_Model {
         if ( isset($this->_fields['tenant_id']) )
             $data['tenant_id'] = $this->session->userdata('tenant_id');
 
-        if ( isset($this->_fields['user_id']) )
+        if ( isset($this->_fields['user_id']) && !isset($data['user_id']))
             $data['user_id'] = $this->session->userdata('user_id');
 
 		if ( !$skip_validation && !$this->_validate($data) ) { return FALSE; }

@@ -50,7 +50,7 @@ $.Language = {
         ok: 'De Acuerdo',
         clear: 'Despejar',
         choose_option: 'Elija una opción',
-        choose_product: 'Elija una producto',
+        choose_product: 'Elija un producto',
         expected_at_greater_than_date: 'No debe ser anterior a la fecha de Orden de Compra',
         in_stock: 'En existencia',
         sale: 'Venta',
@@ -65,6 +65,7 @@ $.Language = {
         applied: 'Aplicado',
         cash: 'Efectivo',
         credit_card: 'Tarjeta Crédito / Débito',
-        bank_checks: 'Cheque Bancario'
+        bank_checks: 'Cheque Bancario',
+        open: 'Abierto',
     }
 }

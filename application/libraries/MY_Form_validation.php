@@ -99,6 +99,14 @@ class MY_Form_validation extends CI_Form_validation {
         return $query->num_rows() === 0;
     }
 
+    public function two_cash_register_opened($str, $field)
+    {
+        sscanf($field, '%[^.].%[^.]', $table, $field);
+        return isset($this->CI->db)
+            ? ($this->CI->db->limit(1)->get_where($table, array($field => $str, 'status' => 'open'))->num_rows() == 0)
+            : FALSE;
+    }
+
     /**
      * [prep_password_hash description]
      * @param string $password

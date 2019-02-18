@@ -346,7 +346,39 @@ $.LeonSoft.templates = {
                     </h4>
                     ${$.Language.message.in_stock}: <span class="col-cyan font-bold">${$.LeonSoft.methods.numberFormat(stock, 2)}</span> - 
                     ${$.Language.message.sale}: <span class="col-teal font-bold">${$.LeonSoft.helpers.formmatterCurrency(obj.sale)}</span> -
-                    ${$.Language.message.cost}: <span class="col-red font-bold">${$.LeonSoft.helpers.formmatterCurrency(obj.stocks[0].cost)}</span>
+                    ${$.Language.message.cost}: <span class="col-red font-bold">${$.LeonSoft.helpers.formmatterCurrency(obj.cost)}</span>
+
+                </div>
+            </div>
+        </div>
+    </div>`;
+        
+        return $(html);
+    },
+    orderSaleItems: function (data) {
+        var obj = data.obj;
+        if (!data.id) {
+            return data.text;
+        }
+
+        var stock = obj.stocks.reduce(function (total, item) {
+            return parseFloat(total) + parseFloat(item.count)
+          }, 0)
+
+        var html = `<div class="panel panel-default panel-post m-b-0">
+        <div class="panel-heading">
+            <div class="media">
+                <div class="media-left">
+                    <a href="javascript:void(0);">
+                        <img src="${$.LeonSoft.options.URL + obj.image_path}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">
+                        <a href="javascript:void(0);">${obj.name}</a>
+                    </h4>
+                    ${$.Language.message.in_stock}: <span class="col-cyan font-bold">${$.LeonSoft.methods.numberFormat(stock, 2)}</span> - 
+                    ${$.Language.message.sale}: <span class="col-teal font-bold">${$.LeonSoft.helpers.formmatterCurrency(obj.sale)}</span> 
 
                 </div>
             </div>
@@ -526,5 +558,47 @@ $(function () {
     $(document).on('change', 'table.table tbody tr td input.chk-col-orange', function () {
         var checked = $(this).closest('tbody').find('input.chk-col-orange').not(':checked').length > 0;
         $('#check-all').prop('checked', !checked);
+    });
+
+    var $document_number = $('input[name="document_number"]'),
+        $document_type = $('select[name="document_type_id"]'),
+        $first_name = $('input[name="first_name"]'),
+        $last_name = $('input[name="last_name"]'),
+        $middle_name = $('input[name="middle_name"]'),
+        $last_name2 = $('input[name="last_name2"]'),
+        $gender = $('select[name="gender_id"]'),
+        $dob = $('input[name="dob"]'),
+        $phone = $('input[name="phone"]'),
+        $mobile = $('input[name="mobile"]');
+
+    $document_number.on('focusout', function () {
+        var $this = $(this),
+            filter = {
+                number: $this.val(),
+                type: $document_type.val()
+            };
+
+        $.get(`${$.LeonSoft.options.URL}/person/get_by_document_number_json`, filter)
+            .done(function (response) {
+                var obj = JSON.parse(response),
+                    person = {};
+
+                if ( !obj.error )
+                {
+                    if ( obj.data.length = 1)
+                    {
+                        person = obj.data[0];
+
+                        $first_name.val(person.first_name);
+                        $middle_name.val(person.middle_name);
+                        $last_name.val(person.last_name);
+                        $last_name2.val(person.last_name2);
+                        $gender.val(person.gender_id).selectpicker('refresh');
+                        $dob.val($.LeonSoft.helpers.niceDate(person.dob, 'DD MMMM YYYY'));
+                        $phone.val(person.phone);
+                        $mobile.val(person.mobile);
+                    }
+                }
+            });
     });
 });

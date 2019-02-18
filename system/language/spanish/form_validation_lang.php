@@ -39,3 +39,4 @@ $lang['form_validation_greater_than']		= 'El campo {field} debe contener un núm
 $lang['form_validation_greater_than_equal_to']	= 'El campo {field} debe contener un número mayor o igual a {param}.';
 $lang['form_validation_error_message_not_set']	= 'No se ha podido acceder al mensaje de error correspondiente para el campo {field}.';
 $lang['form_validation_in_list']		= 'El campo {field} debe contener uno de estos: {param}.';
+$lang['form_validation_two_cash_register_opened'] = 'El {field} ya tiene una caja registradora aperturada.';
