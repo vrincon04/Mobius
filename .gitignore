@@ -3,6 +3,9 @@
 application/cache/*
 !application/cache/index.html
 
+application/config/production/*
+!application/config/index.html
+
 application/logs/*
 !application/logs/index.html
 

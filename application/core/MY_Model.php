@@ -153,7 +153,7 @@ class MY_Model extends CI_Model {
      * @param string     $object_class
      * @return object|array|null
      */
-    public function find($options = NULL, $debug = FALSE,  $object_class = 'base_register')
+    public function find($options = NULL, $array_result = FALSE, $debug = FALSE,  $object_class = 'base_register')
     {
         $class = strtolower(get_class($this));
         $append = ", '{$class}' AS object_model";
@@ -205,7 +205,7 @@ class MY_Model extends CI_Model {
         if( isset($options['limit']) && $options['limit'] === 1 )
             return $query->row(1, $object_class);
 
-        return $query->result($object_class);
+        return ($array_result) ? $query->result_array() : $query->result($object_class);
     }
 
     /**
@@ -352,7 +352,7 @@ class MY_Model extends CI_Model {
             $options['select'] = "{$this->_table}.{$key_field}, {$this->_table}.{$value_field}";
         }
 
-        $data = $this->find($options);
+        $data = $this->find($options, TRUE);
 
         if ( $optgroup_field === NULL )
         {
