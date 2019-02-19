@@ -85,9 +85,9 @@ $(function () {
                             $quantityInput = $tr.find('[id$="_quantity"]');
                         // Set a price
                         $priceSpan.text($.LeonSoft.helpers.formmatterCurrency($selected.sale));
-                        $totalSpan.text($.LeonSoft.helpers.formmatterCurrency($selected.sale));
+                        $totalSpan.text($.LeonSoft.helpers.formmatterCurrency(Number.parseFloat($selected.sale) * $quantityInput.val()));
                         $saletInput.val($.LeonSoft.methods.numberFormat($selected.sale));
-                        $quantityInput.val($.LeonSoft.methods.numberFormat(1));
+                        
                     }).append(newOption).focus();
                     // Calculate total
                     if ( obj.product_id != "-1" )

@@ -41,6 +41,12 @@ class Warehouse_model extends MY_Model {
             'rules' => 'trim'
         ],
         [
+            // Is Showcase
+            'field' => 'is_showcase',
+            'label' => 'lang:is_showcase',
+            'rules' => 'trim'
+        ],
+        [
             // Is Active
             'field' => 'is_active',
             'label' => 'lang:is_active',
@@ -89,7 +95,8 @@ class Warehouse_model extends MY_Model {
 			id,
 			name,
 			description,
-			is_active
+            is_active,
+            is_modifiable
         ')->from($this->_table)
         ->where('tenant_id', $this->session->userdata('tenant_id'));
 

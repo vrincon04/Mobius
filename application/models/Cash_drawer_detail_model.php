@@ -32,13 +32,19 @@ class Cash_drawer_detail_model extends MY_Model {
             // Payment Method
             'field' => 'payment_method_id',
             'label' => 'lang:payment_method',
-            'rules' => 'trim|required|is_natural_no_zero|exist[payment_methods.id]'
+            'rules' => 'trim|is_natural_no_zero|exist[payment_methods.id]'
         ],
         [
             // Type
             'field' => 'type',
             'label' => 'lang:type',
             'rules' => 'trim|required|in_list[input,output]'
+        ],
+        [
+            // Description
+            'field' => 'description',
+            'label' => 'lang:description',
+            'rules' => 'trim'
         ],
         [
             // Amount

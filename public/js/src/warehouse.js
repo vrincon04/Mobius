@@ -36,16 +36,20 @@ $(function () {
                 },
                 {
                     data: function(data) {
-                        return `
-                            <div class="btn-group font-10">
-                                <a href="${$.LeonSoft.options.URL}/warehouse/edit/${data.id}" target="_blank" class="btn btn-info btn-xs waves-effect" data-toggle="tooltip" data-original-title="${$.Language.message.edit}">
-                                    <i class="material-icons">edit</i>
-                                </a>
-                                <a href="javascript:void(0);" class="btn btn-danger btn-xs delete-btn waves-effect" data-id="${data.id}" data-controller="warehouse" data-toggle="tooltip" data-original-title="${$.Language.message.eliminate}">
-                                    <i class="material-icons">delete</i>
-                                </a>
-                            </div>
-                        `;
+                        if (data.is_modifiable == 1) {
+                            return `
+                                <div class="btn-group font-10">
+                                    <a href="${$.LeonSoft.options.URL}/warehouse/edit/${data.id}" target="_blank" class="btn btn-info btn-xs waves-effect" data-toggle="tooltip" data-original-title="${$.Language.message.edit}">
+                                        <i class="material-icons">edit</i>
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-danger btn-xs delete-btn waves-effect" data-id="${data.id}" data-controller="warehouse" data-toggle="tooltip" data-original-title="${$.Language.message.eliminate}">
+                                        <i class="material-icons">delete</i>
+                                    </a>
+                                </div>
+                            `;
+                        } else {
+                            return '';
+                        }
                     },
                     orderable: false,
                     searchable: false

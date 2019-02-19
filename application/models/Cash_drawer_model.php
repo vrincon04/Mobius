@@ -37,7 +37,7 @@ class Cash_drawer_model extends MY_Model {
             // Currency
             'field' => 'currency_id',
             'label' => 'lang:currency',
-            'rules' => 'trim|required|is_natural_no_zero|exist[currencies.id]'
+            'rules' => 'trim|is_natural_no_zero|exist[currencies.id]'
         ],
         [
             // Opened User

@@ -106,11 +106,12 @@ class Item_history_model extends MY_Model {
     
     public function increase($stockId, $count, $description, $type=1)
     {
+        $value = preg_replace("/[^0-9.]/", "", $count);
         $insert = $this->insert([
-            'count' => $count,
+            'count' => $value,
             'type_id' => $type,
             'stock_id' => $stockId,
-            'balance' => $this->get_balance($stockId) + $count,
+            'balance' => $this->get_balance($stockId) + $value,
             'description' => $description
         ]);
 
@@ -129,16 +130,18 @@ class Item_history_model extends MY_Model {
 
     public function decrease($stockId, $count, $description)
     {
-        if ($this->validate_negative($stockId, $count))
+        $value = preg_replace("/[^0-9.]/", "", $count);
+
+        if ($this->validate_negative($stockId, $value))
         {
             throw new Exception('No cuenta con suficiente articulos', 1);
         }
 
         $insert = $this->insert([
-            'count' => $count,
+            'count' => $value,
             'type_id' => 2,
             'stock_id' => $stockId,
-            'balance' => $this->get_balance($stockId) - $count,
+            'balance' => $this->get_balance($stockId) - $value,
             'description' => $description
         ]);
 

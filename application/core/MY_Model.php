@@ -203,7 +203,7 @@ class MY_Model extends CI_Model {
             echo $this->db->last_query();
 
         if( isset($options['limit']) && $options['limit'] === 1 )
-            return $query->row(1, $object_class);
+            return ($array_result) ? $query->row_array() : $query->row(1, $object_class); 
 
         return ($array_result) ? $query->result_array() : $query->result($object_class);
     }
