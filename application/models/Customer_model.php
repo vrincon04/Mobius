@@ -89,6 +89,7 @@ class Customer_model extends MY_Model {
 			{$this->_table}.id,
 			{$this->_table}.email,
             {$this->_table}.is_active,
+            {$this->_table}.is_modifiable,
             persons.first_name,
             persons.middle_name,
             persons.last_name,

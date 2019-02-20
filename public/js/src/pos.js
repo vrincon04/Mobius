@@ -87,6 +87,7 @@ $(function () {
                         $priceSpan.text($.LeonSoft.helpers.formmatterCurrency($selected.sale));
                         $totalSpan.text($.LeonSoft.helpers.formmatterCurrency(Number.parseFloat($selected.sale) * $quantityInput.val()));
                         $saletInput.val($.LeonSoft.methods.numberFormat($selected.sale));
+                        $.LeonSoft.methods.getSubTotal('[id~=item-total]', $('#main-total'));
                         
                     }).append(newOption).focus();
                     // Calculate total
