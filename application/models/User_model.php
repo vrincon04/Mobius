@@ -157,6 +157,7 @@ class User_model extends MY_Model {
 			{$this->_table}.username,
 			{$this->_table}.email,
             {$this->_table}.status,
+            {$this->_table}.is_modifiable,
             {$this->_table}.avatar_path,
             persons.first_name,
             persons.middle_name,
