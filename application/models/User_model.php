@@ -86,6 +86,11 @@ class User_model extends MY_Model {
             'foreign_key' => 'person_id',
             'model' => 'person_model',
             'field' => 'id'
+        ],
+        'roles' => [
+            'foreign_key' => 'id',
+            'model' => 'user_rol_model',
+            'field' => 'user_id'
         ]
     ];
     

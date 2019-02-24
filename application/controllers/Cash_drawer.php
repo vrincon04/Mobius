@@ -25,6 +25,22 @@ class Cash_drawer extends MY_Controller {
 	{
 		echo $this->{$this->_model}->datatable_json();
     }
+
+    public function get_open_json()
+    {
+        if ( !$this->input->is_ajax_request() )
+            show_404();
+
+        if ( $this->input->method() !== 'get' )
+            $this->_return_json_error(lang('invalid_method'));
+
+        $cash_drawer = $this->{$this->_model}->get_open();
+
+        if ($cash_drawer)
+            $this->_return_json_success(lang('success_message'), $cash_drawer);
+        else
+            $this->_return_json_error(validation_errors()); 
+    }
     
     public function create()
     {
@@ -47,13 +63,77 @@ class Cash_drawer extends MY_Controller {
         parent::create();
     }
 
+    public function register_income()
+    {
+        if ( !$this->input->is_ajax_request() )
+            show_404();
+            
+        if ( $this->input->method() !== 'post' )
+            $this->_return_json_error(lang('invalid_method'));
+
+        // load the cash drawer detail model.
+        $this->load->model('cash_drawer_detail_model');
+
+        $cash_drawer = $this->{$this->_model}->get_open();
+
+        // Insert the detail
+        $insert = $this->cash_drawer_detail_model->input($cash_drawer->id, $this->input->post('amount'), $this->input->post('description'), 1);
+
+        if ($insert)
+            $this->_return_json_success(lang('success_message'), $insert);
+        else
+            $this->_return_json_error(validation_errors());  
+    }
+
+    public function register_expense()
+    {
+        if ( !$this->input->is_ajax_request() )
+            show_404();
+            
+        if ( $this->input->method() === 'get' )
+            $this->_return_json_error(lang('invalid_method'));
+
+        // load the cash drawer detail model.
+        $this->load->model('cash_drawer_detail_model');
+
+        $cash_drawer = $this->{$this->_model}->get_open();
+
+        // Insert the detail
+        $insert = $this->cash_drawer_detail_model->output($cash_drawer->id, $this->input->post('amount'), $this->input->post('description'));
+
+        if ($insert)
+            $this->_return_json_success(lang('success_message'), $insert);
+        else
+            $this->_return_json_error(validation_errors());  
+    }
+
+    public function close()
+    {
+        if ( !$this->input->is_ajax_request() )
+            show_404();
+            
+        if ( $this->input->method() !== 'post' )
+            $this->_return_json_error(lang('invalid_method'));
+
+        // Buscamos la caja aperturada para el usuario que esta autenticado.
+        $cash_drawer = $this->{$this->_model}->get_open();
+        // Cerramos la caja que esta aperturada para el usuario que esta autenticado.
+        $result = $this->{$this->_model}->close($cash_drawer->id, $this->input->post());
+        
+        if ($result)
+            $this->_return_json_success(lang('success_message'), $result);
+        else
+            $this->_return_json_error(validation_errors());
+
+    }
+
     protected function _on_insert_success($id)
     {
         if ( (float) preg_replace("/[^0-9.]/", "", $this->input->post('initial_balance')) > 0 ) {
             // load the cash drawer detail model.
             $this->load->model('cash_drawer_detail_model');
             // Insert the detail
-            $insert = $this->cash_drawer_detail_model->input($id, $this->input->post('initial_balance'), 1, lang('open_cash_drawer'));
+            $insert = $this->cash_drawer_detail_model->input($cash_drawer->id, $this->input->post('amount'), $this->input->post('description'), 1);
 
             if ( $insert )
                 return TRUE;

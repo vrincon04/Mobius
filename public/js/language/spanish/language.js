@@ -57,7 +57,7 @@ $.Language = {
         cost: 'Costo',
         pending: 'Pendiente',
         draft: 'Borrador',
-        close: 'Cerrado',
+        close: 'Cerrar',
         partial: 'Parcial',
         unpaid: 'No pagado',
         paid: 'Saldado',
@@ -67,5 +67,6 @@ $.Language = {
         credit_card: 'Tarjeta Crédito / Débito',
         bank_checks: 'Cheque Bancario',
         open: 'Abierto',
+        closed: 'Cerrado'
     }
 }

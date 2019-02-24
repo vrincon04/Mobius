@@ -178,6 +178,34 @@ class User extends MY_Controller {
 		echo $this->{$this->_model}->datatable_json();
 	}
 
+	public function check_supervisor()
+	{
+		if ( !$this->input->is_ajax_request() )
+			show_404();
+
+		if ( $this->input->method() !== 'post' )
+            $this->_return_json_error(lang('invalid_method'));
+		
+		// load the user model.
+		$this->load->model('user_model');
+		
+		// Validamos que el administrar autoriza la entra a la caja.
+		$user = $this->user_model->auth($this->input->post());
+		
+		if ( !$user )
+        {
+            $this->_return_json_error(lang('wrong_user_or_password'));
+		}
+		
+		$user->with(['roles']);
+		$rol = $user->roles[0]->with(['rol'])->rol;
+
+		if ($rol->name === 'Sellers')
+			$this->_return_json_error(lang('acceso_denegado'));
+		
+		$this->_return_json_success(lang('success_message'), $user);
+	}
+
 	protected function _after_exist($row)
 	{
 		$row->with(['person' => ['city', 'document_type']]);

@@ -11,10 +11,6 @@
             <ul class="dropdown-menu pull-right">
                 <li><a href="javascript:void(0);"><i class="material-icons">person</i><?php echo lang('profile'); ?></a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="javascript:void(0);"><i class="material-icons">add_shopping_cart</i><?php echo lang('new_sale'); ?></a></li>
-                <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i><?php echo lang('sales'); ?></a></li>
-                <li><a href="javascript:void(0);"><i class="material-icons">remove_shopping_cart</i><?php echo lang('pending_sales'); ?></a></li>
-                <li role="separator" class="divider"></li>
                 <li><a href="<?php echo base_url('user/logout'); ?>"><i class="material-icons">input</i><?php echo lang('sign_out'); ?></a></li>
             </ul>
         </div>

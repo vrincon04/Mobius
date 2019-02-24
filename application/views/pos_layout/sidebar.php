@@ -37,21 +37,21 @@
             <ul class="ml-menu">
                 <!-- Input Cash Drawer -->
                 <li>
-                    <a href="javascript:void(0);" id="input_cash">
+                    <a href="#" id="input_cash" data-toggle="modal" data-target="#userModal" data-open="#inputModal">
                         <i class="material-icons">call_received</i>
                         <span><?php echo lang('input_cash_drawer') ?></span>
                     </a>
                 </li>
                 <!-- Output Cash Drawer -->
                 <li>
-                    <a href="javascript:void(0);" id="output_cash">
+                    <a href="#" id="output_cash" data-toggle="modal" data-target="#userModal" data-open="#outputModal">
                         <i class="material-icons">call_made</i>
                         <span><?php echo lang('output_cash_drawer') ?></span>
                     </a>
                 </li>
                 <!-- Close Cash Drawer -->
                 <li>
-                    <a href="javascript:void(0);" id="close_cash">
+                    <a href="#" id="close_cash" data-toggle="modal" data-target="#userModal" data-open="#closeCashDrawerModal">
                         <i class="material-icons">lock</i>
                         <span><?php echo lang('close_cash_drawer') ?></span>
                     </a>

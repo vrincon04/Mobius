@@ -55,13 +55,19 @@ class Cash_drawer_model extends MY_Model {
             // Status
             'field' => 'status',
             'label' => 'lang:status',
-            'rules' => 'trim|required|in_list[open,close]'
+            'rules' => 'trim|required|in_list[open,closed]'
         ],
         [
             // Block Cash
             'field' => 'block_cash',
             'label' => 'lang:block_cash',
             'rules' => 'trim|prep_currency_format|decimal'
+        ],
+        [
+            // Note
+            'field' => 'note',
+            'label' => 'lang:note',
+            'rules' => 'trim'
         ],
         [
             // Opened At
@@ -150,5 +156,29 @@ class Cash_drawer_model extends MY_Model {
         ->where("{$this->_table}.tenant_id", $this->session->userdata('tenant_id'));
 
 		return $this->datatables->generate();
+    }
+
+    public function get_open()
+    {
+        $result = $this->find([
+            'limit' => 1,
+            'where' => [
+                'user_id' => $this->session->userdata('user_id'),
+                'status' => 'open'
+            ]
+        ]);
+
+        if ($result != NULL)
+            return $result->with(['details']);
+        else 
+            return $result;
+    }
+
+    public function close($id, $data)
+    {
+        $data['status'] = 'closed';
+        $data['closed'] = date('Y-m-d H:i:s');
+
+        return $this->update($id, $data);
     }
 }

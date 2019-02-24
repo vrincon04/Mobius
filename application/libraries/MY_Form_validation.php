@@ -136,7 +136,7 @@ class MY_Form_validation extends CI_Form_validation {
      */
     public function prep_currency_format($number)
     {
-        $number = preg_replace("/[^0-9.]/", "", $number);
+        $number = preg_replace("/[^0-9.-]/", "", $number);
         return number_format($number, 2, '.', '');
     }
 

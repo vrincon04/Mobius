@@ -83,13 +83,13 @@ class Cash_drawer_detail_model extends MY_Model {
         ]
     ];
 
-    public function input($cash_drawer, $amount, $payment_method, $description)
+    public function input($cash_drawer, $amount, $description, $payment_method)
     {
         $data = [
             'cash_drawer_id' => $cash_drawer,
             'description' => $description,
             'type' => 'input',
-            'amount' => $amount,
+            'amount' => preg_replace("/[^0-9.]/", "", $amount),
             'payment_method' => $payment_method
         ];
 
@@ -98,11 +98,12 @@ class Cash_drawer_detail_model extends MY_Model {
 
     public function output($cash_drawer, $amount, $description)
     {
+        $value = (float) preg_replace("/[^0-9.]/", "", $amount);
         $data = [
             'cash_drawer_id' => $cash_drawer,
             'description' => $description,
             'type' => 'output',
-            'amount' => -1 * $amount,
+            'amount' => ($value * -1),
             'payment_method' => 1
         ];
 

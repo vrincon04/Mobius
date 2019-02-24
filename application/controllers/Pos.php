@@ -15,7 +15,13 @@ class Pos extends MY_Controller {
 
 	public function index()
 	{
+		// Cargamos el modelo de Cliente.
 		$this->load->model('customer_model');
+		// Cargamos el modelo de Caja Registradora.
+		$this->load->model('cash_drawer_model');
+
+		if ( $this->cash_drawer_model->get_open() == NULL )
+			redirect("{$this->_controller}/cash_register_not_opened");
 
 		$pre_products = array();
         if ( isset($_POST['products']) )
@@ -39,5 +45,14 @@ class Pos extends MY_Controller {
 			'products' => $pre_products
 		];
         $this->_template("{$this->_controller}/list", $this->_get_assets('create', $this->data), 'pos_layout/main');
+	}
+
+	public function cash_register_not_opened()
+	{
+		$this->load->view('errors/html/error_cash_drawer', [
+			'heading' => lang('cash_register_not_opened'),
+			'message' => lang('contact_your_supervisor_or_administrator'),
+			'code' => 601
+		]);
 	}
 }
