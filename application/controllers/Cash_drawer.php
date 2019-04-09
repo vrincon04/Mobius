@@ -120,10 +120,11 @@ class Cash_drawer extends MY_Controller {
         // Cerramos la caja que esta aperturada para el usuario que esta autenticado.
         $result = $this->{$this->_model}->close($cash_drawer->id, $this->input->post());
         
-        if ($result)
+        if ($result) {
             $this->_return_json_success(lang('success_message'), $result);
-        else
+        } else {
             $this->_return_json_error(validation_errors());
+        }
 
     }
 
@@ -133,7 +134,7 @@ class Cash_drawer extends MY_Controller {
             // load the cash drawer detail model.
             $this->load->model('cash_drawer_detail_model');
             // Insert the detail
-            $insert = $this->cash_drawer_detail_model->input($cash_drawer->id, $this->input->post('amount'), $this->input->post('description'), 1);
+            $insert = $this->cash_drawer_detail_model->input($id, $this->input->post('initial_balance'), lang('open_cash_drawer'), 1);
 
             if ( $insert )
                 return TRUE;

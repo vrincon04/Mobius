@@ -68,7 +68,7 @@ class Purchase_model extends MY_Model {
             // Status
             'field' => 'status',
             'label' => 'lang:status',
-            'rules' => 'trim|in_list[draft,pending,partial,close]'
+            'rules' => 'trim|in_list[canceled,draft,paid,partial,unpaid]'
         ],
         [
             // Total

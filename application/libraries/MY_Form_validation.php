@@ -124,7 +124,6 @@ class MY_Form_validation extends CI_Form_validation {
     */
     public function prep_date_formart($string)
     {
-        echo $string;
         $date = DateTime::createFromFormat("d F Y", str_replace($this->months[$this->CI->session->userdata('lang')], $this->monthsReplace, $string));
         return $date->format('Y-m-d H:i:s');
     }

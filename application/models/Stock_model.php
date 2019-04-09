@@ -88,7 +88,7 @@ class Stock_model extends MY_Model {
             'field' => 'id'
         ],
         'product' => [
-            'foreign_key' => 'produc_id',
+            'foreign_key' => 'product_id',
             'model' => 'product_model',
             'field' => 'id'
         ]

@@ -95,6 +95,12 @@ class Product_model extends MY_Model {
             'rules' => 'trim'
         ],
         [
+            // Is Salable
+            'field' => 'is_salable',
+            'label' => 'lang:is_salable',
+            'rules' => 'trim'
+        ],
+        [
             // Image Path
             'field' => 'image_path',
             'label' => 'lang:image_path',
@@ -133,6 +139,11 @@ class Product_model extends MY_Model {
             'foreign_key' => 'id',
             'model' => 'stock_model',
             'field' => 'product_id' 
+        ],
+        'components' => [
+            'foreign_key' => 'id',
+            'model' => 'product_component_model',
+            'field' => 'product_id'
         ]
 
     ];

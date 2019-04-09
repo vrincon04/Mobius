@@ -78,7 +78,7 @@ $(function () {
             
         $('.datepicker').bootstrapMaterialDatePicker({
             lang: $.Language.lang,
-            format: 'DD/MM/YYYY',
+            format: 'DD MMMM YYYY',
             clearButton: true,
             weekStart: 1,
             time: false,

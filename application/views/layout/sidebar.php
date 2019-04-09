@@ -90,14 +90,38 @@
 
         <!-- CONFIGURATIONS -->
         <li class="header"><?php echo lang('configurations'); ?></li>
-        <!-- User Module -->
-        <?php echo sidebar_item('user', lang('users'), 'person') ?>
-        <!-- Rol Module -->
-        <?php echo sidebar_item('role', lang('roles'), 'vpn_lock') ?>
-        <!-- Grant Module -->
-        <?php echo sidebar_item('grant', lang('grants'), 'security') ?>
         <!-- tenant Module -->
         <?php echo sidebar_item('tenant', lang('company'), 'business') ?>
+        <!-- Organization Group -->
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+                <i class="material-icons">account_balance</i>
+                <span><?php echo lang('organization') ?></span>
+            </a>
+            <ul class="ml-menu">
+                <!-- Department Model -->
+                <?php echo sidebar_item('department', lang('departments'), 'business_center') ?>
+                <!-- Area Model -->
+                <?php echo sidebar_item('area', lang('areas'), 'fullscreen'); ?>
+                <!-- Employee Model -->
+                <?php echo sidebar_item('employee', lang('employees'), 'people'); ?>
+            </ul>
+        </li>
+        <!-- Access Group -->
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+                <i class="material-icons">settings_remote</i>
+                <span><?php echo lang('access'); ?></span>
+            </a>
+            <ul class="ml-menu">
+                <!-- User Module -->
+                <?php echo sidebar_item('user', lang('users'), 'person') ?>
+                <!-- Rol Module -->
+                <?php echo sidebar_item('role', lang('roles'), 'vpn_lock') ?>
+                <!-- Grant Module -->
+                <?php echo sidebar_item('grant', lang('grants'), 'security') ?>
+            </ul>
+        </li>
         <!-- #END# CONFIGURATIONS -->
     </ul>
 </div>

@@ -145,6 +145,9 @@ class MY_Controller extends CI_Controller {
      */
 	public function index()
 	{
+        // Set the sistema locale configuration.
+        $this->set_locale();
+        
 		$this->_template("{$this->_controller}/list", $this->_get_assets('list', $this->data));
     }
     

@@ -48,7 +48,7 @@ class Grant_model extends MY_Model {
      * @param string $object_class
      * @return mixed
      */
-    public function find($options = NULL, $debug = FALSE,  $object_class = 'base_register')
+    public function find($options = NULL, $array_result = false, $debug = FALSE,  $object_class = 'base_register')
     {
         if ( !isset($options['select']) )
         {

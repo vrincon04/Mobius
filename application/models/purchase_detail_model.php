@@ -51,7 +51,7 @@ class Purchase_detail_model extends MY_Model {
             'field' => 'total',
             'label' => 'lang:total',
             'rules' => 'trim|prep_currency_format|required|decimal'
-        ],
+        ]
     ];
 
     /**

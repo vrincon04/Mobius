@@ -12,14 +12,28 @@
                         <small>Los campos marcodo con <span class="text-danger">*</span> son requerido.</small>
                     </h2>
                     <ul class="header-dropdown m-r--5">
+                        <li id="salable-switch">
+                            <div class="switch">
+                                <label for="is_salable"><?php echo lang('salable_product'); ?>
+                                    <input type="checkbox" name="is_salable" id="is_salable" value="1" checked />
+                                    <span class="lever switch-col-cyan"></span>
+                                </label>
+                            </div>
+                        </li>
                         <li id="composed-switch">
                             <div class="switch">
-                                <label for="is_composed"><?php echo lang('compound_product'); ?><input type="checkbox" name="is_composed" id="is_composed" value="1"><span class="lever switch-col-cyan"></span></label>
+                                <label for="is_composed"><?php echo lang('compound_product'); ?>
+                                    <input type="checkbox" name="is_composed" id="is_composed" value="1" />
+                                    <span class="lever switch-col-cyan"></span>
+                                </label>
                             </div>
                         </li>
                         <li id="stock-switch">
                             <div class="switch">
-                                <label for="is_stock"><?php echo lang('inventorial_product'); ?><input type="checkbox" name="is_stock" id="is_stock" value="1"><span class="lever switch-col-cyan"></span></label>
+                                <label for="is_stock"><?php echo lang('inventorial_product'); ?>
+                                    <input type="checkbox" name="is_stock" id="is_stock" value="1" />
+                                    <span class="lever switch-col-cyan"></span>
+                                </label>
                             </div>
                         </li>
                     </ul>

@@ -5,10 +5,12 @@ $(function () {
         $outputButton = $('#output-button'),
         $userButton = $('#user-button'),
         $closeButton = $('#close-button'),
+        $sendOrderButton = $('#send-order-button'),
         $inputForm = $('#input-form'),
         $outputForm = $('#output-form'),
         $userForm = $('#check-user-form'),
-        $closeForm = $('#close-form');
+        $closeForm = $('#close-form'),
+        $orderForm = $('#order-form');
 
     $('#output-form, #input-form, #check-user-form, close-form').validate({
         highlight: function (input) {
@@ -171,11 +173,30 @@ $(function () {
 
         $outputForm[0].reset();
     });
+
+    $sendOrderButton.on('click', function() {
+        $.post(`${$.LeonSoft.options.URL}/pos/send_order`, $orderForm.serialize())
+            .done(function(respuesta) {
+                var obj = JSON.parse(respuesta);
+
+                if ( obj.error === true)
+                {
+                    $.LeonSoft.methods.sweetNotification(
+                        $.Language.title.error,
+                        obj.message, 
+                        'danger'
+                    );
+
+                    return;
+                }
+
+                $('.btn-close-modal').trigger('click');
+            });
+    });
+
     // --------------------------------- [END] Form Send Event [END] ---------------------------------
 
     // Fin de las funciones y variables que tienen que ver con la funcionalidad de la caja registradora.
-
-    var $orderForm = $('#order-form');
 
     // Validamos si existe un formulario en la vista.
     if ( $orderForm.size() > 0 ) {

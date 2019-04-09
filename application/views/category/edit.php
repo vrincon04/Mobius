@@ -4,7 +4,7 @@
 <!-- Vertical Layout -->
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <form id="role-form" method="post" enctype="multipart/form-data" class="form-validate">
+        <form id="category-form" method="post" enctype="multipart/form-data" class="form-validate">
             <div class="card">
                 <div class="header">
                     <h2>
