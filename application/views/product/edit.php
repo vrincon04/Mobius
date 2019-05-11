@@ -11,8 +11,41 @@
                         <?php echo ucwords(lang('product_information')); ?>
                         <small>Los campos marcodo con <span class="text-danger">*</span> son requerido.</small>
                     </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li id="salable-switch">
+                            <div class="switch">
+                                <label for="is_salable"><?php echo lang('salable_product'); ?>
+                                    <input type="checkbox" name="is_salable" id="is_salable" value="1" <?php echo set_checkbox('is_salable', '1', ($product->is_salable == '1')) ?> disabled />
+                                    <span class="lever switch-col-cyan"></span>
+                                </label>
+                            </div>
+                        </li>
+                        <li id="composed-switch">
+                            <div class="switch">
+                                <label for="is_composed"><?php echo lang('compound_product'); ?>
+                                    <input type="checkbox" name="is_composed" id="is_composed" value="1" <?php echo set_checkbox('is_composed', '1', ($product->is_composed == '1')) ?> disabled />
+                                    <span class="lever switch-col-cyan"></span>
+                                </label>
+                            </div>
+                        </li>
+                        <li id="stock-switch">
+                            <div class="switch">
+                                <label for="is_stock"><?php echo lang('inventorial_product'); ?>
+                                    <input type="checkbox" name="is_stock" id="is_stock" value="1" <?php echo set_checkbox('is_stock', '1', ($product->is_stock == '1')) ?> disabled />
+                                    <span class="lever switch-col-cyan"></span>
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
                 <div class="body">
+                    <label for="category_id"><?php echo lang('category'); ?> <span class="text-danger">*</span></label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <?php echo form_dropdown('category_id', $categories, set_value('category_id', $product->category_id), 'id="category_id" class="form-control show-tick" required') ?>
+                        </div>
+                    </div>
+
                     <label for="code"><?php echo lang('code'); ?> <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <span class="input-group-addon">
@@ -47,7 +80,17 @@
                         </div>
                     </div>
 
-                    <label for="wholesale_price"><?php echo lang('wholesale_price'); ?> <span class="text-danger">*</span></label>
+                    <label for="cost"><?php echo lang('cost'); ?> <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-addon" style="font-size: 24px;">
+                            $
+                        </span>
+                        <div class="form-line">
+                            <input type="text" id="cost" name="cost" class="form-control currency" value="<?php echo set_value('cost', $product->cost); ?>" placeholder="<?php echo lang('enter_cost'); ?>" required  />
+                        </div>
+                    </div>
+
+                    <!--label for="wholesale_price"><?php echo lang('wholesale_price'); ?> <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <span class="input-group-addon" style="font-size: 24px;">
                             $
@@ -62,14 +105,7 @@
                         <div class="form-line">
                             <input type="text" id="quantity_wholesale" name="quantity_wholesale" class="form-control number" value="<?php echo set_value('quantity_wholesale', $product->quantity_wholesale); ?>" placeholder="<?php echo lang('enter_quantity_wholesale'); ?>" required />
                         </div>
-                    </div>
-
-                    <label for="category_id"><?php echo lang('category'); ?> <span class="text-danger">*</span></label>
-                    <div class="form-group">
-                        <div class="form-line">
-                            <?php echo form_dropdown('category_id', $categories, set_value('category_id', $product->category_id), 'id="category_id" class="form-control show-tick" required') ?>
-                        </div>
-                    </div>
+                    </div -->
 
                     <label for="image_path"><?php echo lang('image'); ?></label>
                     <div class="form-group">

@@ -80,7 +80,7 @@
                         </div>
                     </div>
 
-                    <label for="sale"><?php echo lang('cost'); ?> <span class="text-danger">*</span></label>
+                    <label for="cost"><?php echo lang('cost'); ?> <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <span class="input-group-addon" style="font-size: 24px;">
                             $
