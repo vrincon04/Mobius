@@ -147,10 +147,10 @@ class Cash_drawer extends MY_Controller {
 
     protected function _after_exist($row)
 	{
-        if ($row->status == 'close')
+        if ($row->status == 'closed')
             $row->with(['details', 'currency', 'user' => ['person'], 'open' => ['person'], 'close' => ['person']]);
         else 
-        $row->with(['details', 'currency', 'user' => ['person'], 'open' => ['person']]);
+            $row->with(['details', 'currency', 'user' => ['person'], 'open' => ['person']]);
 		return $row;
 	}
 }

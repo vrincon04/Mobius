@@ -40,7 +40,7 @@
                     <div class="col-md-4 col-xs-12">
                         <label for="closed_at"><?php echo lang('closed_at')?></label>
                         <br>
-                        <span><?php echo ($cash_drawer->status == 'close') ? ucwords(strftime("%A %d %B %Y, %I:%M %p", strtotime($cash_drawer->closed_at))) : lang('pending'); ?></span>
+                        <span><?php echo ($cash_drawer->status == 'closed') ? ucwords(strftime("%A %d %B %Y, %I:%M %p", strtotime($cash_drawer->closed_at))) : lang('pending'); ?></span>
                     </div>
                 </div>
                 <div class="row">
@@ -57,7 +57,7 @@
                     <div class="col-md-4 col-xs-12">
                         <label for="closed_by"><?php echo lang('closed_by')?></label>
                         <br>
-                        <span><?php echo ($cash_drawer->status == 'close') ? "{$cash_drawer->close->person->first_name} {$cash_drawer->close->person->last_name}" : lang('pending') ?></span>
+                        <span><?php echo ($cash_drawer->status == 'closed') ? "{$cash_drawer->close->person->first_name} {$cash_drawer->close->person->last_name}" : lang('pending') ?></span>
                     </div>
                 </div>
             </div>

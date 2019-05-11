@@ -240,7 +240,6 @@ $(function () {
                                 var query = {
                                     term: param.term,
                                     page: param.page,
-                                    is_stock: 1,
                                 }
             
                                 return query;

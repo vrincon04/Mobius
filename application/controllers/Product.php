@@ -33,6 +33,9 @@ class Product extends MY_Controller {
 
         $filter = [
             'like' => ['name' => $this->input->get('term')],
+            'where' => [
+                'is_salable' => true
+            ]
             //'or_like' => ['code' => $this->input->get('term')]
         ];
         // Verificamos si exito la llave is_stock
