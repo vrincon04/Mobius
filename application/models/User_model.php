@@ -60,15 +60,15 @@ class User_model extends MY_Model {
         ],
         [
             // Created At
-            'field'     => 'created_at',
-            'label'     => 'lang:created_at',
-            'rules'     => 'trim'
+            'field' => 'created_at',
+            'label' => 'lang:created_at',
+            'rules' => 'trim'
         ],
         [
             // Updated At
-            'field'     => 'updated_at',
-            'label'     => 'lang:updated_at',
-            'rules'     => 'trim'
+            'field' => 'updated_at',
+            'label' => 'lang:updated_at',
+            'rules' => 'trim'
         ]
     ];
 

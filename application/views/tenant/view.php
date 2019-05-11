@@ -209,7 +209,7 @@
                             </form>
                         </div>
                         <div role="tabpanel" class="tab-pane fade in" id="taxes">
-                            <form id="form-taxes" class="form-validate" method="post" enctype="multipart/form-data">
+                            <form id="form-taxes" class="form-validate" method="post" enctype="multipart/form-data" action="<?php echo base_url('tenant/tax'); ?>">
                                 <div>
                                     <div class="header">
                                         <h2>
@@ -218,12 +218,88 @@
                                         </h2>
                                     </div>
                                     <div class="body">
-                                        <label for="tin"><?php echo lang('tin'); ?> <span class="text-danger">*</span></label>
+                                        <label for="tin"><?php echo lang('tin_or_identification_card'); ?> <span class="text-danger">*</span></label>
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <input type="text" id="tin" name="tin" class="form-control" value="<?php echo set_value('tin', $tenant->tin); ?>" placeholder="<?php echo lang('enter_tin'); ?>" required maxlength="250" />
                                             </div>
                                         </div>
+
+                                        <label for="tax"><?php echo lang('tax')?></label>
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <div class="switch">
+                                                    <label for="is_tax"><?php echo lang('has_tax'); ?>
+                                                        <input type="checkbox" name="is_tax" id="is_tax" value="1" <?php echo set_checkbox('is_tax', '1', ($tenant->is_tax == '1')); ?> <?php echo ($tenant->is_tax == '1') ? 'disabled' : ''; ?> />
+                                                        <span class="lever switch-col-cyan"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <h5 class="tax_switch"><?php echo lang('tax_voucher_number'); ?></h5>
+                                        <div class="table-responsive tax_switch">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 25%;"><?php echo lang('name'); ?></th>
+                                                        <th style="width: 15%;"><?php echo lang('prefix'); ?></th>
+                                                        <th><?php echo lang('expired_at'); ?></th>
+                                                        <th style="width: 12%;"><?php echo lang('from'); ?></th>
+                                                        <th style="width: 12%;"><?php echo lang('to'); ?></th>
+                                                        <th><?php echo lang('active'); ?></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($tax_types as $tax_type ): ?>
+                                                        <tr>
+                                                            <td><?php echo lang($tax_type->lang); ?></td>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <div class="form-line">
+                                                                        <input type="text" name="prefix[<?php echo $tax_type->type_id ?>]" class="form-control" value="<?php echo set_value('prefix', $tax_type->prefix); ?>" placeholder="B01" />
+                                                                    </div>
+                                                                </div>    
+                                                            </td>
+                                                            <td id="bs_datepicker_container">
+                                                                <div class="form-group">
+                                                                    <div class="form-line">
+                                                                        <input type="text" name="expired_at[<?php echo $tax_type->type_id ?>]" class="form-control input-datepicker" value="<?php echo strftime("%d %B %Y", strtotime(set_value('expired_at', $tax_type->expired_at))); ?>" readonly />
+                                                                    </div>
+                                                                </div>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <div class="form-line">
+                                                                        <input type="number" name="from[<?php echo $tax_type->type_id ?>]" class="form-control" value="<?php echo set_value('from', $tax_type->from); ?>" min="0" placeholder="0" />
+                                                                    </div>
+                                                                </div>  
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <div class="form-line">
+                                                                        <input type="number" name="to[<?php echo $tax_type->type_id ?>]" class="form-control" value="<?php echo set_value('to', $tax_type->to); ?>" min="0" placeholder="0" />
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <div class="switch">
+                                                                        <label for="is_active_<?php echo $tax_type->type_id ?>">
+                                                                            <input type="checkbox" name="is_active[<?php echo $tax_type->type_id ?>]" id="is_active_<?php echo $tax_type->type_id ?>" value="1" <?php echo set_checkbox('is_tax', '1', ($tax_type->is_active == '1')); ?> />
+                                                                            <span class="lever switch-col-cyan"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        <tr>
+                                                    <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <button class="btn btn-primary waves-effect" type="submit">
+                                            <i class="material-icons">save</i> <?php echo strtoupper(lang('save')); ?>
+                                        </button>
                                     </div>
                                 </div>
                             </form>

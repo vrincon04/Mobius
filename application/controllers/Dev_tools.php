@@ -29,7 +29,7 @@ class Dev_tools extends CI_Controller {
         echo phpinfo();
     }
 
-    public function test_printer()
+    public function print()
     {
         try {
             $this->load->library('ReceiptPrint');
@@ -58,24 +58,5 @@ class Dev_tools extends CI_Controller {
         } finally {
             $this->receiptprint->close_after_exception();
         }
-    }
-
-
-    public function soap()
-    {
-        $url = "http://137.135.64.202:7067/DynamicsNAV110WS/WS/Besten%2C%20SRL/Codeunit/GAEFunctionsManagement?wsdl";
-        $user = "Besten-VM\Ylaborda";
-        $pass = "B3stenC0rp";
-
-        try {
-            $client = new \SoapClient($url, [
-                'login' => $user,
-                'password' => $pass,
-    
-            ]);
-        } catch (\Exception $e) {
-            throw $e;
-        }
-        
     }
 }

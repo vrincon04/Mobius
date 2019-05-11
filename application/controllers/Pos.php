@@ -19,11 +19,32 @@ class Pos extends MY_Controller {
 		$this->load->model('customer_model');
 		// Cargamos el modelo de Caja Registradora.
 		$this->load->model('cash_drawer_model');
+		// Cargamos el modelo del Area.
+		$this->load->model('area_model');
+
+		/**
+		 * Buscamos todos los empelados que pertenescan a una area habil 
+		 * para el POS.
+		 */
+		$areas = $this->area_model->find([
+			'where' => [
+				'is_pos' => true
+			]
+		]);
+
+		$employees = [];
+
+		$pre_products = [];
+		
+		foreach ($areas as $area) {
+
+			$employees = array_merge($employees, $area->with(['employees'], TRUE)->employees);
+		}
 
 		if ( $this->cash_drawer_model->get_open() == NULL )
 			redirect("{$this->_controller}/cash_register_not_opened");
 
-		$pre_products = array();
+		
         if ( isset($_POST['products']) )
             $pre_products = $_POST['products'];
 
@@ -42,6 +63,7 @@ class Pos extends MY_Controller {
                 'public/plugins/jquery-maskMoney/jquery.region.maskMoney.js'
 			],
 			'customers' => $this->customer_model->all(),
+			'employees' => $employees,
 			'products' => $pre_products
 		];
 

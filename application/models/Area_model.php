@@ -86,6 +86,11 @@ class Area_model extends MY_Model {
             'foreign_key' => 'department_id',
             'model' => 'department_model',
             'field' => 'id'
+        ],
+        'employees' => [
+            'foreign_key' => 'id',
+            'model' => 'employee_model',
+            'field' => 'area_id'
         ]
     ];
 

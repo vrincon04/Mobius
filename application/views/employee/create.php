@@ -32,7 +32,7 @@
                     <label for="document_type_id"><?php echo lang('document_type'); ?> <span class="text-danger">*</span></label>
                     <div class="form-group">
                         <div class="form-line">
-                            <?php echo form_dropdown('document_type_id', $documents_types, set_value('document_type_id'), 'id="document_type_id" class="form-control show-tick" required') ?>
+                            <?php echo form_dropdown('document_type_id', $documents_types, set_value('document_type_id', 1), 'id="document_type_id" class="form-control show-tick" required') ?>
                         </div>
                     </div>
 

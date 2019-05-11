@@ -103,9 +103,9 @@ class MY_Model extends CI_Model {
      * @param null|array $options
      * @return array|null|object
      */
-	public function all($options = NULL)
+	public function all($options = NULL, $array_result = FALSE, $debug = FALSE)
 	{
-		return $this->find($options);
+		return $this->find($options, $array_result, $debug);
 	}
 
     /**
@@ -176,6 +176,9 @@ class MY_Model extends CI_Model {
 
         if ( isset($options['where']) )
             $this->db->where($options['where']);
+
+        if ( isset($options['or_where']) )
+            $this->db->or_where($options['or_where']['key'], $options['or_where']['value'], FALSE);
         if ( isset($options['where_in']) )
             $this->db->where_in($options['where_in']['key'], $options['where_in']['values']);
 
@@ -200,7 +203,11 @@ class MY_Model extends CI_Model {
         $query = $this->db->get();
 
         if ( $debug )
+        {
             echo $this->db->last_query();
+            exit();
+        }
+            
 
         if( isset($options['limit']) && $options['limit'] === 1 )
             return ($array_result) ? $query->row_array() : $query->row(1, $object_class); 

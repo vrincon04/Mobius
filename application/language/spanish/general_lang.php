@@ -288,5 +288,23 @@ $lang = [
     'areas' => 'Áreas',
     'area' => 'Área',
     'employees' => 'Empleados',
-    'employee' => 'Empleado'
+    'employee' => 'Empleado',
+    'dispatcher' => 'Despachador(a)',
+    'tin_or_identification_card' => 'RNC o Cédula',
+    'tax' => 'Impuesto',
+    'has_tax' => 'Su Empresa considera Impuesto?',
+    'tax_voucher_number' => 'Números Fiscales',
+    'prefix' => 'Prefijo',
+    'from' => 'Desde',
+    'to' => 'Hasta',
+    'fiscal_credit' => 'Crédito Fiscal',
+    'final_consumers' => 'Consumidores Finales',
+    'debit_note' => 'Nota Débito',
+    'credit_note' => 'Nota Crédito',
+    'informal_providers' => 'Proveedores Informales',
+    'single_registration_income' => 'Registro Único Ingreso',
+    'minor_expenses' => 'Gastos Menores',
+    'special_regime_trib' => 'Régimen Especial Trib.',
+    'goverments' => 'Gubernamentales'
+
 ]; 

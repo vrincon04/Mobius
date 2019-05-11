@@ -33,6 +33,13 @@
                             <input type="password" id="password" name="password" class="form-control" placeholder="<?php echo lang('enter_password'); ?>" minlength="4" />
                         </div>
                     </div>
+
+                    <label for="rol_id"><?php echo lang('roles'); ?> <span class="text-danger">*</span></label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <?php echo form_dropdown('rol_id', $roles, set_value('rol_id', $rol->rol_id), 'id="rol_id" class="form-control show-tick" required') ?>
+                        </div>
+                    </div>
                     
                 </div>
                 <div class="header">
@@ -94,32 +101,28 @@
                     <label for="dob"><?php echo lang('dob'); ?></label>
                     <div class="form-group">
                         <div class="form-line">
-                            <input type="text" id="dob" name="dob" class="datepicker form-control" value="<?php echo set_value('dob', date('d/m/Y', strtotime($user->person->dob))); ?>" placeholder="<?php echo lang('enter_dob'); ?>"  />
+                            <input type="text" id="dob" name="dob" class="datepicker form-control" value="<?php echo strftime("%d %B %Y", strtotime(set_value('expired_at', $user->person->dob))); ?>" placeholder="<?php echo lang('enter_dob'); ?>"  />
                         </div>
                     </div>
 
                     <label for="country_id"><?php echo lang('country'); ?> <span class="text-danger">*</span></label>
                     <div class="form-group">
                         <div class="form-line">
-                            <?php echo form_dropdown('country_id', $countries, set_value('country_id'), 'id="country_id" class="form-control show-tick" required') ?>
+                            <?php echo form_dropdown('country_id', $countries, set_value('country_id', $user->person->city->state->country_id), 'id="country_id" class="form-control show-tick" required') ?>
                         </div>
                     </div>
 
                     <label for="state_id"><?php echo lang('state'); ?> <span class="text-danger">*</span></label>
                     <div class="form-group">
                         <div class="form-line">
-                            <select class="form-control show-tick" name="state_id" id="state_id" required data-live-search="true">
-                                <option value=""><?php echo lang('choose_an_option'); ?></option>
-                            </select>
+                            <?php echo form_dropdown('state_id', $states, set_value('state_id', $user->person->city->state_id), 'id="state_id" class="form-control show-tick" required data-live-search="true"') ?>
                         </div>
                     </div>
 
                     <label for="city_id"><?php echo lang('city'); ?> <span class="text-danger">*</span></label>
                     <div class="form-group">
                         <div class="form-line">
-                            <select class="form-control show-tick" name="city_id" id="city_id" required data-city="<?php echo $user->person->city_id; ?>" data-live-search="true">
-                                <option value=""><?php echo lang('choose_an_option'); ?></option>
-                            </select>
+                            <?php echo form_dropdown('city_id', $cities, set_value('city_id', $user->person->city_id), 'id="city_id" class="form-control show-tick" required data-live-search="true"') ?>
                         </div>
                     </div>
 

@@ -15,7 +15,7 @@ class User_rol_model extends MY_Model {
      * Primary keies for this model.
      * @var array
      */
-    protected $_pk = ['user_id','role_id'];
+    protected $_pk = ['user_id','rol_id'];
 
     /**
      * Validation rules for this model.

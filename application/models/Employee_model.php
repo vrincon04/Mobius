@@ -114,7 +114,7 @@ class Employee_model extends MY_Model {
             ->from($this->_table)
             ->join('persons', "{$this->_table}.person_id = persons.id")
             ->join('areas', "{$this->_table}.area_id = areas.id")
-            ->join('users', "{$this->_table}.user_id = users.id", "LEFT")
+            ->join('users', "{$this->_table}.person_id = users.person_id", "LEFT")
             ->where("{$this->_table}.tenant_id", $this->session->userdata('tenant_id'));
         
         return $this->datatables->generate();

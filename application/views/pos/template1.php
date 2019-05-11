@@ -23,6 +23,7 @@
                             <input type="text" id="date" name="date" class="form-control input-datepicker" value="<?php echo strftime("%d %B %Y"); ?>" placeholder="<?php echo lang('enter_date'); ?>" required readonly />
                         </div>
                     </div>
+                    
                     <label for="customer_id"><?php echo lang('customer'); ?> <span class="text-danger">*</span></label>
                     <div class="form-group">
                         <div class="form-line">
@@ -31,6 +32,17 @@
                                     <option value="<?php echo $customer->id; ?>"><?php echo "{$customer->person->first_name} {$customer->person->last_name}"; ?></option>
                                 <?php endforeach; ?>
                                 <option value="-1"><?php echo "******" . lang('new_customer') . "******"; ?></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <label for="customer_id"><?php echo lang('dispatcher'); ?> <span class="text-danger">*</span></label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <select name="customer_id" id="customer_id" class="form-control show-tick" data-live-search="true" require>
+                                <?php foreach ($employees as $employee): $employee->with(['person']) ?>
+                                    <option value="<?php echo $employee->id; ?>"><?php echo "{$employee->person->first_name} {$employee->person->last_name}"; ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>

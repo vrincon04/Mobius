@@ -112,6 +112,12 @@ $.LeonSoft.methods = {
     
         swal(obj);
     },
+    hideShowElement: function (target, bool) {
+        if (bool)
+            target.show()
+        else
+            target.hide()
+    },
     preventExit: function (e) {
         var message = $.Language.message.exitPage,
             e = e || window.event;

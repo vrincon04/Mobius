@@ -89,6 +89,12 @@ class Tenant_model extends MY_Model {
             'rules' => 'trim|prep_url|valid_url|max_length[250]|strtolower'
         ],
         [
+            // Tax
+            'field'     => 'is_tax',
+            'label'     => 'lang:is_tax',
+            'rules'     => 'trim'
+        ],
+        [
             // Created At
             'field'     => 'created_at',
             'label'     => 'created_at',

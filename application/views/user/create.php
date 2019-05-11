@@ -33,6 +33,13 @@
                             <input type="password" id="password" name="password" class="form-control" placeholder="<?php echo lang('enter_password'); ?>" required minlength="4" />
                         </div>
                     </div>
+
+                    <label for="rol_id"><?php echo lang('roles'); ?> <span class="text-danger">*</span></label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <?php echo form_dropdown('rol_id', $roles, set_value('rol_id'), 'id="rol_id" class="form-control show-tick" required') ?>
+                        </div>
+                    </div>
                     
                 </div>
                 <div class="header">
@@ -42,10 +49,10 @@
                     </h2>
                 </div>
                 <div class="body">
-                <label for="document_type_id"><?php echo lang('document_type'); ?> <span class="text-danger">*</span></label>
+                    <label for="document_type_id"><?php echo lang('document_type'); ?> <span class="text-danger">*</span></label>
                     <div class="form-group">
                         <div class="form-line">
-                            <?php echo form_dropdown('document_type_id', $documents_types, set_value('document_type_id'), 'id="document_type_id" class="form-control show-tick" required') ?>
+                            <?php echo form_dropdown('document_type_id', $documents_types, set_value('document_type_id', 1), 'id="document_type_id" class="form-control show-tick" required') ?>
                         </div>
                     </div>
 

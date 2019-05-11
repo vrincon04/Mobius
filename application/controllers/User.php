@@ -109,6 +109,8 @@ class User extends MY_Controller {
 		$this->load->model('document_type_model');
 		$this->load->model('gender_model');
 		$this->load->model('country_model');
+		$this->load->model('rol_model');
+
 		$this->_assets_create = [
 			'styles' => [
 				'public/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
@@ -127,7 +129,8 @@ class User extends MY_Controller {
 		$this->data = [
 			'documents_types' => $this->document_type_model->dropdown('id', 'lang', [], TRUE),
 			'genders' => $this->gender_model->dropdown('id', 'lang', [], TRUE),
-			'countries' => $this->country_model->dropdown('id', 'name')
+			'countries' => $this->country_model->dropdown('id', 'name'),
+			'roles' => $this->rol_model->dropdown('id', 'name')
 		];
 		
 		parent::create();
@@ -148,6 +151,21 @@ class User extends MY_Controller {
 		$this->load->model('document_type_model');
 		$this->load->model('gender_model');
 		$this->load->model('country_model');
+		$this->load->model('state_model');
+        $this->load->model('city_model');
+		$this->load->model('user_rol_model');
+		$this->load->model('rol_model');
+
+		$row = $this->_exist($id);
+
+		$rol = $this->user_rol_model->find([
+			'select' => 'user_id, rol_id',
+			'limit' => 1,
+			'where' => [
+				'user_id' => $id
+			]
+		]);
+		
 		$this->_assets_edit = [
 			'styles' => [
 				'public/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
@@ -167,7 +185,15 @@ class User extends MY_Controller {
 		$this->data = [
 			'documents_types' => $this->document_type_model->dropdown('id', 'lang', [], TRUE),
 			'genders' => $this->gender_model->dropdown('id', 'lang', [], TRUE),
-			'countries' => $this->country_model->dropdown('id', 'name')
+			'countries' => $this->country_model->dropdown('id', 'name'),
+			'roles' => $this->rol_model->dropdown('id', 'name'),
+			'rol' => $rol,
+			'states' => $this->state_model->dropdown('id', 'name', [
+                'where' => ['states.country_id' => $row->person->city->state->country_id]
+            ]),
+            'cities' => $this->city_model->dropdown('id', 'name', [
+                'where' => ['cities.state_id' => $row->person->city->state_id]
+            ])
 		];
 
 		parent::edit($id);
@@ -200,7 +226,7 @@ class User extends MY_Controller {
 		$user->with(['roles']);
 		$rol = $user->roles[0]->with(['rol'])->rol;
 
-		if ($rol->name === 'Sellers')
+		if ($rol->name === 'Sellers' && $rol->name === 'Vendedor')
 			$this->_return_json_error(lang('acceso_denegado'));
 		
 		$this->_return_json_success(lang('success_message'), $user);
@@ -209,6 +235,40 @@ class User extends MY_Controller {
 	protected function _after_exist($row)
 	{
 		$row->with(['person' => ['city', 'document_type']]);
+		$row->person->city->with(['state']);
 		return $row;
+	}
+
+	protected function _on_insert_success($id)
+	{
+		$this->load->model('user_rol_model');
+
+		return $this->user_rol_model->insert([
+			'user_id' => $id, 
+			'rol_id' => $this->input->post('rol_id')
+		]);
+	}
+
+	protected function _on_edit_success($id)
+	{
+		$this->load->model('user_rol_model');
+
+		$row = $this->user_rol_model->find([
+			'select' => 'user_id, rol_id',
+			'limit' => 1,
+			'where' => [
+				'user_id' => $id
+			]
+		]);
+
+		$pk = [
+			'user_id' => $row->user_id,
+			'rol_id' => $row->rol_id
+		];
+
+		return $this->user_rol_model->update($pk, [
+			'user_id' => $id, 
+			'rol_id' => $this->input->post('rol_id')
+		]);
 	}
 }

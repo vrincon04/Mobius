@@ -21,7 +21,7 @@
                                 <?php foreach ($customers as $customer): $customer->with(['person']) ?>
                                     <option value="<?php echo $customer->id; ?>"><?php echo "{$customer->person->first_name} {$customer->person->last_name}"; ?></option>
                                 <?php endforeach; ?>
-                                <option value="-1"><?php echo "******" . lang('new_customer') . "******"; ?></option>
+                                <option value="-1"><?php echo "****** " . lang('new_customer') . " ******"; ?></option>
                             </select>
                         </div>
                     </div>
