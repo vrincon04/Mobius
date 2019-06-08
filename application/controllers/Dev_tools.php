@@ -39,6 +39,7 @@ class Dev_tools extends CI_Controller {
             $this->receiptprint->connectFile('\\\\localhost\Ticket');
             $this->receiptprint->set_printer_width(48);
             $this->receiptprint->title("Brassiere Lounge");
+            $this->receiptprint->set_center();
             $this->receiptprint->add_line('C/ CARLOS MANUEL PUMAROL #20');
             $this->receiptprint->add_line('TEL: (809) 901-4044');
             $this->receiptprint->add_line('Brassiere Lounge By La Gerencia');

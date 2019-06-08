@@ -11,16 +11,17 @@ class Pos extends MY_Controller {
 	 * Name of the model that with use.
 	 * @var string
 	 */
-    protected $_model = 'pos_model';
+    protected $_model = 'order_model';
 
 	public function index()
 	{
-		// Cargamos el modelo de Cliente.
+		// Load the model's
 		$this->load->model('customer_model');
-		// Cargamos el modelo de Caja Registradora.
 		$this->load->model('cash_drawer_model');
-		// Cargamos el modelo del Area.
 		$this->load->model('area_model');
+		$this->load->model('tenant_tax_type_model');
+		$this->load->model('currency_model');
+		$this->load->model('payment_method_model');
 
 		/**
 		 * Buscamos todos los empelados que pertenescan a una area habil 
@@ -33,8 +34,6 @@ class Pos extends MY_Controller {
 		]);
 
 		$employees = [];
-
-		$pre_products = [];
 		
 		foreach ($areas as $area) {
 
@@ -43,10 +42,6 @@ class Pos extends MY_Controller {
 
 		if ( $this->cash_drawer_model->get_open() == NULL )
 			redirect("{$this->_controller}/cash_register_not_opened");
-
-		
-        if ( isset($_POST['products']) )
-            $pre_products = $_POST['products'];
 
 		$this->data = [
 			'styles' => [
@@ -60,60 +55,102 @@ class Pos extends MY_Controller {
 				'public/plugins/select2/js/select2.full.min.js',
 				'public/plugins/select2/js/i18n/' . $this->session->userdata('lang') . '.js',
 				'public/plugins/jquery-maskMoney/jquery.maskMoney.js',
-                'public/plugins/jquery-maskMoney/jquery.region.maskMoney.js'
+				'public/plugins/jquery-maskMoney/jquery.region.maskMoney.js',
+				'public/plugins/waitme/waitMe.js',
+				'public/js/src/template_pos/touch_monitor.js'
 			],
-			'customers' => $this->customer_model->all(),
+			'customers' => $this->customer_model->all([
+				'order_by' => 'person_id'
+			]),
 			'employees' => $employees,
-			'products' => $pre_products
+			'tax_types' => $this->tenant_tax_type_model->all([
+                'select' => 'tax_types.lang, tax_types.id AS type_id, tenant_tax_types.*',
+                'joins' => [
+                    ['tax_types', 'tenant_tax_types.tax_type_id = tax_types.id', 'RIGHT']
+				],
+				'where' => [
+					'is_active' => true
+				],
+			]),
+			'currencies' => $this->currency_model->dropdown('id', 'unit', [
+				'select' => 'currencies.id, CONCAT (currencies.code, " (", currencies.symbol, ")") AS unit' ,
+				'where' => ['is_active' => 1]
+			]),
+			'payment_methods' => $this->payment_method_model->dropdown('id', 'lang', [], TRUE)
 		];
 
 		// Set the sistema locale configuration.
 		$this->set_locale();
 		
-        $this->_template("{$this->_controller}/template1", $this->_get_assets('create', $this->data), 'pos_layout/main');
+        $this->_template("{$this->_controller}/template/touch_monitor", $this->_get_assets('create', $this->data), 'pos_layout/main');
 	}
 
 	public function pending_orders()
 	{
-		// Cargamos el modelo de Orden.
-		$this->load->model('order_model');
-
 		$data = [
-			'orders' => $this->order_model->pending_by_user($this->session->userdata('user_id'))
+			'orders' => $this->{$this->_model}->pending_by_user($this->session->userdata('user_id'))
 		];
 
 		$this->_template("{$this->_controller}/order_list", $this->_get_assets('create', $this->data), 'pos_layout/main');
 	}
 
-	public function send_order()
+	public function print_order($id)
 	{
-		
-		//
-		$this->load->model('order_model');
-		//
 		$this->load->model('ticket_model');
-		//
-		$id = $this->order_model->insert($this->input->post());
+
+		$print = $this->ticket_model->printOrder($id);
+
+		if ( $print['error'] )
+			return $this->_return_json_error($print['message']);
+
+		return $this->_return_json_success(lang('success_message'));
+		
+	}
+
+	public function hold_order()
+	{
+
+		$order = json_decode(file_get_contents('php://input'));
+		$id = $this->{$this->_model}->insert_update([
+			'id' => $order->id,
+			'customer_id' => $order->customer_id,
+			'status' => $order->status,
+			'subtotal' => $order->subtotal,
+			'tax' => $order->tax,
+			'total' => $order->total,
+			'date' => strftime("%d %B %Y")
+		], ['id']);
 
 		if ( $id ) {
-			if ( $this->insert_detial($id) )
-			{
-				$this->ticket_model->printOrder($id);
-			} else {
-				$this->_return_json_error(validation_errors());
-			}
+			$order->id = $id;
+			if ( ! $this->insert_detial($id, $order) )
+				return $this->_return_json_error(validation_errors());
 
-			$this->_return_json_success(lang('success_message'), $id);
+			return $this->_return_json_success(lang('success_message'), $order);
 		}
 		else {
-			$this->_return_json_error(validation_errors());
+			return $this->_return_json_error(validation_errors());
 		}
 	}
 
-	public function pending_invoices()
-	{
+	public function make_payment() {
+		if ( $this->input->method() === 'get' )
+			$this->_retunr_json_error(lang('invalid_method'));
+		if ( !$this->input->is_ajax_request() )
+			$this->_retunr_json_error(lang('ajax_requests_are_allowed'));
+
+		$result = $this->{$this->_model}->create_invoice(
+			$this->input->post('order_id'), 
+			$this->input->post('tax_type_id')
+		);
+
+		if ( ! $result )
+			return $this->_return_json_error(validation_errors());
+
+		return $result;
 		
 	}
+
 
 	public function cash_register_not_opened()
 	{
@@ -124,49 +161,49 @@ class Pos extends MY_Controller {
 		]);
 	}
 
-	private function _insert_order_detial($id)
+	private function insert_detial($id, $order)
 	{
-		$main_total = 0;
-
 		$this->load->model('order_detail_model');
-		$this->load->model('stock_model');
+		$this->load->model('product_model');
+		$this->load->model('item_history_model');
 
-        foreach ($this->input->post('products') as $product) {
-			$stock = $this->product_model->find([
-				'select' => 'id, product_id, warehoese_id',
+		$orderTemp = $this->{$this->_model}->get($id);
+
+        foreach ($order->products as $item) {
+			$product = $this->product_model->find([
 				'limit' => 1,
 				'where' => [
-					'product_id' => $product['product_id'],
-					'warehoese_id' => $this->sessiion->userdata('warehoese_id')
+					'id' => $item->productId,
 				]
 			])->with([
-				'product' => [
-					'components'
-				]
+				'components',
+				'stocks'
 			]);
 
-			if ( $productDb->is_composed == 1 ) {
-				foreach ($productDb->components as $component) {
-					$count = (float)$component->quantity * (float)($product['quantity']);
-					// decrease the stock.
-					$this->item_history_model->decrease($stock->id, $count, 'Producto despachado en la orden <a href="' . base_url("order/view/{$id}") . '">#' . str_pad($id, 6, '0', STR_PAD_LEFT) . '</a>');
+			if ( $product->is_stock ) {
+				$message = 'Producto despachado en la orden <a href="' . base_url("order/view/{$orderTemp->id}") . '">#' . $orderTemp->number . '</a>';
+				$stockKey = array_search($this->session->userdata('warehouse_id'), array_column($product->stocks, 'warehouse_id'));
+				$this->item_history_model->decrease($product->stocks[$stockKey]->id, $item->quantity, $message);
+			} else if ( $product->is_composed )
+			{
+				foreach ($product->components as $component) {
+					$message = "Producto forma parte del servicio {$item->name} que fue despachado en la orden <a href='" . base_url("order/view/{$orderTemp->id}") . "'>#{$orderTemp->number}</a>";
+					$count = (float)$component->quantity * (float)$item->quantity;
+					$stockKey = array_search($this->session->userdata('warehouse_id'), array_column($product->stocks, 'warehouse_id'));
+					$this->item_history_model->decrease($product->stocks[$stockKey]->id, $item->quantity, $message);
 				}
-			} else {
-				// decrease the stock.
-				$this->item_history_model->decrease($stock->id, $product['quantity'], 'Producto despachado en la orden <a href="' . base_url("order/view/{$id}") . '">#' . str_pad($id, 6, '0', STR_PAD_LEFT) . '</a>');
 			}
-            // Removemos el id del arreglo.
-            unset($product['id']);
-            // Insertamos el id del producto.
-			$product['order_id'] = $id;
-			$product['price'] = $product['sale'];
-			$product['total'] = (float) preg_replace("/[^0-9.]/", "", $product['quantity']) * (float) preg_replace("/[^0-9.]/", "", $product['price']);
-			// Insertamos nuestro nueva existencia en la base de datos.
-			$result = $this->order_detail_model->insert($product);
-			// Sumamos el total del la linea con el gran total.
-			$main_total += (float) $product['total'];
-			// Validamos si se inserto correctamente
-            if (! $result ) 
+
+			$result = $this->order_detail_model->insert_update([
+				'order_id' => $orderTemp->id,
+				'product_id' => $product->id,
+				'quantity' => $item->quantity,
+				'price' => $item->price,
+				'tax' => ($this->session->userdata('is_tax')) ? ((float)$item->price * 0.18) : 0,
+				'total' => (float)$item->price * (float)$item->quantity
+			], ['order_id', 'product_id']);
+
+			if ( ! $result ) 
             {
                 $this->_response_error(validation_errors());
                 return FALSE;

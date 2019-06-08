@@ -59,6 +59,24 @@ class Order_model extends MY_Model {
             'rules' => 'trim|in_list[canceled,pending,dispatched,invoiced]'
         ],
         [
+            // Subtotal
+            'field' => 'subtotal',
+            'label' => 'lang:subtotal',
+            'rules' => 'trim|prep_currency_format|decimal'
+        ],
+        [
+            // Tax
+            'field' => 'tax',
+            'label' => 'lang:tax',
+            'rules' => 'trim|prep_currency_format|decimal'
+        ],
+        [
+            // Total
+            'field' => 'total',
+            'label' => 'lang:total',
+            'rules' => 'trim|prep_currency_format|decimal'
+        ],
+        [
             // Created At
             'field'     => 'created_at',
             'label'     => 'created_at',
@@ -116,5 +134,51 @@ class Order_model extends MY_Model {
                 'user_id' => $user
             ]
         ]);
+    }
+
+    /**
+     * Create a invoice from Order
+     * 
+     * @param int $id the id of order
+     * @return int|string|bool
+     */
+    public function create_invoice($id, $tax_type)
+    {
+        $this->load->model('invoice_model');
+        $this->load->model('invoice_detail_model');
+        
+        // Get the purchase order.
+        $row = $this->get($id)->with(['details']);
+        $row->status = 'draft';
+        $row->date = strftime("%d %B %Y");
+
+        $data = (array) $row;
+        $data['expired_at'] = strftime("%d %B %Y");
+        $data['expiration_type_id'] = 7;
+        $data['order_id'] = $id;
+        $data['user_id'] = $this->session->userdata('user_id');
+        $data['currency_id'] = $this->session->userdata('currency_id');
+        $data['tax_type_id'] = $tax_type;
+        $data['balance'] = $row->total;
+        unset($data['id']);
+
+        // insert the purchase order in the purchase.
+        $invoiceId = $this->invoice_model->insert($data);
+
+        if ( $invoiceId )
+        {
+            // We iterated the elements that the purchase order has.
+            foreach ($row->details as $detail) {
+                $detail = (array) $detail;
+                $detail['invoice_id'] = $invoiceId;
+                unset($detail['id']);
+
+                $this->invoice_detail_model->insert($detail);
+            }
+
+            return $invoiceId;
+        }
+
+        return false;
     }
 }

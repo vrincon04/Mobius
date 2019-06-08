@@ -279,6 +279,7 @@ $lang = [
     'subtotal' => 'Subtotal',
     'discount' => 'Descuento',
     'send_order' => 'Enviar Orden',
+    'print_order' => 'Imp. Orden',
     'waiter' => 'Camarero(a)',
     'salable_product' => 'Producto Vendible',
     'organization' => 'Organización',
@@ -305,6 +306,11 @@ $lang = [
     'single_registration_income' => 'Registro Único Ingreso',
     'minor_expenses' => 'Gastos Menores',
     'special_regime_trib' => 'Régimen Especial Trib.',
-    'goverments' => 'Gubernamentales'
-
+    'goverments' => 'Gubernamentales',
+    'search_product' => 'Busque el producto por código o nombre, también puede escanear el código de barras',
+    'qty' => 'Cant',
+    'total_payable' => 'Total a Pagar',
+    'type_voucher' => 'Tipo de Comprobante',
+    'make_payment' => 'Realizar Pago',
+    'ajax_requests_are_allowed' =>'Sólo se Permiten Peticiones Ajax'
 ]; 

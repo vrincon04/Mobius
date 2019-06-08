@@ -67,6 +67,7 @@ $.Language = {
         credit_card: 'Tarjeta Crédito / Débito',
         bank_checks: 'Cheque Bancario',
         open: 'Abierto',
-        closed: 'Cerrado'
+        closed: 'Cerrado',
+        printError: 'No se pudo imprimir, favor intente de nuevo.'
     }
 }

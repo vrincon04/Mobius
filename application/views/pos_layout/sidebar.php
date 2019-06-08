@@ -27,7 +27,9 @@
         <!-- MAIN NAVIGATION -->
         <li class="header"><?php echo lang('main_navigation'); ?></li>
         <!-- Dashboard -->
-        <?php echo sidebar_item('pos', lang('dashboard'), 'add_shopping_cart'); ?>
+        <?php echo sidebar_item('pos', lang('new_sale'), 'add_shopping_cart'); ?>
+        <!-- Penden  -->
+        <?php echo sidebar_item('pos/list', lang('pending_sales'), 'shopping_cart'); ?>
         <!-- Cash Drawer Group -->
         <li>
             <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">

@@ -70,6 +70,7 @@ $.LeonSoft.options = {
             }
         ]
     },
+    loading: {}
 };
 
 $.LeonSoft.methods = {
@@ -129,6 +130,14 @@ $.LeonSoft.methods = {
         // For Safari
         return message;
     },
+    busy: function($target) {
+        $.LeonSoft.options.loading = $($target).parents('.card').waitMe({
+            effect: 'pulse',
+            text: 'Loading...',
+            bg: 'rgba(255,255,255,0.90)',
+            color: '#555'
+        });
+    },
     /**
      * Agrega una fila a una tabla.
      * 
@@ -141,10 +150,9 @@ $.LeonSoft.methods = {
         // Creamos nuestra fila.
         var $tr = $('<tr></tr>');
         // Recoremos las columnas que va a tener la nueva fila.
-        $.each(data, function (index, value) {
-            console.info(index, value);
+        $.each(data, function (index, item) {
             //Agremos la nueva columna a nuesra fila.
-            $tr.append("<" + element + ">" + value + "</" + element + ">");
+            $tr.append(`<${element} ${item.attribute}>${item.value}</${element}>`);
         });
         // Retornamos nuestra fila con sus columnas.
         return $tr;
@@ -232,9 +240,33 @@ $.LeonSoft.methods = {
     /**
      * Obtain the total of the amount of a product plus the mount 
      * of it and display it in the specified field.
+     * @param {jQuery} firstValue - The amount of product to be calculated.
+     * @param {jQuery} secondValue - The amount of the product.
+     * @param {jQuery} display - the element will be display.
+     */
+    displaySum: function (firstValue, secondValue, display) {
+        firstValue = this.parseElementToFloat(firstValue);
+        secondValue = this.parseElementToFloat(secondValue);
+        if (Number.isNaN(Number.parseFloat(firstValue)))
+        {
+            throw new Error(`The value of the variable firstValue: [${firstValue}] is not numeric`);
+        }
+
+        if (Number.isNaN(Number.parseFloat(secondValue)))
+        {
+            throw new Error(`The value of the variable amount: [${secondValue}] is not numeric`);
+        }
+
+        var result = firstValue + secondValue;
+
+        display.text($.LeonSoft.helpers.formmatterCurrency(result));
+    },
+    /**
+     * Obtain the total of the amount of a product plus the mount 
+     * of it and display it in the specified field.
      * @param {number} quantity - The amount of product to be calculated.
      * @param {number} amount - The amount of the product.
-     * @param {string} display - the element will be display.
+     * @param {jQuery} display - the element will be display.
      */
     getTotalProduct: function (quantity, amount, display) {
         if (Number.isNaN(Number.parseFloat(quantity)))
@@ -268,6 +300,12 @@ $.LeonSoft.methods = {
         });
 
         display.text($.LeonSoft.helpers.formmatterCurrency(total));
+    },
+    parseElementToFloat: function(element) {
+        if (element.size() > 0)
+            return Number.parseFloat(element.text().replace(/[^\d.-]/g,''));
+        else
+            return 0;
     }
 };
 
@@ -418,6 +456,62 @@ $.LeonSoft.templates = {
         `;
 
         return $(html)
+    },
+    productCard2: function (data) {
+        let stock = 0;
+        let min = -1;
+
+        if (data.stocks.length > 0)
+        {
+            stock = data.stocks.reduce(function (total, item) {
+                return parseFloat(total) + parseFloat(item.count)
+              }, 0);
+            min = data.stocks[0].min;
+        }
+
+        return `
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 m-b-0 pointer-cursor product-event" style="max-height: 230px;" data-id="${data.id}" data-price="${data.sale}" data-stock="${stock}" data-min="${min}" data-name="${data.name}">
+                <div class="card">
+                    <div class="header">
+                        <img src="${$.LeonSoft.options.URL}${data.image_path}" class="img-responsive" />
+                    </div>
+                    <div class="body p-t-5 p-b-5 p-r-0 p-l-0 text-center">
+                        <p class="m-t-5 m-b-0 font-12">
+                            ${data.name} <br /> 
+                            <b>${$.LeonSoft.helpers.formmatterCurrency(data.sale)}</b>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        `;
+    },
+    productCard: function (data) {
+        let stock = 0;
+        let min = -1;
+
+        if (data.stocks.length > 0)
+        {
+            stock = data.stocks.reduce(function (total, item) {
+                return parseFloat(total) + parseFloat(item.count)
+              }, 0);
+            min = data.stocks[0].min;
+        }
+
+        return `
+            <div class="pointer-cursor product-event" data-id="${data.id}" data-price="${data.sale}" data-stock="${stock}" data-min="${min}" data-name="${data.name}">
+                <div class="card">
+                    <div class="header">
+                        <img src="${$.LeonSoft.options.URL}${data.image_path}" class="img-responsive" />
+                    </div>
+                    <div class="body p-t-5 p-b-5 p-r-0 p-l-0 text-center">
+                        <p class="m-t-5 m-b-0 font-12">
+                            ${data.name} <br /> 
+                            <b>${$.LeonSoft.helpers.formmatterCurrency(data.sale)}</b>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        `;
     }
 
 };

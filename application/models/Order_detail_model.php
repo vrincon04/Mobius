@@ -47,6 +47,12 @@ class Order_detail_model extends MY_Model {
             'rules' => 'trim|prep_currency_format|required|decimal'
         ],
         [
+            // Tax
+            'field' => 'tax',
+            'label' => 'lang:tax',
+            'rules' => 'trim|prep_currency_format|decimal'
+        ],
+        [
             // Total
             'field' => 'total',
             'label' => 'lang:total',

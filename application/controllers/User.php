@@ -73,6 +73,8 @@ class User extends MY_Controller {
 					'full_name' 		=> "{$user->person->first_name} {$user->person->middle_name} {$user->person->last_name} {$user->person->last_name2}",
 					'tenant_id' 		=> $user->tenant->id,
 					'tenant' 			=> $user->tenant->name,
+					'warehouse_id' 		=> $user->tenant->warehouse_id,
+					'is_tax' 			=> $user->tenant->is_tax,
 					'timezone' 			=> $user->tenant->timezone->format,
 					'lang' 				=> $user->tenant->timezone->lang,
 					'language' 			=> $user->tenant->timezone->language,
@@ -81,7 +83,7 @@ class User extends MY_Controller {
 					'currency_id' 		=> $user->tenant->currency->id,
                     'grants'            => $this->user_model->get_grants($user->id),
                     'access'            => ($access == NULL) ? 'normal' : $access->status,
-                    'access_message'    => ($access == NULL) ? '' : $access->message
+                    'access_message'    => ($access == NULL) ? '' : $access->message,
 				);
 
 				$this->session->set_userdata($data);

@@ -235,7 +235,7 @@ class MY_Model extends CI_Model {
 
 		if ( !$skip_validation && !$this->_validate($data) ) { return FALSE; }
 
-		$result = $this->db->insert($this->_table, $data);
+        $result = $this->db->insert($this->_table, $data);
         if ( $result )
         {
             $result = (is_array($this->_pk)) ? $result : $this->db->insert_id();
@@ -293,6 +293,7 @@ class MY_Model extends CI_Model {
         }
         else
         {
+            unset($data[$this->_pk]);
             return $this->insert($data, $skip_validation);
         }
     }

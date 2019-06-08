@@ -62,18 +62,20 @@ class Ticket_model extends CI_Model {
 
     public function PrintOrder($id)
     {
-        //
+        // Models.
         $this->load->model('order_model');
-        //
+        // Libraries.
         $this->load->library('ReceiptPrint');
 
+        $error = FALSE;
+        $message = '';
         $order = $this->order_model->get($id)->with(['tenant', 'user', 'details']);
         try {
             $this->receiptprint->connectFile('\\\\localhost\Ticket');
             $this->receiptprint->set_printer_width(48);
             $this->receiptprint->check_connection();
             $this->receiptprint->title($order->tenant->name);
-            $this->receiptprint->tipo(lang('order') . " #" . str_pad($order->id, 6, '0', STR_PAD_LEFT));
+            $this->receiptprint->tipo(lang('order') . " #" . $order->number);
             foreach ($order->details as $detail) {
                 $detail->with(['product']);
                 $this->receiptprint->add_line_two_column($detail->product->name, $detail->quantity);
@@ -82,10 +84,14 @@ class Ticket_model extends CI_Model {
             $this->receiptprint->add_line(str_pad(lang('waiter') . ":", 20) . str_pad($order->user->username, 20, ' ', STR_PAD_LEFT));
             $this->receiptprint->footer("*** FAVOR DE ESPERAR SU ORDEN ***");
         } catch (Exception $e) {
-            echo ("Error: Could not print. Message ".$e->getMessage());
-            $this->receiptprint->close_after_exception();
+            $error = TRUE;
+            $message = "Error: Could not print. Message ".$e->getMessage();
         } finally {
             $this->receiptprint->close_after_exception();
+            return [
+                'error' => $error,
+                'message' => $message
+            ];
         }
     }
 }

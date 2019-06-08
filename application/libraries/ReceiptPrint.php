@@ -144,6 +144,21 @@ class ReceiptPrint {
         $this->items[] = new Item($data['name'], $data['quantity'], $data['price']);
     }
 
+    public function set_center()
+    {
+        $this->printer->setJustification(Printer::JUSTIFY_CENTER);
+    }
+
+    public function set_left()
+    {
+        $this->printer->setJustification(Printer::JUSTIFY_LEFT);
+    }
+
+    public function set_right()
+    {
+        $this->printer->setJustification(Printer::JUSTIFY_RIGHT);
+    }
+
     public function close()
     {
         $this->printer->close();

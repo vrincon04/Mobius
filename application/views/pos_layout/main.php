@@ -225,6 +225,74 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Payment Modal -->
+            <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form name="payment-form" id="payment-form" role="form" method="post" class="form-validate">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="defaultModalLabel"><?php echo lang('total_payable'); ?> (<span id="total_payable">$0.00</span>)</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <?php if( $this->session->userdata('is_tax') ): ?>
+                                <label for="tax_type_id"><?php echo lang('type_voucher'); ?> <span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <select name="tax_type_id" id="tax_type_id" class="form-control show-tick" data-live-search="true" require>
+                                            <?php foreach ($tax_types as $type): ?>
+                                                <option value="<?php echo $type->type_id; ?>"><?php echo lang($type->lang); ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+
+                                <label for="payment_method_id"><?php echo lang('payment_method'); ?> <span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <?php echo form_dropdown('payment_method_id', $payment_methods, set_value('payment_method_id', 1), 'id="payment_method_id" data-live-search="true" class="form-control show-tick" required') ?>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                    <label for="currency_id"><?php echo lang('currency'); ?> <span class="text-danger">*</span></label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <?php echo form_dropdown('currency_id', $currencies, set_value('currency_id', $this->session->userdata('currency_id')), 'id="currency_id" data-live-search="true" class="form-control show-tick" required') ?>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+                                <label for="amount"><?php echo lang('amount'); ?> <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="font-size: 24px;">
+                                        $
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="text" id="amount" name="amount" class="form-control currency" value="<?php echo set_value('amount'); ?>" placeholder="<?php echo lang('amount'); ?>" required autofocus />
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                
+                                <label for="note"><?php echo lang('note'); ?> </label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <textarea rows="1" name="note" id="note" class="form-control no-resize auto-growth" placeholder="<?php echo lang('enter_description')?>"><?php echo set_value('note'); ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-info waves-effect" id="payment-button" data-type="payment"><?php echo strtoupper(lang('make_payment')); ?></button>
+                                <button type="button" class="btn btn-link waves-effect btn-close-modal" data-dismiss="modal"><?php echo strtoupper(lang('close')); ?></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <!-- #END# Modal Dialogs ====================================================================================================================== -->
         </div>
     </section>

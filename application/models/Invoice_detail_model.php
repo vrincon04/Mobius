@@ -42,9 +42,15 @@ class Invoice_detail_model extends MY_Model {
         ],
         [
             // Price
-            'field' => 'prince',
-            'label' => 'lang:prince',
+            'field' => 'price',
+            'label' => 'lang:price',
             'rules' => 'trim|prep_currency_format|required|decimal'
+        ],
+        [
+            // Tax
+            'field' => 'tax',
+            'label' => 'lang:tax',
+            'rules' => 'trim|prep_currency_format|decimal'
         ],
         [
             // Total

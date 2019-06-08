@@ -22,6 +22,9 @@
     <!-- Animation Css -->
     <link href="<?php echo base_url('public/plugins/animate-css/animate.css'); ?>" rel="stylesheet" />
 
+    <!-- Wait Me Effect Css -->
+    <link href="<?php echo base_url('public/plugins/waitme/waitMe.css'); ?>" rel="stylesheet" />
+
     <!-- Custom Css -->
     <link href="<?php echo base_url('public/css/style.css'); ?>" rel="stylesheet">
 </head>
@@ -33,7 +36,7 @@
         </div>
 
         <div class="card">
-            <div class="body">
+            <div class="body" id="waitme-card">
                 <!-- Alert Mesages -->
                 <?php if ( isset($_SESSION['alerts']) ): ?>
                     <?php foreach ( $_SESSION['alerts'] as $alert ): ?>

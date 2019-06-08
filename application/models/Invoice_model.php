@@ -59,6 +59,12 @@ class Invoice_model extends MY_Model {
             'rules' => 'trim|required|is_natural_no_zero|exist[expirations_types.id]'
         ],
         [
+            // Voucher Type
+            'field' => 'tax_type_id',
+            'label' => 'lang:type_voucher',
+            'rules' => 'trim|is_natural_no_zero'
+        ],
+        [
             // Date
             'field' => 'date',
             'label' => 'lang:date',
@@ -83,9 +89,21 @@ class Invoice_model extends MY_Model {
             'rules' => 'trim|in_list[canceled,draft,paid,partial,unpaid]'
         ],
         [
-            // Amount
-            'field' => 'amount',
-            'label' => 'lang:amount',
+            // Subtotal
+            'field' => 'subtotal',
+            'label' => 'lang:subtotal',
+            'rules' => 'trim|prep_currency_format|decimal'
+        ],
+        [
+            // Tax
+            'field' => 'tax',
+            'label' => 'lang:tax',
+            'rules' => 'trim|prep_currency_format|decimal'
+        ],
+        [
+            // Total
+            'field' => 'total',
+            'label' => 'lang:total',
             'rules' => 'trim|prep_currency_format|decimal'
         ],
         [

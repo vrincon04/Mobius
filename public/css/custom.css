@@ -6,6 +6,38 @@
 	margin-bottom: 5px !important;
 }
 
+.p-b-0 {
+	padding-bottom: 0 !important;
+}
+
+.p-t-0 {
+	padding-top: 0 !important;
+}
+
+.p-l-0 {
+	padding-left: 0 !important;
+}
+
+.p-r-0 {
+	padding-right: 0 !important;
+}
+
+.p-t-5 {
+	padding-top: 5px !important;
+}
+
+.p-b-5 {
+	padding-bottom: 5px !important;
+}
+
+.p-l-5 {
+	padding-left: 5px !important;
+}
+
+.p-r-5 {
+	padding-right: 5px !important;
+}
+
 /* Field for avatar picture */
 .avatar {
 	border: 1px solid #ddd;
@@ -129,3 +161,53 @@ h2 .material-icons, a span .material-icons {
 .draft {
     color: #cccccc;
 }
+
+
+.no-border-top {
+    border-top: none !important;
+}
+
+.img-responsive {
+    width: 100%;
+    height: auto;
+}
+
+.scrollbar
+{
+    overflow-y: scroll;
+}
+
+/*
+ *  STYLE 3
+ */
+
+ .style-3::-webkit-scrollbar-track
+ {
+     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+     background-color: #F5F5F5;
+ }
+ 
+ .style-3::-webkit-scrollbar
+ {
+     width: 6px;
+     background-color: #F5F5F5;
+ }
+ 
+ .style-3::-webkit-scrollbar-thumb
+ {
+     background-color: #000000;
+ }
+
+ .pointer-cursor {
+     cursor: pointer;
+ }
+
+ .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .flex-container > div {
+    width: 29%;
+    margin: 10px;
+  }
