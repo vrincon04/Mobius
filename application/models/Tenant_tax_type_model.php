@@ -95,12 +95,16 @@ class Tenant_tax_type_model extends MY_Model {
         ],
     ];
 
-    public function get_all_type($tenant_id, $array_result = FALSE, $debug = FALSE,  $object_class = 'base_register')
+    public function get_all_type($tenant_id, $condition = "", $array_result = FALSE, $debug = FALSE,  $object_class = 'base_register')
     {
         $query = $this->db->query("SELECT tax_types.lang, tax_types.id AS type_id, tenant_tax_types.*
-        FROM `tax_types`
-        LEFT JOIN `tenant_tax_types`
-        ON `tax_types`.id = `tenant_tax_types`.`tax_type_id` AND tenant_id = $tenant_id");
+        FROM 
+            `tax_types`
+        LEFT JOIN 
+            `tenant_tax_types`
+        ON 
+            `tax_types`.id = `tenant_tax_types`.`tax_type_id` AND tenant_id = {$tenant_id}
+        {$condition}");
 
         return ($array_result) ? $query->result_array() : $query->result($object_class);
     }

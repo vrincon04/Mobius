@@ -63,15 +63,9 @@ class Pos extends MY_Controller {
 				'order_by' => 'person_id'
 			]),
 			'employees' => $employees,
-			'tax_types' => $this->tenant_tax_type_model->all([
-                'select' => 'tax_types.lang, tax_types.id AS type_id, tenant_tax_types.*',
-                'joins' => [
-                    ['tax_types', 'tenant_tax_types.tax_type_id = tax_types.id', 'RIGHT']
-				],
-				'where' => [
-					'is_active' => true
-				],
-			]),
+			'tax_types' => $this->tenant_tax_type_model->get_all_type($this->session->userdata('tenant_id'),
+				"WHERE tenant_tax_types.is_active = 1"
+			),
 			'currencies' => $this->currency_model->dropdown('id', 'unit', [
 				'select' => 'currencies.id, CONCAT (currencies.code, " (", currencies.symbol, ")") AS unit' ,
 				'where' => ['is_active' => 1]
