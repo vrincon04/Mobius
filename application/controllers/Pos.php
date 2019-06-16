@@ -139,6 +139,8 @@ class Pos extends MY_Controller {
 		if ( !$this->input->is_ajax_request() )
 			$this->_retunr_json_error(lang('ajax_requests_are_allowed'));
 
+		$this->load->model('');
+
 		$result = $this->{$this->_model}->create_invoice(
 			$this->input->post('order_id'), 
 			$this->input->post('tax_type_id')
@@ -146,6 +148,8 @@ class Pos extends MY_Controller {
 
 		if ( ! $result )
 			return $this->_return_json_error(validation_errors());
+
+		//$result = $this->
 
 		return $result;
 		

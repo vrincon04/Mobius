@@ -51,16 +51,7 @@ class Tenant extends MY_Controller {
             'countries' => $this->country_model->dropdown('id', 'name'),
             'timezones' => $this->timezone_model->all(),
             'currencies' => $this->currency_model->all(),
-            'tax_types' => $this->tenant_tax_type_model->all([
-                'select' => 'tax_types.lang, tax_types.id AS type_id, tenant_tax_types.*',
-                'joins' => [
-                    ['tax_types', 'tenant_tax_types.tax_type_id = tax_types.id', 'RIGHT']
-                ],
-                'or_where' => [
-                    'key' => 'tenant_id IS NULL',
-                    'value' => null
-                ]
-            ]),
+            'tax_types' => $this->tenant_tax_type_model->get_all_type($this->session->userdata('tenant_id')),
             'date_formats' => $this->date_format_model->dropdown('id', 'format'),
             'states' => $this->state_model->dropdown('id', 'name', [
                 'where' => ['states.country_id' => $row->city->state->country_id]
