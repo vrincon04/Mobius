@@ -517,6 +517,19 @@ $.LeonSoft.templates = {
 };
 
 $(function () {
+    var $document_number = $('input[name="document_number"]'),
+        $document_type = $('select[name="document_type_id"]'),
+        $first_name = $('input[name="first_name"]'),
+        $last_name = $('input[name="last_name"]'),
+        $middle_name = $('input[name="middle_name"]'),
+        $last_name2 = $('input[name="last_name2"]'),
+        $gender = $('select[name="gender_id"]'),
+        $dob = $('input[name="dob"]'),
+        $phone = $('input[name="phone"]'),
+        $mobile = $('input[name="mobile"]'),
+        $person_info = $('.person-info'),
+        $business_info = $('.business-info');
+
     /* Styles for validation */
     if ( typeof ($.fn.validate) !== 'undefined' ) {
         validateMaterial = function($form) {
@@ -660,32 +673,27 @@ $(function () {
         $('#check-all').prop('checked', !checked);
     });
 
-    var $document_number = $('input[name="document_number"]'),
-        $document_type = $('select[name="document_type_id"]'),
-        $first_name = $('input[name="first_name"]'),
-        $last_name = $('input[name="last_name"]'),
-        $middle_name = $('input[name="middle_name"]'),
-        $last_name2 = $('input[name="last_name2"]'),
-        $gender = $('select[name="gender_id"]'),
-        $dob = $('input[name="dob"]'),
-        $phone = $('input[name="phone"]'),
-        $mobile = $('input[name="mobile"]');
+    $document_number.on('focusout', function (e) {
+        e.preventDefault();
 
-    $document_number.on('focusout', function () {
         var $this = $(this),
+            url = ($document_type.val() == '4') ? `https://api.marcos.do/rnc/${$this.val()}` : `${$.LeonSoft.options.URL}/person/get_by_document_number_json`
             filter = {
                 number: $this.val(),
                 type: $document_type.val()
             };
+        
+        if ( $.trim($this.val()) == '' )
+            return;
 
-        $.get(`${$.LeonSoft.options.URL}/person/get_by_document_number_json`, filter)
+        $.get(url, filter)
             .done(function (response) {
                 var obj = JSON.parse(response),
                     person = {};
 
                 if ( !obj.error )
                 {
-                    if ( obj.data.length = 1)
+                    if ( obj.data.length > 0)
                     {
                         person = obj.data[0];
 
@@ -700,5 +708,34 @@ $(function () {
                     }
                 }
             });
+    });
+
+    $document_type.on('change', function (e) {
+        e.preventDefault();
+        $person_info.hide();
+        $business_info.hide();
+
+        var $this = $(this);
+
+        switch($this.val()) {
+            case '1':
+                $person_info.show();
+                $document_number.inputmask("999-9999999-9");
+                break;
+            case '2':
+                $person_info.show();
+                $document_number.inputmask('99999999999');
+                break;
+            case '3':
+                $person_info.show();
+                $document_number.inputmask('99999999999');
+                break;
+            case '4':
+                $business_info.show();
+                $document_number.inputmask('999-99999-9');
+                break;
+            default:
+                break;
+        }
     });
 });

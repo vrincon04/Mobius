@@ -81,11 +81,32 @@ class Pos extends MY_Controller {
 
 	public function pending_orders()
 	{
-		$data = [
+		$this->data = [
+			'styles' => [
+				'public/plugins/bootstrap-select/css/bootstrap-select.min.css',
+				'public/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css',
+				'public/plugins/jquery-datatable/extensions/responsive/responsive.bootstrap.min.css'
+			],
+			'scripts' => [
+				'public/plugins/bootstrap-select/js/bootstrap-select.js',
+				'public/plugins/jquery-datatable/jquery.dataTables.min.js',
+				'public/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.min.js',
+				'public/plugins/jquery-datatable/extensions/responsive/dataTables.responsive.min.js',
+				'public/plugins/jquery-datatable/extensions/responsive/responsive.bootstrap.min.js',
+				'public/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js',
+				'public/plugins/jquery-datatable/extensions/export/buttons.flash.min.js',
+				'public/plugins/jquery-datatable/extensions/export/jszip.min.js',
+				'public/plugins/jquery-datatable/extensions/export/pdfmake.min.js',
+				'public/plugins/jquery-datatable/extensions/export/vfs_fonts.js',
+				'public/plugins/jquery-datatable/extensions/export/buttons.html5.min.js',
+				'public/plugins/jquery-datatable/extensions/export/buttons.print.min.js',
+				'public/plugins/jquery-maskMoney/jquery.maskMoney.js',
+				'public/plugins/jquery-maskMoney/jquery.region.maskMoney.js',
+			],
 			'orders' => $this->{$this->_model}->pending_by_user($this->session->userdata('user_id'))
 		];
 
-		$this->_template("{$this->_controller}/order_list", $this->_get_assets('create', $this->data), 'pos_layout/main');
+		$this->_template("{$this->_controller}/list", $this->_get_assets('create', $this->data), 'pos_layout/main');
 	}
 
 	public function print_order($id)
@@ -133,6 +154,7 @@ class Pos extends MY_Controller {
 		if ( !$this->input->is_ajax_request() )
 			$this->_retunr_json_error(lang('ajax_requests_are_allowed'));
 
+		$this->load->model('customer_model');
 		$this->load->model('');
 
 		$result = $this->{$this->_model}->create_invoice(

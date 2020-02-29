@@ -89,10 +89,6 @@ $(function () {
 
         //Mobile Phone Number
         $('.mobile-phone-number').inputmask('(999) 999-9999', { placeholder: '(___) ___-____' });
-        //Document Number
-        $('.identification-card').inputmask('999-9999999-9', { placeholder: '___-_______-_' });
-        //Passport
-        $('.passport').inputmask('999999999', { placeholder: '_________' });
 
         $country.on('change', function (e) {
             e.preventDefault();

@@ -230,7 +230,7 @@
                                             <div class="form-line">
                                                 <div class="switch">
                                                     <label for="is_tax"><?php echo lang('has_tax'); ?>
-                                                        <input type="checkbox" name="is_tax" id="is_tax" value="1" <?php echo set_checkbox('is_tax', '1', ($tenant->is_tax == '1')); ?> <?php echo ($tenant->is_tax == '1') ? 'disabled' : ''; ?> />
+                                                        <input type="checkbox" name="is_tax" id="is_tax" value="1" <?php echo set_checkbox('is_tax', '1', ($tenant->is_tax == '1')); ?> />
                                                         <span class="lever switch-col-cyan"></span>
                                                     </label>
                                                 </div>

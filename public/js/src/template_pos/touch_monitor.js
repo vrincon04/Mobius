@@ -104,7 +104,7 @@ $(function () {
             customer_id: $('#customer_id').val(),
             status: (isInvoice) ? 'invoiced' : 'pending',
             subtotal: $.LeonSoft.methods.parseElementToFloat($('#main-subtotal')),
-            tax: ($('#main-tax').size > 0) ? $.LeonSoft.methods.parseElementToFloat($('#main-tax')) : 0,
+            tax: ($('#main-tax').size() > 0) ? $.LeonSoft.methods.parseElementToFloat($('#main-tax')) : 0,
             total: $.LeonSoft.methods.parseElementToFloat($('#main-total')),
             products: items
         };

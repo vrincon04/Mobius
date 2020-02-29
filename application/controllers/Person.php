@@ -19,7 +19,7 @@ class Person extends MY_Controller {
 	
 	public function get_by_document_number_json()
 	{
-		if ( $this->input->method() === 'post' )
+		if ( $this->input->method() !== 'get' )
 			$this->_retunr_json_error(lang('invalid_method'));
 	
 		$results = $this->{$this->_model}->find([

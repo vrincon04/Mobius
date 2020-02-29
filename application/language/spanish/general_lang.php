@@ -312,5 +312,7 @@ $lang = [
     'total_payable' => 'Total a Pagar',
     'type_voucher' => 'Tipo de Comprobante',
     'make_payment' => 'Realizar Pago',
-    'ajax_requests_are_allowed' =>'Sólo se Permiten Peticiones Ajax'
+    'ajax_requests_are_allowed' =>'Sólo se Permiten Peticiones Ajax',
+    'order' => 'Orden',
+    'number_of_order' => 'Número de Orden'
 ]; 

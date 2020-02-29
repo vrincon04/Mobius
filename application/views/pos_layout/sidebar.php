@@ -29,7 +29,7 @@
         <!-- Dashboard -->
         <?php echo sidebar_item('pos', lang('new_sale'), 'add_shopping_cart'); ?>
         <!-- Penden  -->
-        <?php echo sidebar_item('pos/list', lang('pending_sales'), 'shopping_cart'); ?>
+        <?php echo sidebar_item('pos/pending_orders', lang('pending_sales'), 'shopping_cart'); ?>
         <!-- Cash Drawer Group -->
         <li>
             <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
