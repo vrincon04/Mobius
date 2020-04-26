@@ -29,10 +29,16 @@ class Provider_model extends MY_Model {
             'rules' => 'trim|required|is_natural_no_zero|exist[tenants.id]'
         ],
         [
-            // Person
-            'field' => 'person_id',
-            'label' => 'lang:person',
-            'rules' => 'trim|required|is_natural_no_zero|exist[persons.id]'
+            // Entity id
+            'field' => 'entity_id',
+            'label' => 'lang:entity_id',
+            'rules' => 'trim|required|is_natural_no_zero'
+        ],
+        [
+            // Entity type
+            'field' => 'entity_type',
+            'label' => 'lang:entity_type',
+            'rules' => 'trim|required|strtolower'
         ],
         [
             // Email
@@ -71,8 +77,13 @@ class Provider_model extends MY_Model {
             'field' => 'id'
         ],
         'person' => [
-            'foreign_key' => 'person_id',
+            'foreign_key' => 'entity_id',
             'model' => 'person_model',
+            'field' => 'id'
+        ],
+        'business' => [
+            'foreign_key' => 'entity_id',
+            'model' => 'business_model',
             'field' => 'id'
         ]
     ];
@@ -90,13 +101,21 @@ class Provider_model extends MY_Model {
 			{$this->_table}.email,
             {$this->_table}.is_active,
             {$this->_table}.is_modifiable,
-            persons.first_name,
-            persons.middle_name,
-            persons.last_name,
-            persons.last_name2
+            {$this->_table}.first_name,
+            {$this->_table}.middle_name,
+            {$this->_table}.last_name,
+            {$this->_table}.last_name2,
+            {$this->_table}.entity_type
         ")
-            ->from($this->_table)
-            ->join('persons', "{$this->_table}.person_id = persons.id")
+            ->from("(
+                SELECT {$this->_table}.id, {$this->_table}.email, {$this->_table}.is_active, {$this->_table}.is_modifiable, {$this->_table}.tenant_id, {$this->_table}.entity_type, persons.first_name, persons.middle_name, persons.last_name, persons.last_name2
+                FROM {$this->_table}
+                INNER JOIN persons ON {$this->_table}.entity_id = persons.id AND {$this->_table}.entity_type = 'person'
+                UNION
+                SELECT {$this->_table}.id, {$this->_table}.email, {$this->_table}.is_active, {$this->_table}.is_modifiable, {$this->_table}.tenant_id,{$this->_table}.entity_type, businesses.trade_name, 'N/A', businesses.business_name, 'N/A'
+                FROM {$this->_table}
+                INNER JOIN businesses ON {$this->_table}.entity_id = businesses.id AND {$this->_table}.entity_type = 'business'
+            ) AS {$this->_table}", FALSE)
             ->where("{$this->_table}.tenant_id", $this->session->userdata('tenant_id'));
         
         return $this->datatables->generate();
@@ -109,17 +128,29 @@ class Provider_model extends MY_Model {
      */
     public function insert($data, $skip_validation = FALSE)
     {
-        // Cargamos el modelo de person.
-        $this->load->model('person_model');
+        $entity = [
+            1 => [
+                'name' => 'person',
+                'model' => 'person_model'
+            ],
+            4 => [
+                'name' => 'business',
+                'model' => 'business_model'
+            ]
+        ];
+        $document = $this->input->post('document_type_id');
+        
+        // Cargamos el modelo de empresa.
+        $this->load->model($entity[$document]['model']);
+        // Insertamos o modificamos a la entidad.
+        $entityId = $this->{$entity[$document]['model']}->insert_update($data, 'document_number');
 
-        // Insertamos o modificamos a la persona.
-        $personId = $this->person_model->insert_update($data, 'document_number');
-
-        if ( ! $personId )
+        if ( ! $entityId )
             return FALSE;
 
-        // Asignamos el identificador unico de la persona a nuestro proveedor.
-        $data['person_id'] = $personId;
+        // Asignamos el identificador unico de la persona o empreda a nuestro proveedor.
+        $data['entity_id'] = $entityId;
+        $data['entity_type'] = $entity[$document]['name'];
 
         return parent::insert($data, $skip_validation);
     }
@@ -132,17 +163,29 @@ class Provider_model extends MY_Model {
      */
     public function update($pk, $data, $skip_validation = FALSE)
     {
-        // Cargamos el modelo de person.
-        $this->load->model('person_model');
+        $entity = [
+            1 => [
+                'name' => 'person',
+                'model' => 'person_model'
+            ],
+            4 => [
+                'name' => 'business',
+                'model' => 'business_model'
+            ]
+        ];
+        $document = $this->input->post('document_type_id');
+        
+        // Cargamos el modelo de empresa.
+        $this->load->model($entity[$document]['model']);
+        // Insertamos o modificamos a la entidad.
+        $entityId = $this->{$entity[$document]['model']}->insert_update($data, 'document_number');
 
-        // Insertamos o modificamos a la persona.
-        $personId = $this->person_model->insert_update($data, 'document_number');
-
-        if ( ! $personId )
+        if ( ! $entityId )
             return FALSE;
 
-        // Asignamos el identificador unico de la persona a nuestro proveedor.
-        $data['person_id'] = $personId;
+        // Asignamos el identificador unico de la persona o empreda a nuestro proveedor.
+        $data['entity_id'] = $entityId;
+        $data['entity_type'] = $entity[$document]['name'];
         
         return parent::update($pk, $data, $skip_validation);
     }

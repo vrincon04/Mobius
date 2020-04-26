@@ -98,10 +98,14 @@ class Datatables
      * Generates the FROM portion of the query
      *
      * @param string $table
+     * @param  mixed $escape
      * @return mixed
      */
-    public function from($table)
+    public function from($table, $escape = NULL)
     {
+        // If the escape value was not set, we will base it on the global setting
+        !is_bool($escape) OR $this->ci->db->_protect_identifiers = $escape;
+        
         $this->table = $table;
         return $this;
     }

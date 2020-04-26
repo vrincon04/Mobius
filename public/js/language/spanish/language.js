@@ -68,6 +68,7 @@ $.Language = {
         bank_checks: 'Cheque Bancario',
         open: 'Abierto',
         closed: 'Cerrado',
-        printError: 'No se pudo imprimir, favor intente de nuevo.'
+        printError: 'No se pudo imprimir, favor intente de nuevo.',
+        sendEmail: 'Enviar correo eléctronico'
     }
 }

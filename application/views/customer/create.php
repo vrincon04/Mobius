@@ -27,45 +27,68 @@
                         </div>
                     </div>
 
-                    <label for="first_name"><?php echo lang('first_name'); ?> <span class="text-danger">*</span> </label>
-                    <div class="form-group">
-                        <div class="form-line">
-                            <input type="text" id="first_name" name="first_name" class="form-control" value="<?php echo set_value('first_name'); ?>" placeholder="<?php echo lang('enter_first_name'); ?>" required minlength="2" maxlength="60" />
+                    <div class="person-info">
+                        <label for="first_name"><?php echo lang('first_name'); ?> <span class="text-danger">*</span> </label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="first_name" name="first_name" class="form-control" value="<?php echo set_value('first_name'); ?>" placeholder="<?php echo lang('enter_first_name'); ?>" required minlength="2" maxlength="60" />
+                            </div>
+                        </div>
+
+                        <label for="middle_name"><?php echo lang('middle_name'); ?></label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="middle_name" name="middle_name" class="form-control" value="<?php echo set_value('middle_name'); ?>" placeholder="<?php echo lang('enter_middle_name'); ?>" minlength="2" maxlength="60" />
+                            </div>
+                        </div>
+
+                        <label for="last_name"><?php echo lang('last_name'); ?> <span class="text-danger">*</span> </label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="last_name" name="last_name" class="form-control" value="<?php echo set_value('last_name'); ?>" placeholder="<?php echo lang('enter_last_name'); ?>" required minlength="2" maxlength="70" />
+                            </div>
+                        </div>
+
+                        <label for="last_name2"><?php echo lang('mother_name'); ?></label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="last_name2" name="last_name2" class="form-control" value="<?php echo set_value('last_name2'); ?>" placeholder="<?php echo lang('enter_mother_name'); ?>" minlength="2" maxlength="70" />
+                            </div>
+                        </div>
+
+                        <label for="gender_id"><?php echo lang('gender'); ?> <span class="text-danger">*</span></label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <?php echo form_dropdown('gender_id', $genders, set_value('gender_id'), 'id="gender_id" class="form-control show-tick" required') ?>
+                            </div>
+                        </div>
+
+                        <label for="dob"><?php echo lang('dob'); ?></label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="dob" name="dob" class="datepicker form-control" value="<?php echo set_value('dob'); ?>" placeholder="<?php echo lang('enter_dob'); ?>"  />
+                            </div>
                         </div>
                     </div>
 
-                    <label for="middle_name"><?php echo lang('middle_name'); ?></label>
-                    <div class="form-group">
-                        <div class="form-line">
-                            <input type="text" id="middle_name" name="middle_name" class="form-control" value="<?php echo set_value('middle_name'); ?>" placeholder="<?php echo lang('enter_middle_name'); ?>" minlength="2" maxlength="60" />
+                    <div class="business-info">
+                        <label for="trade_name"><?php echo lang('trade_name'); ?> <span class="text-danger">*</span> </label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="trade_name" name="trade_name" class="form-control" value="<?php echo set_value('trade_name'); ?>" placeholder="<?php echo lang('enter_trade_name'); ?>" required minlength="2" maxlength="60" />
+                            </div>
                         </div>
-                    </div>
-
-                    <label for="last_name"><?php echo lang('last_name'); ?> <span class="text-danger">*</span> </label>
-                    <div class="form-group">
-                        <div class="form-line">
-                            <input type="text" id="last_name" name="last_name" class="form-control" value="<?php echo set_value('last_name'); ?>" placeholder="<?php echo lang('enter_last_name'); ?>" required minlength="2" maxlength="70" />
+                        <label for="business_name"><?php echo lang('business_name'); ?> <span class="text-danger">*</span> </label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="business_name" name="business_name" class="form-control" value="<?php echo set_value('business_name'); ?>" placeholder="<?php echo lang('enter_business_name'); ?>" required minlength="2" maxlength="60" />
+                            </div>
                         </div>
-                    </div>
-
-                    <label for="last_name2"><?php echo lang('mother_name'); ?></label>
-                    <div class="form-group">
-                        <div class="form-line">
-                            <input type="text" id="last_name2" name="last_name2" class="form-control" value="<?php echo set_value('last_name2'); ?>" placeholder="<?php echo lang('enter_mother_name'); ?>" minlength="2" maxlength="70" />
-                        </div>
-                    </div>
-
-                    <label for="gender_id"><?php echo lang('gender'); ?> <span class="text-danger">*</span></label>
-                    <div class="form-group">
-                        <div class="form-line">
-                            <?php echo form_dropdown('gender_id', $genders, set_value('gender_id'), 'id="gender_id" class="form-control show-tick" required') ?>
-                        </div>
-                    </div>
-
-                    <label for="dob"><?php echo lang('dob'); ?></label>
-                    <div class="form-group">
-                        <div class="form-line">
-                            <input type="text" id="dob" name="dob" class="datepicker form-control" value="<?php echo set_value('dob'); ?>" placeholder="<?php echo lang('enter_dob'); ?>"  />
+                        <label for="constitution_date"><?php echo lang('constitution_date'); ?></label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="constitution_date" name="constitution_date" class="datepicker form-control" value="<?php echo set_value('constitution_date'); ?>" placeholder="<?php echo lang('enter_constitution_date'); ?>"  />
+                            </div>
                         </div>
                     </div>
 

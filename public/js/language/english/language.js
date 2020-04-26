@@ -49,7 +49,7 @@ $.Language = {
         choose_option: 'Choose your option',
         choose_product: 'Choose your product',
         expected_at_greater_than_date: 'It must not be before the Purchase Order date',
-        in_stock: 'En existencia',
+        in_stock: 'In stock',
         sale: 'Sale',
         cost: 'Cost',
         pending: 'Pending',
@@ -57,6 +57,15 @@ $.Language = {
         close: 'Close',
         partial: 'Partial',
         unpaid: 'Unpaid',
-        paid: 'Paid'
+        paid: 'Paid',
+        totalPayable: 'The total to pay cannot be greater than the amount to pay.',
+        applied: 'Applied',
+        cash: 'Cash',
+        credit_card: 'Credit Card',
+        bank_checks: 'Back checks',
+        open: 'Open',
+        closed: 'Closed',
+        printError: 'Could not print, please try again.',
+        sendEmail: 'Send an e-mail'
     }
 }

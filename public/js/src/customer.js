@@ -23,18 +23,29 @@ $(function () {
                 { data: 'id' },
                 { 
                     data: function(data) {
-                        return $.LeonSoft.helpers.shortName(data.first_name, data.last_name);
+                        return `
+                            <a href="${$.LeonSoft.options.URL}/customer/view/${data.id}" data-toggle="tooltip" data-original-title="${$.Language.message.view}">
+                                ${(data.entity_type == 'person') ? $.LeonSoft.helpers.shortName(data.first_name, data.last_name) : data.first_name}
+                            </a>
+                        `;
                     },
                     orderable: false,
                     searchable: false
                 },
-                { data: 'email' },
+                { 
+                    data: 'email', 
+                    render: function(data, type, row, meta) {
+                        return `
+                            <a href="mailto:${data}" data-toggle="tooltip" data-original-title="${$.Language.message.sendEmail}">${data}</a>
+                        `;
+                    }
+                },
                 {
                     data: function(data) {
                         if (data.is_modifiable == 1) {
                             return `
                                 <div class="btn-group font-10">
-                                    <a href="${$.LeonSoft.options.URL}/customer/edit/${data.id}" target="_blank" class="btn btn-info btn-xs waves-effect" data-toggle="tooltip" data-original-title="${$.Language.message.edit}">
+                                    <a href="${$.LeonSoft.options.URL}/customer/edit/${data.id}" class="btn btn-info btn-xs waves-effect" data-toggle="tooltip" data-original-title="${$.Language.message.edit}">
                                         <i class="material-icons">edit</i>
                                     </a>
                                     <a href="javascript:void(0);" class="btn btn-danger btn-xs delete-btn waves-effect" data-id="${data.id}" data-controller="customer" data-toggle="tooltip" data-original-title="${$.Language.message.eliminate}">
@@ -72,10 +83,6 @@ $(function () {
 
     // Validamos si existe un formulario en la vista.
     if ( $customerForm.size() > 0 ) {
-        var $country = $('select[name="country_id"]'),
-            $state = $('select[name="state_id"]'),
-            $city = $('select[name="city_id"]');
-            
         $('.datepicker').bootstrapMaterialDatePicker({
             lang: $.Language.lang,
             format: 'DD MMMM YYYY',
@@ -89,49 +96,5 @@ $(function () {
 
         //Mobile Phone Number
         $('.mobile-phone-number').inputmask('(999) 999-9999', { placeholder: '(___) ___-____' });
-        //Document Number
-        $('.identification-card').inputmask('999-9999999-9', { placeholder: '___-_______-_' });
-        //Passport
-        $('.passport').inputmask('999999999', { placeholder: '_________' });
-
-        $country.on('change', function (e) {
-            e.preventDefault();
-
-            var $this = $(this)
-                obj = null,
-                filter = {
-                    'states.country_id': $this.val()
-                };
-
-            $.get(`${$.LeonSoft.options.URL}/state/get_json`, filter)
-                .done(function(response){
-                    obj = JSON.parse(response);
-
-                    if ( obj.error )
-                        $.LeonSoft.methods.sweetNotification($.Language.message.title.warning, obj.message, 'warning', 1000);
-                    else
-                        $.LeonSoft.methods.optionTemplate($state, obj.data);
-                });
-        });
-
-        $state.on('change', function (e) {
-            e.preventDefault();
-
-            var $this = $(this)
-                obj = null,
-                filter = {
-                    'cities.state_id': $this.val()
-                };
-
-            $.get(`${$.LeonSoft.options.URL}/city/get_json`, filter)
-                .done(function(response){
-                    obj = JSON.parse(response);
-
-                    if ( obj.error )
-                        $.LeonSoft.methods.sweetNotification($.Language.message.title.warning, obj.message, 'warning', 1000);
-                    else
-                        $.LeonSoft.methods.optionTemplate($city, obj.data);
-                });
-        });
     }
 });

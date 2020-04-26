@@ -72,16 +72,22 @@
                     </div>
 
                     <div class="business-info">
-                        <label for="name"><?php echo lang('name'); ?> <span class="text-danger">*</span> </label>
+                        <label for="trade_name"><?php echo lang('trade_name'); ?> <span class="text-danger">*</span> </label>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" id="name" name="name" class="form-control" value="<?php echo set_value('name'); ?>" placeholder="<?php echo lang('enter_name'); ?>" required minlength="2" maxlength="60" />
+                                <input type="text" id="trade_name" name="trade_name" class="form-control" value="<?php echo set_value('trade_name'); ?>" placeholder="<?php echo lang('enter_trade_name'); ?>" required minlength="2" maxlength="60" />
                             </div>
                         </div>
                         <label for="business_name"><?php echo lang('business_name'); ?> <span class="text-danger">*</span> </label>
                         <div class="form-group">
                             <div class="form-line">
                                 <input type="text" id="business_name" name="business_name" class="form-control" value="<?php echo set_value('business_name'); ?>" placeholder="<?php echo lang('enter_business_name'); ?>" required minlength="2" maxlength="60" />
+                            </div>
+                        </div>
+                        <label for="constitution_date"><?php echo lang('constitution_date'); ?></label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="constitution_date" name="constitution_date" class="datepicker form-control" value="<?php echo set_value('constitution_date'); ?>" placeholder="<?php echo lang('enter_constitution_date'); ?>"  />
                             </div>
                         </div>
                     </div>
@@ -96,7 +102,7 @@
                     <label for="state_id"><?php echo lang('state'); ?> <span class="text-danger">*</span></label>
                     <div class="form-group">
                         <div class="form-line">
-                            <select class="form-control show-tick" name="state_id" id="state_id" required data-live-search="true">
+                            <select class="form-control show-tick" name="state_id" id="state_id" required data-size="6" data-live-search="true">
                                 <option value=""><?php echo lang('choose_an_option'); ?></option>
                             </select>
                         </div>
@@ -105,7 +111,7 @@
                     <label for="city_id"><?php echo lang('city'); ?> <span class="text-danger">*</span></label>
                     <div class="form-group">
                         <div class="form-line">
-                            <select class="form-control show-tick" name="city_id" id="city_id" required data-live-search="true">
+                            <select class="form-control show-tick" name="city_id" id="city_id" required data-size="6" data-live-search="true">
                                 <option value=""><?php echo lang('choose_an_option'); ?></option>
                             </select>
                         </div>

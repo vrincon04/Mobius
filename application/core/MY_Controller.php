@@ -214,6 +214,7 @@ class MY_Controller extends CI_Controller {
 		}
 
         $this->data[$this->_controller] = $row;
+        
         // Set the sistema locale configuration.
         $this->set_locale();
 

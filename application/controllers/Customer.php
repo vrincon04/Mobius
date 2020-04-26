@@ -45,6 +45,9 @@ class Customer extends MY_Controller {
 				'public/plugins/jquery-validation/jquery.validate.js',
 				'public/plugins/jquery-validation/additional-methods.js',
 				'public/plugins/jquery-validation/localization/messages_' . $this->session->userdata('lang') . '.js',
+				'public/plugins/waitme/waitMe.js',
+				'public/js/src/contact.js',
+				'public/js/src/address.js'
 			]
 		];
 
@@ -76,6 +79,9 @@ class Customer extends MY_Controller {
 				'public/plugins/jquery-validation/jquery.validate.js',
 				'public/plugins/jquery-validation/additional-methods.js',
 				'public/plugins/jquery-validation/localization/messages_' . $this->session->userdata('lang') . '.js',
+				'public/plugins/waitme/waitMe.js',
+				'public/js/src/contact.js',
+				'public/js/src/address.js'
 			]
 		];
 
@@ -90,7 +96,7 @@ class Customer extends MY_Controller {
     
     protected function _after_exist($row)
 	{
-		$row->with(['person' => ['city', 'document_type']]);
+		$row->with([$row->entity_type => ['city', 'document_type']]);
 		return $row;
 	}
 }
