@@ -41,6 +41,12 @@ class Currency_model extends MY_Model {
             'rules' => 'trim|required|max_length[5]'
         ],
         [
+            // Value
+            'field' => 'value',
+            'label' => 'lang:value',
+            'rules' => 'trim|prep_currency_format|required|decimal'
+        ],
+        [
             // Created At
             'field'     => 'created_at',
             'label'     => 'created_at',
@@ -65,4 +71,8 @@ class Currency_model extends MY_Model {
             'field' => 'currency_id'
         ]
     ];
+
+    public function convertRate($from, $to) {
+        return $from / $to;
+    }
 }

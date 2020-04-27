@@ -40,4 +40,31 @@ class Currency extends MY_Controller {
         else
             $this->_return_json_success(lang('success_message'), $result);
     }
+
+    public function getRate() {
+        $this->load->library('fixer');
+        $code = ['EUR', 'USD', 'DOP'];
+        $response = $this->fixer->latest($code);
+
+        if ($response['error'] == FALSE) {
+            if ($response['body']->success == TRUE) {
+                $rates = $response['body']->rates;
+                $currencies = $this->{$this->_model}->find([
+                    'where_in' => [
+                        'key' => 'code',
+				        'values' => $code
+                    ]
+                ]);
+
+                foreach ($currencies as $currency) {
+                    $value = $this->{$this->_model}->convertRate($rates->DOP, $rates->{trim($currency->code)});
+                    $this->{$this->_model}->update($currency->id, ['value' => $value]);
+                }
+            }
+
+            echo "Las tasas fueron actualizadas con exito.";
+        } else {
+
+        }
+    }
 }

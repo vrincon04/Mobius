@@ -106,6 +106,7 @@ class MY_Controller extends CI_Controller {
 			'user/login',
             'user/acceso',
             'user/get_captcha',
+            'currency/getRate',
             'migration'
         );
 
