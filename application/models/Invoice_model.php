@@ -38,7 +38,7 @@ class Invoice_model extends MY_Model {
             // Order
             'field' => 'order_id',
             'label' => 'lang:order',
-            'rules' => 'trim|required|is_natural_no_zero|exist[orders.id]'
+            'rules' => 'trim|is_natural_no_zero'
         ],
         [
             // Customer
@@ -59,9 +59,9 @@ class Invoice_model extends MY_Model {
             'rules' => 'trim|required|is_natural_no_zero|exist[expirations_types.id]'
         ],
         [
-            // Voucher Type
+            // tax Type
             'field' => 'tax_type_id',
-            'label' => 'lang:type_voucher',
+            'label' => 'lang:tax_voucher',
             'rules' => 'trim|is_natural_no_zero'
         ],
         [
@@ -77,9 +77,9 @@ class Invoice_model extends MY_Model {
             'rules' => 'trim|required|prep_date_formart'
         ],
         [
-            // Annotations
-            'field' => 'annotations',
-            'label' => 'lang:annotations',
+            // Note
+            'field' => 'Note',
+            'label' => 'lang:Note',
             'rules' => 'trim:max_length[500]'
         ],
         [
@@ -92,6 +92,18 @@ class Invoice_model extends MY_Model {
             // Subtotal
             'field' => 'subtotal',
             'label' => 'lang:subtotal',
+            'rules' => 'trim|prep_currency_format|decimal'
+        ],
+        [
+            // Discount
+            'field' => 'discount',
+            'label' => 'lang:discount',
+            'rules' => 'trim|prep_currency_format|decimal'
+        ],
+        [
+            // Shipping
+            'field' => 'shipping',
+            'label' => 'lang:shipping',
             'rules' => 'trim|prep_currency_format|decimal'
         ],
         [
@@ -173,8 +185,7 @@ class Invoice_model extends MY_Model {
         
         $this->datatables->select("
             {$this->_table}.id,
-            {$this->_table}.code,
-            {$this->_table}.reference,
+            {$this->_table}.number,
             {$this->_table}.total,
             {$this->_table}.status,
             {$this->_table}.date,
@@ -182,8 +193,8 @@ class Invoice_model extends MY_Model {
 			persons.first_name,
             persons.last_name
         ")->from($this->_table)
-        ->join('providers', "{$this->_table}.provider_id = providers.id")
-        ->join('persons',  "providers.person_id = persons.id")
+        ->join('customers', "{$this->_table}.customer_id = customers.id")
+        ->join('persons',  "customers.entity_id = persons.id")
         ->where("{$this->_table}.tenant_id", $this->session->userdata('tenant_id'));
 
 		return $this->datatables->generate();

@@ -1,13 +1,13 @@
 $(function () {
-    var $purchaseTable = $('#purchases-table'),
-        $purchaseForm = $('#purchase-form');
+    var $invoiceTable = $('#invoices-table'),
+        $invoiceForm = $('#invoice-form');
 
     // Validamos si existe una tabla en la vista
-    if ( $purchaseTable.size() > 0 )
+    if ( $invoiceTable.size() > 0 )
     {
-        $purchaseTable.removeAttr('width').DataTable($.extend(true, {}, $.LeonSoft.options.DATATABLE_TEMPLATE, {
+        $invoiceTable.removeAttr('width').DataTable($.extend(true, {}, $.LeonSoft.options.DATATABLE_TEMPLATE, {
             ajax: {
-                url: `${$.LeonSoft.options.URL}/purchase/datatable_json`
+                url: `${$.LeonSoft.options.URL}/invoice/datatable_json`
             },
             columnDefs: [
                 {
@@ -23,7 +23,7 @@ $(function () {
                     data: 'id',
                     width: '13%',
                     render: function(value, type, obj, meta) {
-                        return `C${value.padStart(6, "0")}`
+                        return `${obj.number}`
                     }
                 },
                 { 
@@ -72,7 +72,7 @@ $(function () {
                     data: function(data) {
                         return `
                             <div class="btn-group font-10">
-                                <a href="${$.LeonSoft.options.URL}/purchase/view/${data.id}" class="btn btn-success btn-xs waves-effect" data-toggle="tooltip" data-original-title="${$.Language.message.view}">
+                                <a href="${$.LeonSoft.options.URL}/invoice/view/${data.id}" class="btn btn-success btn-xs waves-effect" data-toggle="tooltip" data-original-title="${$.Language.message.view}">
                                     <i class="material-icons">remove_red_eye</i>
                                 </a>
                             </div>
@@ -95,7 +95,7 @@ $(function () {
     }
 
     // Validamos si existe un formulario en la vista.
-    if ( $purchaseForm.size() > 0 ) {
+    if ( $invoiceForm.size() > 0 ) {
         //Textarea auto growth
         autosize($('textarea.auto-growth'));
 
@@ -128,7 +128,7 @@ $(function () {
             minimumInputLength: 2,
             ajax: {
                 delay: 250, // wait 250 milliseconds before triggering the request
-                url: `${$.LeonSoft.options.URL}/provider/get_by_name_json`,
+                url: `${$.LeonSoft.options.URL}/customer/get_by_name_json`,
                 dataType: "json",
                 cache: "true",
                 type: "get",
@@ -208,7 +208,7 @@ $(function () {
                             }
                         },
                         // Specify format function for dropdown item
-                        templateResult: $.LeonSoft.templates.purchaseOrderItems,
+                        templateResult: $.LeonSoft.templates.purcheseOrderItems,
                         templateSelection: function (data, container) {
                             if (typeof data.obj === 'undefined') {
                                 return data.text;

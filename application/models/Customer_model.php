@@ -10,6 +10,16 @@ class Customer_model extends MY_Model {
      * @var string
      */
     protected $_table = 'customers';
+
+    private $_view = "(
+        SELECT customers.id, customers.email, customers.is_active, customers.is_modifiable, customers.tenant_id, customers.entity_type, persons.first_name, persons.middle_name, persons.last_name, persons.last_name2
+        FROM customers
+        INNER JOIN persons ON customers.entity_id = persons.id AND customers.entity_type = 'person'
+        UNION
+        SELECT customers.id, customers.email, customers.is_active, customers.is_modifiable, customers.tenant_id,customers.entity_type, businesses.trade_name, 'N/A', businesses.business_name, 'N/A'
+        FROM customers
+        INNER JOIN businesses ON customers.entity_id = businesses.id AND customers.entity_type = 'business'
+    ) AS customers";
     
     /**
      * Validation rules for this model.
@@ -77,7 +87,7 @@ class Customer_model extends MY_Model {
             'field' => 'id'
         ],
         'person' => [
-            'foreign_key' => 'person_id',
+            'foreign_key' => 'entity_id',
             'model' => 'person_model',
             'field' => 'id'
         ],
@@ -107,18 +117,23 @@ class Customer_model extends MY_Model {
             {$this->_table}.last_name2,
             {$this->_table}.entity_type
         ")
-            ->from("(
-                SELECT {$this->_table}.id, {$this->_table}.email, {$this->_table}.is_active, {$this->_table}.is_modifiable, {$this->_table}.tenant_id, {$this->_table}.entity_type, persons.first_name, persons.middle_name, persons.last_name, persons.last_name2
-                FROM {$this->_table}
-                INNER JOIN persons ON {$this->_table}.entity_id = persons.id AND {$this->_table}.entity_type = 'person'
-                UNION
-                SELECT {$this->_table}.id, {$this->_table}.email, {$this->_table}.is_active, {$this->_table}.is_modifiable, {$this->_table}.tenant_id,{$this->_table}.entity_type, businesses.trade_name, 'N/A', businesses.business_name, 'N/A'
-                FROM {$this->_table}
-                INNER JOIN businesses ON {$this->_table}.entity_id = businesses.id AND {$this->_table}.entity_type = 'business'
-            ) AS {$this->_table}", FALSE)
+            ->from($this->_view, FALSE)
             ->where("{$this->_table}.tenant_id", $this->session->userdata('tenant_id'));
         
         return $this->datatables->generate();
+    }
+
+    public function search_customer($term) {
+        $this->db->_protect_identifiers = FALSE;
+        
+        return $this->db->select("{$this->_table}.id, CONCAT({$this->_table}.first_name, ' ', {$this->_table}.last_name) AS name")
+            ->from($this->_view)
+            ->like("{$this->_table}.first_name", $term)
+            ->or_like("{$this->_table}.middle_name", $term)
+            ->or_like("{$this->_table}.last_name", $term)
+            ->or_like("{$this->_table}.last_name2", $term)
+            ->get()
+            ->result_array();
     }
     
     /**

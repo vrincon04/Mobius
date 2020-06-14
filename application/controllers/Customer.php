@@ -24,7 +24,17 @@ class Customer extends MY_Controller {
     public function datatable_json()
 	{
 		echo $this->{$this->_model}->datatable_json();
-    }
+	}
+	
+	public function get_by_name_json()
+	{
+		if ( $this->input->method() === 'post' )
+			$this->_retunr_json_error(lang('invalid_method'));
+			
+		$results = $this->{$this->_model}->search_customer($this->input->get('term'));
+		
+		$this->_return_json_success(lang('success_message'), $results);
+	}
     
     public function create()
     {
