@@ -161,8 +161,8 @@ class Purchase_order_model extends MY_Model {
             {$this->_table}.status,
             {$this->_table}.date,
             {$this->_table}.expected_at,
-			persons.first_name,
-            persons.last_name,
+			providers.first_name,
+            providers.last_name,
             SUM(purchase_order_details.quantity) AS quantity,
             SUM(purchase_order_details.starters) AS starters
         ")->from($this->_table)
