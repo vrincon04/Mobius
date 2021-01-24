@@ -40,7 +40,7 @@ class Provider extends MY_Controller {
                 'businesses.trade_name' => $this->input->get('term'),
                 'businesses.business_name' => $this->input->get('term'),
  			],
-			'select' => 'providers.id, CONCAT(persons.first_name, " ", persons.last_name) AS name',
+			'select' => 'providers.id, CONCAT(persons.first_name, " ", persons.last_name, " ", businesses.business_name) AS name',
 			'joins' => [
 			    ['persons', 'providers.entity_id = persons.id AND providers.entity_type = "person"', 'LEFT'],
                 ['businesses', 'providers.entity_id = businesses.id AND providers.entity_type = "business"', 'LEFT']
