@@ -40,8 +40,8 @@ class Provider extends MY_Controller {
 			],
 			'select' => 'providers.id, CONCAT(persons.first_name, " ", persons.last_name) AS name',
 			'joins' => [
-			    ['persons', 'providers.entity_id = persons.id AND provders.entity_type = "person"', 'LEFT'],
-                ['businesses', 'providers.entity_id = businesses.id AND provders.entity_type = "business"', 'LEFT']
+			    ['persons', 'providers.entity_id = persons.id AND providers.entity_type = "person"', 'LEFT'],
+                ['businesses', 'providers.entity_id = businesses.id AND providers.entity_type = "business"', 'LEFT']
             ]
 		]);
 		
