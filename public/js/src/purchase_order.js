@@ -146,7 +146,7 @@ $(function () {
                         results: $.map(elements.data, function(element) {
                             return {
                                 id: element.id, 
-                                text: element.name,
+                                text: (element.name != null) ? element.name : element.business_name,
                                 obj: element
                             }
                         })
