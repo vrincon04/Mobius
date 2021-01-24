@@ -42,8 +42,16 @@ class Provider extends MY_Controller {
  			],
 			'select' => 'providers.id, CONCAT(persons.first_name, " ", persons.last_name) AS name, businesses.business_name',
 			'joins' => [
-			    ['persons', 'providers.entity_id = persons.id AND providers.entity_type = "person"', 'LEFT'],
-                ['businesses', 'providers.entity_id = businesses.id AND providers.entity_type = "business"', 'LEFT']
+			    [
+			        'persons',
+                    'providers.entity_id = persons.id AND providers.entity_type = "person" AND providers.tenant_id = ' . $this->session->userdata('tenant_id'),
+                    'LEFT'
+                ],
+                [
+                    'businesses',
+                    'providers.entity_id = businesses.id AND providers.entity_type = "business" AND providers.tenant_id = ' . $this->session->userdata('tenant_id'),
+                    'LEFT'
+                ]
             ]
 		]);
 		
