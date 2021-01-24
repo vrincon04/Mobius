@@ -167,8 +167,15 @@ class Purchase_order_model extends MY_Model {
             SUM(purchase_order_details.starters) AS starters
         ")->from($this->_table)
         ->join('purchase_order_details', "{$this->_table}.id = purchase_order_details.purchase_order_id")
-        ->join('providers', "{$this->_table}.provider_id = providers.id")
-        ->join('persons',  "providers.person_id = persons.id")
+        ->join("(
+                SELECT providers.id, persons.first_name, persons.middle_name, persons.last_name, persons.last_name2
+                FROM providers
+                INNER JOIN persons ON providers.entity_id = persons.id AND providers.entity_type = 'person'
+                UNION
+                SELECT providers.id, businesses.trade_name, 'N/A', businesses.business_name, 'N/A'
+                FROM providers
+                INNER JOIN businesses ON providers.entity_id = businesses.id AND providers.entity_type = 'business'
+            ) AS providers", "{$this->_table}.provider_id = providers.entity_id", 'INNER', FALSE)
         ->where("{$this->_table}.tenant_id", $this->session->userdata('tenant_id'))
         ->group_by("{$this->_table}.id");
 
