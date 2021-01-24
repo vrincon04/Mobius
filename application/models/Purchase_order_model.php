@@ -175,7 +175,7 @@ class Purchase_order_model extends MY_Model {
                 SELECT providers.id, businesses.trade_name, 'N/A', businesses.business_name, 'N/A'
                 FROM providers
                 INNER JOIN businesses ON providers.entity_id = businesses.id AND providers.entity_type = 'business'
-            ) AS providers", "{$this->_table}.provider_id = providers.entity_id", 'INNER', FALSE)
+            ) AS providers", "{$this->_table}.provider_id = providers.id", 'INNER', FALSE)
         ->where("{$this->_table}.tenant_id", $this->session->userdata('tenant_id'))
         ->group_by("{$this->_table}.id");
 
