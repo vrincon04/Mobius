@@ -39,7 +39,10 @@ class Provider extends MY_Controller {
 				'persons.last_name2' => $this->input->get('term')
 			],
 			'select' => 'providers.id, CONCAT(persons.first_name, " ", persons.last_name) AS name',
-			'joins' => [['persons', 'providers.person_id = persons.id', 'INNER']]
+			'joins' => [
+			    ['persons', 'providers.entity_id = persons.id AND provders.entity_type = "person"', 'LEFT'],
+                ['businesses', 'providers.entity_id = businesses.id AND provders.entity_type = "business"', 'LEFT']
+            ]
 		]);
 		
 		$this->_return_json_success(lang('success_message'), $results);
