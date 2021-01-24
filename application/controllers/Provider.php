@@ -36,8 +36,10 @@ class Provider extends MY_Controller {
 			'or_like' => [
 				'persons.last_name' => $this->input->get('term'),
 				'persons.middle_name' => $this->input->get('term'),
-				'persons.last_name2' => $this->input->get('term')
-			],
+				'persons.last_name2' => $this->input->get('term'),
+                'businesses.trade_name' => $this->input->get('term'),
+                'businesses.business_name' => $this->input->get('term'),
+ 			],
 			'select' => 'providers.id, CONCAT(persons.first_name, " ", persons.last_name) AS name',
 			'joins' => [
 			    ['persons', 'providers.entity_id = persons.id AND providers.entity_type = "person"', 'LEFT'],
