@@ -269,12 +269,12 @@ class Purchase_order_model extends MY_Model {
     }
 
     /**
-     * Create a purcha from purchase Order
+     * Create a purchase from purchase Order
      * 
      * @param int $id the id of purchase order
      * @return int|string|bool
      */
-    protected function create_order($id)
+    public function create_order($id)
     {
         // Load the purchase model.
         $this->load->model('purchase_model');
@@ -309,7 +309,7 @@ class Purchase_order_model extends MY_Model {
                 unset($detail['id']);
 
                 $this->purchase_detail_model->insert($detail);
-                $this->product_model->update($detail->product_id, ['cost' => $detail->cost]);
+                $this->product_model->update($detail['product_id'], ['cost' => $detail['cost']]);
             }
 
             return $purchaseId;

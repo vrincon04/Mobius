@@ -154,6 +154,13 @@ class Purchase_order extends MY_Controller {
 		redirect("{$this->_controller}/view/{$id}");
 	}
 
+	public function order($id)
+    {
+        $row = $this->_exist($id);
+
+        exit(var_dump($this->{$this->_model}->create_order($id)));
+    }
+
 	public function receive($id)
 	{
 		$row = $this->_exist($id);
