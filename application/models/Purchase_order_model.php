@@ -295,7 +295,7 @@ class Purchase_order_model extends MY_Model {
         unset($data['id']);
 
         // insert the purchase order in the purchase.
-        $purchaseId = $this->purchase_model->insert($data);
+        return $purchaseId = $this->purchase_model->insert($data);
 
         if ( $purchaseId )
         {
